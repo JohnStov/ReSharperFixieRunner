@@ -8,6 +8,9 @@ namespace ReSharperFixieRunner.UnitTestProvider
     [UnitTestProvider, UsedImplicitly]
     public class FixieTestProvider : IUnitTestProvider
     {
+        public FixieTestProvider()
+        {}
+
         public void ExploreExternal(UnitTestElementConsumer consumer)
         {
         }
