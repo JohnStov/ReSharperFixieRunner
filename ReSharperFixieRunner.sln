@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperFixieRunner", "ReS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E6895FF-58CF-4757-AF7D-1926A200ECE0}"
 	ProjectSection(SolutionItems) = preProject
-		..\LICENSE = ..\LICENSE
+		LICENSE = LICENSE
 	EndProjectSection
 EndProject
 Global
