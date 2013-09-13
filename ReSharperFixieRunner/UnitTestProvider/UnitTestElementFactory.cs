@@ -7,7 +7,7 @@ using ReSharperFixieRunner.UnitTestProvider.Elements;
 namespace ReSharperFixieRunner.UnitTestProvider
 {
     [SolutionComponent]
-    public class UnitTestElementFactory
+    public class UnitTestElementFactory : IUnitTestElementFactory
     {
         private readonly FixieTestProvider provider;
         private readonly UnitTestElementManager unitTestManager;

@@ -11,12 +11,12 @@ namespace ReSharperFixieRunner.UnitTestProvider
 {
     public class FixiePsiFileExplorer : IRecursiveElementProcessor
     {
-        private readonly UnitTestElementFactory unitTestElementFactory;
+        private readonly IUnitTestElementFactory unitTestElementFactory;
         private readonly UnitTestElementLocationConsumer consumer;
         private readonly IFile psiFile;
         private readonly CheckForInterrupt interrupted;
 
-        public FixiePsiFileExplorer(UnitTestElementFactory unitTestElementFactory, UnitTestElementLocationConsumer consumer, IFile psiFile, CheckForInterrupt interrupted)
+        public FixiePsiFileExplorer(IUnitTestElementFactory unitTestElementFactory, UnitTestElementLocationConsumer consumer, IFile psiFile, CheckForInterrupt interrupted)
         {
             this.unitTestElementFactory = unitTestElementFactory;
             this.consumer = consumer;
@@ -47,11 +47,9 @@ namespace ReSharperFixieRunner.UnitTestProvider
             if (testClass != null)
                 testElement = ProcessTestClass(testClass);
 
-            var subElements = new List<IUnitTestElement>();
-
-            var testMethod = declaredElement as IMethod;
-            if (testMethod != null)
-                testElement = ProcessTestMethod(testMethod, subElements);
+//            var testMethod = declaredElement as IMethod;
+//            if (testMethod != null)
+//                testElement = ProcessTestMethod(testMethod);
 
             if (testElement != null)
             {
@@ -61,7 +59,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
                 if (nameRange.IsValid && documentRange.IsValid)
                 {
                     var disposition = new UnitTestElementDisposition(testElement, psiFile.GetSourceFile().ToProjectFile(),
-                                                                     nameRange, documentRange, subElements);
+                                                                     nameRange, documentRange);
                     consumer(disposition);
                 }
             }
@@ -95,7 +93,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         private bool IsValidTestClass(IClass testClass)
         {
-            return false;
+            return true;
         }
 
         private IUnitTestElement ProcessTestMethod(IMethod testMethod, List<IUnitTestElement> subElements)
