@@ -10,8 +10,8 @@ namespace ReSharperFixieRunner.UnitTestProvider
     [FileUnitTestExplorer]
     public class FixieTestFileExplorer : IUnitTestFileExplorer
     {
-        private readonly IUnitTestProvider provider;
-        private readonly IUnitTestElementFactory unitTestElementFactory;
+        private readonly FixieTestProvider provider;
+        private readonly UnitTestElementFactory unitTestElementFactory;
 
         public FixieTestFileExplorer(FixieTestProvider provider, UnitTestElementFactory unitTestElementFactory)
         {
@@ -19,24 +19,8 @@ namespace ReSharperFixieRunner.UnitTestProvider
             this.unitTestElementFactory = unitTestElementFactory;
         }
 
-        private FixieTestFileExplorer(IUnitTestProvider provider, IUnitTestElementFactory unitTestElementFactory)
-        {
-            this.provider = provider;
-            this.unitTestElementFactory = unitTestElementFactory;
-        }
-
-        public static FixieTestFileExplorer CreateForTest(
-            IUnitTestProvider provider,
-            IUnitTestElementFactory unitTestElementFactory)
-        {
-            return new FixieTestFileExplorer(provider, unitTestElementFactory);
-        }
-
         public void ExploreFile(IFile psiFile, UnitTestElementLocationConsumer consumer, CheckForInterrupt interrupted)
         {
-            if (psiFile == null)
-                throw new ArgumentNullException("psiFile");
-
             if (interrupted())
                 return;
 

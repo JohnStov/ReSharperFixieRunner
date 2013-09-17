@@ -8,19 +8,20 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 {
     public abstract class FixieBaseElement : IUnitTestElement
     {
+        private readonly IUnitTestProvider provider;
         private IUnitTestElement parent;
+        private readonly string id;
         private readonly ProjectModelElementEnvoy projectModelElementEnvoy;
 
         protected FixieBaseElement(FixieTestProvider provider, IUnitTestElement parent, string id, ProjectModelElementEnvoy projectModelElementEnvoy)
         {
+            this.provider = provider;
+            this.id = id;
             this.projectModelElementEnvoy = projectModelElementEnvoy;
 
-            Provider = provider;
             Parent = parent;
-            Id = id;
 
             Children = new List<IUnitTestElement>();
-            ExplicitReason = string.Empty;
 
             SetState(UnitTestElementState.Valid);
         }
@@ -62,11 +63,11 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public IEnumerable<UnitTestElementCategory> Categories { get { yield break; } }
 
-        public string ExplicitReason { get; private set; }
+        public string ExplicitReason { get { return string.Empty; } }
 
-        public string Id { get; private set; }
+        public string Id { get { return id; } }
         
-        public IUnitTestProvider Provider { get; private set; }
+        public IUnitTestProvider Provider { get {return provider; } }
         
         public IUnitTestElement Parent
         {

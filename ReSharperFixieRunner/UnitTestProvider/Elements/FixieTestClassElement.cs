@@ -12,14 +12,14 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
     {
         private readonly DeclaredElementProvider declaredElementProvider;
         private readonly IClrTypeName typeName;
+        private readonly string assemblyLocation;
         
         public FixieTestClassElement(FixieTestProvider provider, ProjectModelElementEnvoy projectModelElementEnvoy, DeclaredElementProvider declaredElementProvider, string id, IClrTypeName typeName, string assemblyLocation)
             : base(provider, null, id, projectModelElementEnvoy)
         {
             this.declaredElementProvider = declaredElementProvider;
             this.typeName = typeName;
-            
-            AssemblyLocation = assemblyLocation;
+            this.assemblyLocation = assemblyLocation;
 
             ShortName = string.Join("+", typeName.TypeNames.Select(FormatTypeName).ToArray());
         }
@@ -90,7 +90,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
             get { return "Fixie Test Class"; }
         }
  
-        public string AssemblyLocation { get; private set; }
+        public string AssemblyLocation { get { return assemblyLocation; } }
 
         private static string FormatTypeName(TypeNameAndTypeParameterNumber typeName)
         {

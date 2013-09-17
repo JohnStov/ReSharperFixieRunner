@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AboutAction.cs" />
-    <Compile Include="UnitTestProvider\IUnitTestElementFactory.cs" />
     <Compile Include="UnitTestProvider\PsiUnitTestIdentifier.cs" />
     <Compile Include="UnitTestProvider\DeclaredElementProvider.cs" />
     <Compile Include="UnitTestProvider\Elements\FixieBaseElement.cs" />

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using JetBrains.Application;
+﻿using JetBrains.Application;
 using JetBrains.Application.Progress;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
@@ -11,12 +9,12 @@ namespace ReSharperFixieRunner.UnitTestProvider
 {
     public class FixiePsiFileExplorer : IRecursiveElementProcessor
     {
-        private readonly IUnitTestElementFactory unitTestElementFactory;
+        private readonly UnitTestElementFactory unitTestElementFactory;
         private readonly UnitTestElementLocationConsumer consumer;
         private readonly IFile psiFile;
         private readonly CheckForInterrupt interrupted;
 
-        public FixiePsiFileExplorer(IUnitTestElementFactory unitTestElementFactory, UnitTestElementLocationConsumer consumer, IFile psiFile, CheckForInterrupt interrupted)
+        public FixiePsiFileExplorer(UnitTestElementFactory unitTestElementFactory, UnitTestElementLocationConsumer consumer, IFile psiFile, CheckForInterrupt interrupted)
         {
             this.unitTestElementFactory = unitTestElementFactory;
             this.consumer = consumer;
@@ -47,13 +45,8 @@ namespace ReSharperFixieRunner.UnitTestProvider
             if (testClass != null)
                 testElement = ProcessTestClass(testClass);
 
-//            var testMethod = declaredElement as IMethod;
-//            if (testMethod != null)
-//                testElement = ProcessTestMethod(testMethod);
-
             if (testElement != null)
             {
-                // Ensure that the method has been implemented, i.e. it has a name and a document
                 var nameRange = declaration.GetNameDocumentRange().TextRange;
                 var documentRange = declaration.GetDocumentRange().TextRange;
                 if (nameRange.IsValid && documentRange.IsValid)
@@ -94,11 +87,6 @@ namespace ReSharperFixieRunner.UnitTestProvider
         private bool IsValidTestClass(IClass testClass)
         {
             return true;
-        }
-
-        private IUnitTestElement ProcessTestMethod(IMethod testMethod, List<IUnitTestElement> subElements)
-        {
-            return null;
         }
     }
 }
