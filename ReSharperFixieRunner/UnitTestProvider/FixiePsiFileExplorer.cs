@@ -1,10 +1,12 @@
 ﻿using JetBrains.Application;
 using JetBrains.Application.Progress;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.UnitTestFramework;
+using JetBrains.Util;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
@@ -45,6 +47,10 @@ namespace ReSharperFixieRunner.UnitTestProvider
             var testClass = declaredElement as IClass;
             if (testClass != null)
                 testElement = ProcessTestClass(testClass);
+
+            var testMethod = declaredElement as IMethod;
+            if (testMethod != null)
+                testElement = ProcessTestMethod(testMethod);
 
             if (testElement != null)
             {
@@ -92,6 +98,23 @@ namespace ReSharperFixieRunner.UnitTestProvider
                 //&& !testClass.IsStatic
                 && testClass.CanInstantiateWithPublicDefaultConstructor()
                 && testClass.ShortName.EndsWith("Tests");
+        }
+
+        private IUnitTestElement ProcessTestMethod(IMethod testMethod)
+        {
+            if (!IsValidTestMethod(testMethod))
+                return null;
+
+            return null;
+        }
+
+        private bool IsValidTestMethod(IMethod testMethod)
+        {
+            return testMethod.GetAccessRights() == AccessRights.PUBLIC 
+                && !testMethod.IsAbstract 
+                && !testMethod.IsStatic
+                && testMethod.Parameters.Count == 0 
+                && testMethod.ReturnType.IsVoid();
         }
     }
 }
