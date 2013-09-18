@@ -94,8 +94,8 @@ namespace ReSharperFixieRunner.UnitTestProvider
         private bool IsValidTestClass(IClass testClass)
         {
             return testClass.GetAccessRights() == AccessRights.PUBLIC
+                // IL marks static class as sealed && abstract, so abstract check will find static classes too
                 && !testClass.IsAbstract
-                //&& !testClass.IsStatic
                 && testClass.CanInstantiateWithPublicDefaultConstructor()
                 && testClass.ShortName.EndsWith("Tests");
         }
