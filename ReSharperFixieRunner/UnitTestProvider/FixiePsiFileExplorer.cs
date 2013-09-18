@@ -93,7 +93,8 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         private bool IsValidTestClass(IClass testClass)
         {
-            return testClass.GetAccessRights() == AccessRights.PUBLIC
+            return testClass != null 
+                && testClass.GetAccessRights() == AccessRights.PUBLIC
                 // IL marks static class as sealed && abstract, so abstract check will find static classes too
                 && !testClass.IsAbstract
                 && testClass.CanInstantiateWithPublicDefaultConstructor()
@@ -102,10 +103,17 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         private IUnitTestElement ProcessTestMethod(IMethod testMethod)
         {
+            var @class = testMethod.GetContainingType() as IClass;
+            if (!IsValidTestClass(@class))
+                return null;
+            
             if (!IsValidTestMethod(testMethod))
                 return null;
 
-            return null;
+            var clrTypeName = @class.GetClrName();
+            var project = psiFile.GetProject();
+            var assemblyPath = project.GetOutputFilePath().FullPath;
+            return unitTestElementFactory.GetOrCreateTestMethod(project, clrTypeName, testMethod.ShortName, assemblyPath);
         }
 
         private bool IsValidTestMethod(IMethod testMethod)

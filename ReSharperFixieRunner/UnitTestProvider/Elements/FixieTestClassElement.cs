@@ -29,7 +29,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
             return Equals(other as FixieTestClassElement);
         }
 
-        public bool Equals(FixieTestClassElement other)
+        private bool Equals(FixieTestClassElement other)
         {
             if (other == null)
                 return false;
