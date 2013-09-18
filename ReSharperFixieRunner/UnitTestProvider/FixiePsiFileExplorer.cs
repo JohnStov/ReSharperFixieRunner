@@ -3,6 +3,7 @@ using JetBrains.Application.Progress;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.UnitTestFramework;
 
 namespace ReSharperFixieRunner.UnitTestProvider
@@ -86,7 +87,11 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         private bool IsValidTestClass(IClass testClass)
         {
-            return true;
+            return testClass.GetAccessRights() == AccessRights.PUBLIC
+                && !testClass.IsAbstract
+                //&& !testClass.IsStatic
+                && testClass.CanInstantiateWithPublicDefaultConstructor()
+                && testClass.ShortName.EndsWith("Tests");
         }
     }
 }
