@@ -121,8 +121,8 @@ namespace ReSharperFixieRunner.UnitTestProvider
             return testMethod.GetAccessRights() == AccessRights.PUBLIC 
                 && !testMethod.IsAbstract 
                 && !testMethod.IsStatic
-                && testMethod.Parameters.Count == 0 
-                && testMethod.ReturnType.IsVoid();
+                && testMethod.Parameters.Count == 0
+                && (testMethod.ReturnType.IsVoid() || testMethod.ReturnType.IsTask() || testMethod.ReturnType.IsGenericTask());
         }
     }
 }
