@@ -1,7 +1,9 @@
-﻿using JetBrains.Application;
+﻿using System.Linq;
+using JetBrains.Application;
 using JetBrains.Application.Progress;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
+using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
@@ -118,11 +120,21 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         private bool IsValidTestMethod(IMethod testMethod)
         {
-            return testMethod.GetAccessRights() == AccessRights.PUBLIC 
-                && !testMethod.IsAbstract 
-                && !testMethod.IsStatic
-                && testMethod.Parameters.Count == 0
-                && (testMethod.ReturnType.IsVoid() || testMethod.ReturnType.IsTask() || testMethod.ReturnType.IsGenericTask());
+            var declaration = testMethod.GetDeclarations().FirstOrDefault() as IMethodDeclaration;
+            if (declaration == null)
+                return false;
+
+            var isValid = testMethod.GetAccessRights() == AccessRights.PUBLIC
+                          && !testMethod.IsAbstract
+                          && !testMethod.IsStatic
+                          && testMethod.Parameters.Count == 0;
+
+            if (declaration.IsAsync)
+                isValid &= testMethod.ReturnType.IsTask() || testMethod.ReturnType.IsGenericTask();
+            else
+                isValid &= testMethod.ReturnType.IsVoid();
+
+            return isValid;
         }
     }
 }
