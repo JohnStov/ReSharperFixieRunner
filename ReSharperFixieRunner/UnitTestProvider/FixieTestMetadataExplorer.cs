@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
+
+using Fixie.Conventions;
 
 using JetBrains.Application;
 using JetBrains.Decompiler.Render.CSharp;
@@ -33,6 +38,33 @@ namespace ReSharperFixieRunner.UnitTestProvider
             UnitTestElementConsumer consumer,
             ManualResetEvent exitEvent)
         {
+            //if (project.GetModuleReferences().All(module => module.Name != "Fixie"))
+            //    return;
+
+            var testAssembly = Assembly.LoadFile(assembly.Location.FullPath);
+
+            var conventionType = testAssembly.GetExportedTypes().FirstOrDefault(t => t.IsAssignableFrom(Type.GetType("Fixie.Conventions.Convention")));
+            if (conventionType == null)
+            {
+                Assembly fixieAssembly = null;
+                try { fixieAssembly = Assembly.LoadFile(Path.Combine(assembly.Location.Directory.FullPath, "Fixie.dll")); }
+                catch {}
+
+                if (fixieAssembly != null)
+                    conventionType =
+                        fixieAssembly.GetExportedTypes()
+                            .FirstOrDefault(t => t == Type.GetType("Fixie.Conventions.DefaultConvention"));
+            }
+
+            Convention convention = null;
+            if (conventionType != null)
+                convention = Activator.CreateInstance(conventionType) as Convention;
+
+            if (convention == null)
+                return;
+
+            var testClasses = convention.Classes.Filter(testAssembly.GetExportedTypes());
+            
             using (ReadLockCookie.Create())
             {
                 foreach (var metadataTypeInfo in GetExportedTypes(assembly.GetTypes()))
@@ -77,7 +109,6 @@ namespace ReSharperFixieRunner.UnitTestProvider
                 && metadataTypeInfo.GetAccessRights() == CSharpAccessRights.Public
                 // IL marks static class as sealed && abstract, so abstract check will find static classes too
                 && !metadataTypeInfo.IsAbstract
-                && metadataTypeInfo.GetMethods().Any(method => method.IsPublic && method.Parameters.Any())
                 && metadataTypeInfo.Name.EndsWith("Tests");
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FixieTestExample
 {
-    public class Class1
+    public class Tests
     {
     }
 }
