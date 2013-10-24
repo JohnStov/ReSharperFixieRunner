@@ -8,5 +8,9 @@ namespace FixieTestExample
 {
     public class Tests
     {
+        public void Test()
+        {
+        }
+
     }
 }

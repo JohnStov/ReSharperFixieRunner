@@ -11,18 +11,19 @@ namespace ReSharperFixieRunner.UnitTestProvider
     {
         private readonly dynamic convention;
 
-        private FixieConvention(object convention)
+        private FixieConvention(dynamic convention)
         {
             this.convention = convention;
         }
 
-        public ClassFilter Classes
+        public Type[] GetTestClasses(Assembly assembly)
         {
-            get
-            {
-                return convention.Classes;
-            }
+            return convention.Classes.Filter(assembly.GetExportedTypes());
+        }
 
+        public MethodInfo[] GetTestMethods(Type type)
+        {
+            return convention.Methods.Filter(type);
         }
 
         public static FixieConvention LoadConvention(Assembly assembly)
@@ -46,7 +47,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
             if (conventionType == null)
                 return null;
 
-            var convention = Activator.CreateInstance(conventionType);
+            var convention = Activator.CreateInstance(conventionType) as dynamic;
             return new FixieConvention(convention);
         }
     }

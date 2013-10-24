@@ -34,8 +34,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fixie">
-      <HintPath>..\packages\Fixie.0.0.1.98\lib\net45\Fixie.dll</HintPath>
+    <Reference Include="Fixie, Version=0.0.1.101, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Fixie.0.0.1.101\lib\net45\Fixie.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />

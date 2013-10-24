@@ -7,7 +7,7 @@ using JetBrains.ReSharper.UnitTestFramework;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
-    [FileUnitTestExplorer]
+    //[FileUnitTestExplorer]
     public class FixieTestFileExplorer : IUnitTestFileExplorer
     {
         private readonly FixieTestProvider provider;
