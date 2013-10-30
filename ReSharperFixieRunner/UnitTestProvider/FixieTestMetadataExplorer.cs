@@ -39,17 +39,33 @@ namespace ReSharperFixieRunner.UnitTestProvider
             UnitTestElementConsumer consumer,
             ManualResetEvent exitEvent)
         {
-            var assembly = Assembly.LoadFile(metadataAssembly.Location.FullPath);
-            var convention = FixieConvention.LoadConvention(assembly);
-            // if we can't find a convention, we can't run any tests
-            if (convention == null)
-                return;
+            var assembly = Assembly.GetExecutingAssembly();
+            var assemblyLoadPath = Path.GetDirectoryName(assembly.Location);
+            var assemblyName = assembly.FullName;
+            var appDomain = AppDomain.CreateDomain("Fixie Domain", null, assemblyLoadPath, null, true);
 
-            using (ReadLockCookie.Create())
+            try
             {
-                foreach (var type in convention.GetTestClasses(assembly))
-                    ExploreTestClass(project, metadataAssembly, consumer, type, convention);
+                var constructorArgs = new object[] {metadataAssembly.Location.FullPath};
+                var convention = (FixieConvention)appDomain.CreateInstanceAndUnwrap(assemblyName, "ReSharperFixieRunner.UnitTestProvider.FixieConvention", false, BindingFlags.ExactBinding, null, constructorArgs, null, null);
+                var classes = convention.GetTestClasses();
+
+                // if we can't find a convention, we can't run any tests
+                if (convention != null)
+                {
+                    using (ReadLockCookie.Create())
+                    {
+                        foreach (var type in classes)
+                            ExploreTestClass(project, metadataAssembly, consumer, type, convention);
+                    }
+                }
+
             }
+            finally
+            {
+                AppDomain.Unload(appDomain);
+            }
+
         }
 
         private IMetadataTypeInfo GetMetadataTypeInfo(Type type, IMetadataAssembly metadataAssembly)

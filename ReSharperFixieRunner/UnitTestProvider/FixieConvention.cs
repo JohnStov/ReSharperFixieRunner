@@ -2,23 +2,27 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
+using System.Security.Policy;
 using Fixie.Conventions;
+using JetBrains.Annotations;
+using JetBrains.Metadata.Reader.API;
+using JetBrains.ReSharper.Psi.CSharp.Tree;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
-    public class FixieConvention
+    public class FixieConvention : MarshalByRefObject
     {
-        private readonly dynamic convention;
+        private Assembly testAssembly;
+        private dynamic convention;
 
-        private FixieConvention(dynamic convention)
+        public FixieConvention(string path)
         {
-            this.convention = convention;
+            LoadConvention(path);
         }
 
-        public Type[] GetTestClasses(Assembly assembly)
+        public Type[] GetTestClasses()
         {
-            return convention.Classes.Filter(assembly.GetExportedTypes());
+            return convention.Classes.Filter(testAssembly.GetExportedTypes());
         }
 
         public MethodInfo[] GetTestMethods(Type type)
@@ -26,15 +30,19 @@ namespace ReSharperFixieRunner.UnitTestProvider
             return convention.Methods.Filter(type);
         }
 
-        public static FixieConvention LoadConvention(Assembly assembly)
+        public void LoadConvention(string assemblyPath)
         {
-            var conventionType = assembly.GetExportedTypes().FirstOrDefault(t => t.IsAssignableFrom(Type.GetType("Fixie.Conventions.Convention")));
+            testAssembly = Assembly.LoadFrom(assemblyPath);
+            var conventionType = testAssembly.GetExportedTypes().FirstOrDefault(t => t.IsAssignableFrom(Type.GetType("Fixie.Conventions.Convention")));
             if (conventionType == null)
-             {
+            {
                 Assembly fixieAssembly = null;
-                var fixieAssemblyPath = Path.Combine(Path.GetDirectoryName(assembly.Location), "Fixie.dll");
-                try { fixieAssembly = Assembly.LoadFile(fixieAssemblyPath); }
-                catch (Exception)
+                try
+                {
+                    var fixieAssemblyPath = Path.Combine(Path.GetDirectoryName(assemblyPath), "Fixie.dll");
+                    fixieAssembly = Assembly.LoadFrom(fixieAssemblyPath);
+                }
+                catch(Exception ex)
                 { }
 
                 if (fixieAssembly != null)
@@ -45,10 +53,9 @@ namespace ReSharperFixieRunner.UnitTestProvider
             }
 
             if (conventionType == null)
-                return null;
+               throw new Exception("Cannot find Fixie convention");
 
-            var convention = Activator.CreateInstance(conventionType) as dynamic;
-            return new FixieConvention(convention);
+            convention = Activator.CreateInstance(conventionType);
         }
     }
 }

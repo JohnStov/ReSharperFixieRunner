@@ -12,5 +12,7 @@ namespace FixieTestExample
         {
         }
 
+        public void Test3()
+        {}
     }
 }
