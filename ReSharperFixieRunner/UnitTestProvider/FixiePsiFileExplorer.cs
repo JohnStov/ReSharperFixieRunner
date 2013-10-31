@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using JetBrains.Application;
 using JetBrains.Application.Progress;
+using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -18,10 +19,12 @@ namespace ReSharperFixieRunner.UnitTestProvider
         private readonly UnitTestElementLocationConsumer consumer;
         private readonly IFile psiFile;
         private readonly CheckForInterrupt interrupted;
+        private readonly FixieConventionCheck conventionCheck;
 
-        public FixiePsiFileExplorer(UnitTestElementFactory unitTestElementFactory, UnitTestElementLocationConsumer consumer, IFile psiFile, CheckForInterrupt interrupted)
+        public FixiePsiFileExplorer(UnitTestElementFactory unitTestElementFactory, FixieConventionCheck conventionCheck, UnitTestElementLocationConsumer consumer, IFile psiFile, CheckForInterrupt interrupted)
         {
             this.unitTestElementFactory = unitTestElementFactory;
+            this.conventionCheck = conventionCheck;
             this.consumer = consumer;
             this.psiFile = psiFile;
             this.interrupted = interrupted;
@@ -84,57 +87,36 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         private IUnitTestElement ProcessTestClass(IClass testClass)
         {
-            if (!IsValidTestClass(testClass))
+            var project = psiFile.GetProject();
+            if (!IsValidTestClass(project, testClass))
                 return null;
 
-            var project = psiFile.GetProject();
             var clrTypeName = testClass.GetClrName();
             var assemblyPath = project.GetOutputFilePath().FullPath;
             return unitTestElementFactory.GetOrCreateTestClass(project, clrTypeName, assemblyPath);
         }
 
-        private bool IsValidTestClass(IClass testClass)
+        private bool IsValidTestClass(IProject project, IClass testClass)
         {
-            return testClass != null 
-                && testClass.GetAccessRights() == AccessRights.PUBLIC
-                // IL marks static class as sealed && abstract, so abstract check will find static classes too
-                && !testClass.IsAbstract
-                && testClass.CanInstantiateWithPublicDefaultConstructor()
-                && testClass.ShortName.EndsWith("Tests");
+            return conventionCheck.IsValidTestClass(project, testClass);
         }
 
         private IUnitTestElement ProcessTestMethod(IMethod testMethod)
         {
-            var @class = testMethod.GetContainingType() as IClass;
-            if (!IsValidTestClass(@class))
-                return null;
+            var project = psiFile.GetProject();
+            var testClass = testMethod.GetContainingType() as IClass;
             
-            if (!IsValidTestMethod(testMethod))
+            if (!IsValidTestMethod(project, testClass, testMethod))
                 return null;
 
-            var clrTypeName = @class.GetClrName();
-            var project = psiFile.GetProject();
+            var clrTypeName = testClass.GetClrName();
             var assemblyPath = project.GetOutputFilePath().FullPath;
             return unitTestElementFactory.GetOrCreateTestMethod(project, clrTypeName, testMethod.ShortName, assemblyPath);
         }
 
-        private bool IsValidTestMethod(IMethod testMethod)
+        private bool IsValidTestMethod(IProject project, IClass testClass, IMethod testMethod)
         {
-            var declaration = testMethod.GetDeclarations().FirstOrDefault() as IMethodDeclaration;
-            if (declaration == null)
-                return false;
-
-            var isValid = testMethod.GetAccessRights() == AccessRights.PUBLIC
-                          && !testMethod.IsAbstract
-                          && !testMethod.IsStatic
-                          && testMethod.Parameters.Count == 0;
-
-            if (declaration.IsAsync)
-                isValid &= testMethod.ReturnType.IsTask() || testMethod.ReturnType.IsGenericTask();
-            else
-                isValid &= testMethod.ReturnType.IsVoid();
-
-            return isValid;
+            return conventionCheck.IsValidTestMethod(project, testClass, testMethod);
         }
     }
 }

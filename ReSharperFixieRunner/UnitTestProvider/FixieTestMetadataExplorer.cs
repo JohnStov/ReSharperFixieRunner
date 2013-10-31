@@ -17,7 +17,7 @@ using JetBrains.ReSharper.UnitTestFramework;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
-    [MetadataUnitTestExplorer]
+    //[MetadataUnitTestExplorer]
     public class FixieTestMetadataExplorer : IUnitTestMetadataExplorer
     {
         private readonly FixieTestProvider provider;

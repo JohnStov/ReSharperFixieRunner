@@ -1,6 +1,5 @@
 ﻿using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Refactorings.Util;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.ReSharper.UnitTestFramework.Elements;
 using ReSharperFixieRunner.UnitTestProvider.Elements;

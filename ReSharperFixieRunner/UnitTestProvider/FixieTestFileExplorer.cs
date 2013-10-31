@@ -7,16 +7,18 @@ using JetBrains.ReSharper.UnitTestFramework;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
-    //[FileUnitTestExplorer]
+    [FileUnitTestExplorer]
     public class FixieTestFileExplorer : IUnitTestFileExplorer
     {
         private readonly FixieTestProvider provider;
         private readonly UnitTestElementFactory unitTestElementFactory;
+        private readonly FixieConventionCheck conventionCheck;
 
-        public FixieTestFileExplorer(FixieTestProvider provider, UnitTestElementFactory unitTestElementFactory)
+        public FixieTestFileExplorer(FixieTestProvider provider, UnitTestElementFactory unitTestElementFactory, FixieConventionCheck conventionCheck)
         {
             this.provider = provider;
             this.unitTestElementFactory = unitTestElementFactory;
+            this.conventionCheck = conventionCheck;
         }
 
         public void ExploreFile(IFile psiFile, UnitTestElementLocationConsumer consumer, CheckForInterrupt interrupted)
@@ -32,7 +34,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
             if(project.GetModuleReferences().All(module => module.Name != "Fixie"))
                 return;
 
-            psiFile.ProcessDescendants(new FixiePsiFileExplorer(unitTestElementFactory, consumer, psiFile, interrupted));
+            psiFile.ProcessDescendants(new FixiePsiFileExplorer(unitTestElementFactory, conventionCheck, consumer, psiFile, interrupted));
         }
         
         public IUnitTestProvider Provider { get { return provider; } }
