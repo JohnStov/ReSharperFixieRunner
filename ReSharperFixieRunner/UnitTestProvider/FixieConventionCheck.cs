@@ -37,7 +37,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
         {
             if (!conventionCache.ContainsKey(assemblyPath))
             {
-                var result = FixieConventionInfo.Create(assemblyPath);
+                var result = FixieConventionLoader.GetConventionInfo(assemblyPath);
                 if (result == null)
                     return null;
 

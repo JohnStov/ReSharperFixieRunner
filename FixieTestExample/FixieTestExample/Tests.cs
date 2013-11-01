@@ -12,7 +12,7 @@ namespace FixieTestExample
         {
         }
 
-        public void Test3()
+        public void Test2()
         {}
     }
 }

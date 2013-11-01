@@ -5,25 +5,26 @@ using System.Reflection;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
-    internal class FixieConventionTestClass
+    [Serializable]
+    public class FixieConventionTestClass
     {
-        private readonly List<MethodInfo> testMethods = new List<MethodInfo>();
+        private readonly List<string> testMethods = new List<string>();
 
         public FixieConventionTestClass(Type type)
         {
-            Type = type;
+            TypeName = type.FullName;
         }
 
-        public Type Type { get; private set; }
+        public string TypeName { get; private set; }
 
         public void AddTestMethod(MethodInfo methodInfo)
         {
-            testMethods.Add(methodInfo);
+            testMethods.Add(methodInfo.Name);
         }
 
-        public bool IsTestMethod(string name)
+        public bool IsTestMethod(string methodName)
         {
-            return testMethods.Any(m => m.Name == name);
+            return testMethods.Any(m => m == methodName);
         }
     }
 }
