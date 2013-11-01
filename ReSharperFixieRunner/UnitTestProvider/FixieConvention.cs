@@ -2,11 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Policy;
-using Fixie.Conventions;
-using JetBrains.Annotations;
-using JetBrains.Metadata.Reader.API;
-using JetBrains.ReSharper.Psi.CSharp.Tree;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {

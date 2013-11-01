@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
-
-using Fixie.Conventions;
-
 using JetBrains.Application;
-using JetBrains.Decompiler.Render.CSharp;
-using JetBrains.Interop.WinApi;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;

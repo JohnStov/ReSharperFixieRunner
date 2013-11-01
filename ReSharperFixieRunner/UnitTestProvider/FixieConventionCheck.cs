@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
-using JetBrains.Util;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
     [SolutionComponent]
     public class FixieConventionCheck
     {
+        private readonly Dictionary<string, FixieConventionInfo> conventionCache = new Dictionary<string, FixieConventionInfo>();
+
         public bool IsValidTestClass(IProject project, IClass testClass)
         {
             if (project == null || testClass == null)
@@ -35,7 +35,16 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         private FixieConventionInfo GetConventionInfo(string assemblyPath)
         {
-            return FixieConventionInfo.Create(assemblyPath);
+            if (!conventionCache.ContainsKey(assemblyPath))
+            {
+                var result = FixieConventionInfo.Create(assemblyPath);
+                if (result == null)
+                    return null;
+
+                conventionCache.Add(assemblyPath, result);
+            }
+
+            return conventionCache[assemblyPath];
         }
 
     }
