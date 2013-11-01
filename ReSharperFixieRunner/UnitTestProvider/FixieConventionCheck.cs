@@ -23,13 +23,14 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         public bool IsValidTestMethod(IProject project, IClass testClass, IMethod testMethod)
         {
-            if (!IsValidTestClass(project, testClass))
+            if (project == null || testClass == null)
                 return false;
 
-            if (testMethod == null)
+            var conventionInfo = GetConventionInfo(project.GetOutputFilePath().FullPath);
+            if (conventionInfo == null)
                 return false;
 
-            return true;
+            return conventionInfo.IsTestMethod(testClass.GetClrName().FullName, testMethod.ShortName);
         }
 
         private FixieConventionInfo GetConventionInfo(string assemblyPath)

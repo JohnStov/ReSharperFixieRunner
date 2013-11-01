@@ -42,11 +42,12 @@ namespace ReSharperFixieRunner.UnitTestProvider
                 IEnumerable<Type> types = convention.Classes.Filter(testAssembly.GetExportedTypes());
                 foreach (var type in types)
                 {
-                    var classInfo = new FixieConventionTestClass(type.FullName);
+                    var classInfo = new FixieConventionTestClass(type);
                     classes.Add(classInfo);
-                    foreach (MethodInfo method in convention.Methods.Filter(type.GetMethods()))
+                    var filteredMethods = convention.Methods.Filter(type);
+                    foreach (MethodInfo method in filteredMethods)
                     {
-                        classInfo.AddMethod(method.Name);
+                        classInfo.AddTestMethod(method);
                     }
                 }
 
@@ -63,37 +64,17 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         public bool IsTestClass(string className)
         {
-            return classes.Any(c => c.Name == className);
-        }
-    }
-
-    internal class FixieConventionTestClassComparer : IEqualityComparer<FixieConventionTestClass>
-    {
-        public bool Equals(FixieConventionTestClass x, FixieConventionTestClass y)
-        {
-            return x.Name == y.Name;
+            return classes.Any(c => c.Type.FullName == className);
         }
 
-        public int GetHashCode(FixieConventionTestClass obj)
+        public bool IsTestMethod(string className, string methodName)
         {
-            return obj.GetHashCode();
-        }
-    }
+            var @class = classes.FirstOrDefault(c => IsTestClass(c.Type.FullName));
 
-    internal class FixieConventionTestClass
-    {
-        private readonly List<string> methods = new List<string>();
+            if (@class == null)
+                return false;
 
-        public FixieConventionTestClass(string fullName)
-        {
-            Name = fullName;
-        }
-
-        public string Name { get; private set; }
-
-        public void AddMethod(string methodName)
-        {
-            methods.Add(methodName);
+            return @class.IsTestMethod(methodName);
         }
     }
 }

@@ -58,6 +58,8 @@
     <Compile Include="UnitTestProvider\FixieConvention.cs" />
     <Compile Include="UnitTestProvider\Elements\FixieTestMethodElement.cs" />
     <Compile Include="UnitTestProvider\FixieConventionInfo.cs" />
+    <Compile Include="UnitTestProvider\FixieConventionTestClass.cs" />
+    <Compile Include="UnitTestProvider\FixieConventionTestClassComparer.cs" />
     <Compile Include="UnitTestProvider\FixieTestMetadataExplorer.cs" />
     <Compile Include="UnitTestProvider\PsiUnitTestIdentifier.cs" />
     <Compile Include="UnitTestProvider\DeclaredElementProvider.cs" />
