@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 
@@ -9,6 +12,8 @@ namespace ReSharperFixieRunner.UnitTestProvider
     {
         private readonly Dictionary<string, FixieConventionInfo> conventionCache = new Dictionary<string, FixieConventionInfo>();
 
+        public readonly Dictionary<string, FileSystemWatcher> Watchers = new Dictionary<string, FileSystemWatcher>();
+        
         public bool IsValidTestClass(IProject project, IClass testClass)
         {
             if (project == null || testClass == null)
@@ -42,10 +47,24 @@ namespace ReSharperFixieRunner.UnitTestProvider
                     return null;
 
                 conventionCache.Add(assemblyPath, result);
-            }
 
+                var assemblyFolder = Path.GetDirectoryName(assemblyPath);
+                if (!Watchers.ContainsKey(assemblyFolder))
+                {
+                    var watcher = new FileSystemWatcher(assemblyFolder);
+                    watcher.Changed += WatcherOnChanged;
+                    watcher.Deleted += WatcherOnChanged;
+                    watcher.EnableRaisingEvents = true;
+                    Watchers.Add(assemblyFolder, watcher);
+                }
+            }
             return conventionCache[assemblyPath];
         }
 
+        private void WatcherOnChanged(object sender, FileSystemEventArgs fileSystemEventArgs)
+        {
+            if (conventionCache.ContainsKey(fileSystemEventArgs.FullPath))
+                conventionCache.Remove(fileSystemEventArgs.FullPath);
+        }
     }
 }
