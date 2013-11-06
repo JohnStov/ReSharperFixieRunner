@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
+
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 

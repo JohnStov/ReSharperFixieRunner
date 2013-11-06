@@ -14,7 +14,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         public bool IsTestClass(string className)
         {
-            return classes.Any(c => c.TypeName == className);
+            return classes.Any(c => c.Type.FullName == className);
         }
 
         public bool IsTestMethod(string className, string methodName)
