@@ -8,23 +8,23 @@ namespace ReSharperFixieRunner.UnitTestProvider
     [Serializable]
     public class FixieConventionTestClass
     {
-        private readonly List<MethodInfo> testMethods = new List<MethodInfo>();
+        private readonly List<FixieConventionTestMethod> testMethods = new List<FixieConventionTestMethod>();
 
         public FixieConventionTestClass(Type type)
         {
-            Type = type;
+            TypeName = type.FullName;
         }
 
-        public Type Type { get; private set; }
+        public string TypeName { get; private set; }
 
         public void AddTestMethod(MethodInfo methodInfo)
         {
-            testMethods.Add(methodInfo);
+            testMethods.Add(new FixieConventionTestMethod(methodInfo));
         }
 
         public bool IsTestMethod(string methodName)
         {
-            return testMethods.Any(m => m.Name == methodName);
+            return testMethods.Any(m => m.MethodName == methodName);
         }
     }
 }

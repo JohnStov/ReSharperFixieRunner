@@ -6,7 +6,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
     {
         public bool Equals(FixieConventionTestClass x, FixieConventionTestClass y)
         {
-            return x.Type == y.Type;
+            return x.TypeName == y.TypeName;
       }
 
         public int GetHashCode(FixieConventionTestClass obj)

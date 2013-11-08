@@ -40,6 +40,14 @@
       <HintPath>..\packages\Fixie.0.0.1.101\lib\net45\Fixie.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.XmlTransform, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Xdt.1.0.0\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=2.7.40911.225, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\NuGet.Core.2.7.1\lib\net40-Client\NuGet.Core.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,6 +71,7 @@
     <Compile Include="UnitTestProvider\FixieConventionInfo.cs" />
     <Compile Include="UnitTestProvider\FixieConventionTestClass.cs" />
     <Compile Include="UnitTestProvider\FixieConventionTestClassComparer.cs" />
+    <Compile Include="UnitTestProvider\FixieConventionTestMethod.cs" />
     <Compile Include="UnitTestProvider\FixieTestMetadataExplorer.cs" />
     <Compile Include="UnitTestProvider\PsiUnitTestIdentifier.cs" />
     <Compile Include="UnitTestProvider\DeclaredElementProvider.cs" />

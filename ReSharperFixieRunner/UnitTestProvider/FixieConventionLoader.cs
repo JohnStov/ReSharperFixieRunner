@@ -19,15 +19,20 @@ namespace ReSharperFixieRunner.UnitTestProvider
                 ShadowCopyFiles = "true",
             };
 
+
+            var conventionLoader = new FixieConventionDomainLoader();
+
             var appDomain = AppDomain.CreateDomain("FixieConventionLoader", null, appDomainSetup);
-
-            var conventionLoader = new FixieConventionDomainLoader(testAssemblyPath);
-
+            appDomain.SetData("TestAssemblyPath", testAssemblyPath);
             appDomain.DoCallBack(conventionLoader.LoadTestClasses);
+            var ex = (Exception)appDomain.GetData("Exception");
+            if (ex != null)
+                throw ex;
 
+            var testClasses = (FixieConventionTestClass[])appDomain.GetData("TestClasses");
             AppDomain.Unload(appDomain);
 
-            return new FixieConventionInfo(conventionLoader.Classes);
+            return new FixieConventionInfo(testClasses);
         }
     }
 }

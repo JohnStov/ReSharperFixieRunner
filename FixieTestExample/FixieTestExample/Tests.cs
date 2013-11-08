@@ -4,15 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Fixie.Conventions;
+
 namespace FixieTestExample
 {
-    public class Tests
+    public class TestsWeeb
     {
         public void Test()
         {
         }
 
-        public void Test2()
+        public void Test3Frob()
         {}
+    }
+
+    public class MyConvention : Convention
+    {
+        public MyConvention()
+        {
+            Classes.NameEndsWith("Weeb");
+            Methods.Where(m => m.Name.EndsWith("Frob"));
+        }
     }
 }
