@@ -17,7 +17,7 @@ namespace ReSharperFixieRunner.Tests
         [Fact]
         public void CreateExplorer()
         {
-            var explorer = new FixieTestMetadataExplorer(null, null, null);
+            var explorer = new FixieTestMetadataExplorer(null, null, null, null);
 
             var assembly = Substitute.For<IMetadataAssembly>();
             assembly.Location.Returns(FileSystemPath.Parse(@"C:\Users\John\Documents\GitHub\ReSharperFixieRunner\FixieTestExample\FixieTestExample\bin\Debug\FixieTestExample.dll"));

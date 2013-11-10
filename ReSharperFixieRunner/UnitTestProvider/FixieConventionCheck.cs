@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
+using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Caches2;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
@@ -12,29 +16,56 @@ namespace ReSharperFixieRunner.UnitTestProvider
         private readonly Dictionary<string, FixieConventionInfo> conventionCache = new Dictionary<string, FixieConventionInfo>();
 
         public readonly Dictionary<string, FileSystemWatcher> Watchers = new Dictionary<string, FileSystemWatcher>();
-        
+
+        public bool IsValidTestClass(IProject project, IMetadataTypeInfo typeInfo)
+        {
+            if (project == null || typeInfo == null)
+                return false;
+
+            return IsValidTestClass(project, typeInfo.FullyQualifiedName);
+        }
+
         public bool IsValidTestClass(IProject project, IClass testClass)
         {
             if (project == null || testClass == null)
                 return false;
 
+            return IsValidTestClass(project, testClass.GetClrName().FullName);
+        }
+
+
+        private bool IsValidTestClass(IProject project, string className)
+        {
             var conventionInfo = GetConventionInfo(project.GetOutputFilePath().FullPath);
             if (conventionInfo == null)
                 return false;
 
-            return conventionInfo.IsTestClass(testClass.GetClrName().FullName);
+            return conventionInfo.IsTestClass(className);
+        }
+
+        public bool IsValidTestMethod(IProject project, Type type, MethodInfo method)
+        {
+            if (project == null || type == null || method == null)
+                return false;
+
+            return IsValidTestMethod(project, type.FullName, method.Name);
         }
 
         public bool IsValidTestMethod(IProject project, IClass testClass, IMethod testMethod)
         {
-            if (project == null || testClass == null)
+            if (project == null || testClass == null || testMethod == null)
                 return false;
 
+            return IsValidTestMethod(project, testClass.GetClrName().FullName, testMethod.ShortName);
+        }
+
+        private bool IsValidTestMethod(IProject project, string className, string methodName)
+        {
             var conventionInfo = GetConventionInfo(project.GetOutputFilePath().FullPath);
             if (conventionInfo == null)
                 return false;
 
-            return conventionInfo.IsTestMethod(testClass.GetClrName().FullName, testMethod.ShortName);
+            return conventionInfo.IsTestMethod(className, methodName);
         }
 
         private FixieConventionInfo GetConventionInfo(string assemblyPath)

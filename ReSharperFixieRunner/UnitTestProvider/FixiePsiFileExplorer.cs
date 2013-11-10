@@ -83,7 +83,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
         private IUnitTestElement ProcessTestClass(IClass testClass)
         {
             var project = psiFile.GetProject();
-            if (!IsValidTestClass(project, testClass))
+            if (!conventionCheck.IsValidTestClass(project, testClass))
                 return null;
 
             var clrTypeName = testClass.GetClrName();
@@ -91,27 +91,17 @@ namespace ReSharperFixieRunner.UnitTestProvider
             return unitTestElementFactory.GetOrCreateTestClass(project, clrTypeName, assemblyPath);
         }
 
-        private bool IsValidTestClass(IProject project, IClass testClass)
-        {
-            return conventionCheck.IsValidTestClass(project, testClass);
-        }
-
         private IUnitTestElement ProcessTestMethod(IMethod testMethod)
         {
             var project = psiFile.GetProject();
             var testClass = testMethod.GetContainingType() as IClass;
-            
-            if (!IsValidTestMethod(project, testClass, testMethod))
+
+            if (!conventionCheck.IsValidTestMethod(project, testClass, testMethod))
                 return null;
 
             var clrTypeName = testClass.GetClrName();
             var assemblyPath = project.GetOutputFilePath().FullPath;
             return unitTestElementFactory.GetOrCreateTestMethod(project, clrTypeName, testMethod.ShortName, assemblyPath);
-        }
-
-        private bool IsValidTestMethod(IProject project, IClass testClass, IMethod testMethod)
-        {
-            return conventionCheck.IsValidTestMethod(project, testClass, testMethod);
         }
     }
 }
