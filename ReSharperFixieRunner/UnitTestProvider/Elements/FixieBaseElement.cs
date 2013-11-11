@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.TaskRunnerFramework;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.ReSharper.UnitTestFramework.Strategy;
 
@@ -54,8 +55,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public abstract string Kind { get; }
 
-        // TODO: use a real run strategy when we have a test runner
-        private static readonly IUnitTestRunStrategy RunStrategy = new DoNothingRunStrategy();
+        private static readonly IUnitTestRunStrategy RunStrategy = new OutOfProcessUnitTestRunStrategy(new RemoteTaskRunnerInfo(FixieTaskRunner.RunnerId, typeof(FixieTaskRunner)));
         public IUnitTestRunStrategy GetRunStrategy(IHostProvider hostProvider)
         {
             return RunStrategy;

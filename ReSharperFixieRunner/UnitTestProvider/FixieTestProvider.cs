@@ -10,6 +10,12 @@ namespace ReSharperFixieRunner.UnitTestProvider
     [UnitTestProvider, UsedImplicitly]
     public class FixieTestProvider : IUnitTestProvider
     {
+        private static readonly UnitTestElementComparer Comparer = new UnitTestElementComparer(new[]
+                                                                                                   {
+                                                                                                       typeof(FixieTestClassElement),
+                                                                                                       typeof(FixieTestMethodElement),
+                                                                                                   });
+
         public FixieTestProvider()
         {}
 
@@ -71,7 +77,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
         public int CompareUnitTestElements(IUnitTestElement x, IUnitTestElement y)
         {
-            return 0;
+            return Comparer.Compare(x, y);
         }
 
         public string ID { get { return "Fixie"; } }
