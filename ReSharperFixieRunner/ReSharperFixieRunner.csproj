@@ -53,13 +53,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FixieTaskRunner.cs" />
+    <Compile Include="UnitTestProvider\Elements\FixieTestAssemblyTask.cs" />
+    <Compile Include="UnitTestProvider\Elements\FixieTestClassTask.cs" />
+    <Compile Include="UnitTestProvider\Elements\FixieTestMethodTask.cs" />
     <Compile Include="UnitTestProvider\FixieConventionDomainLoader.cs" />
     <Compile Include="UnitTestProvider\FixieConventionLoader.cs" />
     <Compile Include="UnitTestProvider\FixieConventionCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AboutAction.cs" />
     <Compile Include="UnitTestProvider\ClassFilter.cs" />
-    <Compile Include="UnitTestProvider\FixieConvention.cs" />
     <Compile Include="UnitTestProvider\Elements\FixieTestMethodElement.cs" />
     <Compile Include="UnitTestProvider\FixieConventionInfo.cs" />
     <Compile Include="UnitTestProvider\FixieConventionTestClass.cs" />

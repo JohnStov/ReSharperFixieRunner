@@ -11,14 +11,12 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
     public class FixieTestClassElement : FixieBaseElement
     {
         private readonly DeclaredElementProvider declaredElementProvider;
-        private readonly IClrTypeName typeName;
         private readonly string assemblyLocation;
         
         public FixieTestClassElement(FixieTestProvider provider, ProjectModelElementEnvoy projectModelElementEnvoy, DeclaredElementProvider declaredElementProvider, string id, IClrTypeName typeName, string assemblyLocation)
-            : base(provider, null, id, projectModelElementEnvoy)
+            : base(provider, typeName, null, id, projectModelElementEnvoy)
         {
             this.declaredElementProvider = declaredElementProvider;
-            this.typeName = typeName;
             this.assemblyLocation = assemblyLocation;
 
             ShortName = string.Join("+", typeName.TypeNames.Select(FormatTypeName).ToArray());
@@ -35,7 +33,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
                 return false;
 
             return Equals(Id, other.Id) &&
-                   Equals(typeName, other.typeName) &&
+                   Equals(TypeName, other.TypeName) &&
                    Equals(AssemblyLocation, other.AssemblyLocation);
         }
 
@@ -46,7 +44,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public override UnitTestNamespace GetNamespace()
         {
-            return new UnitTestNamespace(typeName.GetNamespaceName());
+            return new UnitTestNamespace(TypeName.GetNamespaceName());
         }
 
         public override UnitTestElementDisposition GetDisposition()
@@ -66,7 +64,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public override IDeclaredElement GetDeclaredElement()
         {
-            return declaredElementProvider.GetDeclaredElement(GetProject(), typeName);
+            return declaredElementProvider.GetDeclaredElement(GetProject(), TypeName);
         }
 
         public override IEnumerable<IProjectFile> GetProjectFiles()
@@ -81,8 +79,11 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public override IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch)
         {
-            // TODO: Populate with useful tasks when we have them
-            return new List<UnitTestTask>();
+            return new List<UnitTestTask>
+                       {
+                           new UnitTestTask(null, new FixieTestAssemblyTask(AssemblyLocation)),
+                           new UnitTestTask(this, new FixieTestClassTask(AssemblyLocation, TypeName.FullName, explicitElements.Contains(this)))
+                       };
         }
 
         public override string Kind

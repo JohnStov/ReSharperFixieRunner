@@ -14,12 +14,13 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
         private readonly string id;
         private readonly ProjectModelElementEnvoy projectModelElementEnvoy;
 
-        protected FixieBaseElement(FixieTestProvider provider, IUnitTestElement parent, string id, ProjectModelElementEnvoy projectModelElementEnvoy)
+        protected FixieBaseElement(FixieTestProvider provider, IClrTypeName typeName, IUnitTestElement parent, string id, ProjectModelElementEnvoy projectModelElementEnvoy)
         {
             this.provider = provider;
             this.id = id;
             this.projectModelElementEnvoy = projectModelElementEnvoy;
 
+            TypeName = typeName;
             Parent = parent;
 
             Children = new List<IUnitTestElement>();
@@ -34,6 +35,8 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
         }
 
         public abstract bool Equals(IUnitTestElement other);
+
+        public IClrTypeName TypeName { get; private set; }
 
         public IProject GetProject()
         {

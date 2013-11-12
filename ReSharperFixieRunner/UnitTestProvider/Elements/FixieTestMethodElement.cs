@@ -12,7 +12,6 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
     public class FixieTestMethodElement : FixieBaseElement
     {
         private readonly DeclaredElementProvider declaredElementProvider;
-        private readonly IClrTypeName typeName;
         private readonly string methodName;
         private readonly string assemblyLocation;
         private readonly string presentation;
@@ -20,17 +19,18 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public FixieTestMethodElement(FixieTestProvider provider, IUnitTestElement parent, ProjectModelElementEnvoy projectModelElementEnvoy,
             DeclaredElementProvider declaredElementProvider, string id, IClrTypeName typeName, string methodName, string assemblyLocation)
-            : base(provider, parent, id, projectModelElementEnvoy)
+            : base(provider, typeName, parent, id, projectModelElementEnvoy)
         {
             this.testClass = parent;
             this.declaredElementProvider = declaredElementProvider;
-            this.typeName = typeName;
             this.methodName = methodName;
             this.assemblyLocation = assemblyLocation;
 
             ShortName = methodName;
             presentation = string.Format("{0}.{1}", typeName.ShortName, methodName);
         }
+
+        public bool IsDynamic { get; private set; }
 
         public override bool Equals(IUnitTestElement other)
         {
@@ -43,7 +43,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
                 return false;
 
             return Equals(Id, other.Id) &&
-                   Equals(typeName, other.typeName) &&
+                   Equals(TypeName, other.TypeName) &&
                    Equals(methodName, other.methodName) &&
                    Equals(assemblyLocation, other.assemblyLocation);
         }
@@ -55,7 +55,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public override UnitTestNamespace GetNamespace()
         {
-            return Parent != null ? Parent.GetNamespace() : new UnitTestNamespace(typeName.GetNamespaceName());
+            return Parent != null ? Parent.GetNamespace() : new UnitTestNamespace(TypeName.GetNamespaceName());
         }
 
         public override UnitTestElementDisposition GetDisposition()
@@ -91,7 +91,7 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         private ITypeElement GetDeclaredType()
         {
-            return declaredElementProvider.GetDeclaredElement(GetProject(), typeName) as ITypeElement;
+            return declaredElementProvider.GetDeclaredElement(GetProject(), TypeName) as ITypeElement;
         }
 
         public override IEnumerable<IProjectFile> GetProjectFiles()
@@ -115,8 +115,8 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
 
         public override IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch)
         {
-            var sequence = testClass.GetTaskSequence(explicitElements, launch);
-            // TODO: Add a new task for this element
+            var sequence = TestClass.GetTaskSequence(explicitElements, launch);
+            sequence.Add(new UnitTestTask(this, new FixieTestMethodTask(TestClass.AssemblyLocation, TestClass.TypeName.FullName, ShortName, explicitElements.Contains(this), IsDynamic)));
             return sequence;
         }
 
@@ -124,6 +124,12 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
         {
             get { return "Fixie Test"; }
         }
+
+        private FixieTestClassElement TestClass
+        {
+            get { return Parent as FixieTestClassElement; }
+        }
+
     }
 }
         
