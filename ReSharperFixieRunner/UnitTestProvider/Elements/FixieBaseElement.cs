@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Xml;
+
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.TaskRunnerFramework;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.ReSharper.UnitTestFramework.Strategy;
+
+using ReSharperFixieRunner.TestRunner;
 
 namespace ReSharperFixieRunner.UnitTestProvider.Elements
 {

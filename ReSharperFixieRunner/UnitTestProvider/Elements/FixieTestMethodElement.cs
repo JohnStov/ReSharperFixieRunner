@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Tree;
@@ -7,9 +10,11 @@ using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.Util;
 
+using ReSharperFixieRunner.TestRunner;
+
 namespace ReSharperFixieRunner.UnitTestProvider.Elements
 {
-    public class FixieTestMethodElement : FixieBaseElement
+    public class FixieTestMethodElement : FixieBaseElement, ISerializableUnitTestElement
     {
         private readonly DeclaredElementProvider declaredElementProvider;
         private readonly string methodName;
@@ -130,6 +135,29 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
             get { return Parent as FixieTestClassElement; }
         }
 
+        public void WriteToXml(XmlElement element)
+        {
+            element.SetAttribute("projectId", GetProject().GetPersistentID());
+            element.SetAttribute("typeName", TypeName.FullName);
+            element.SetAttribute("methodName", methodName);
+        }
+
+        internal static IUnitTestElement ReadFromXml(XmlElement parent, IUnitTestElement parentElement, ISolution solution, UnitTestElementFactory unitTestElementFactory)
+        {
+            var testClass = parentElement as FixieTestClassElement;
+            if (testClass == null)
+                throw new InvalidOperationException("parentElement should be Fixie test class");
+
+            var typeName = parent.GetAttribute("typeName");
+            var methodName = parent.GetAttribute("methodName");
+            var projectId = parent.GetAttribute("projectId");
+
+            var project = (IProject)ProjectUtil.FindProjectElementByPersistentID(solution, projectId);
+            if (project == null)
+                return null;
+
+            return unitTestElementFactory.GetOrCreateTestMethod(project, testClass,
+                typeName, methodName);
+        }
     }
 }
-        

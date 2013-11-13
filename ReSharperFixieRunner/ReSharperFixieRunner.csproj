@@ -52,10 +52,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FixieTaskRunner.cs" />
-    <Compile Include="UnitTestProvider\Elements\FixieTestAssemblyTask.cs" />
-    <Compile Include="UnitTestProvider\Elements\FixieTestClassTask.cs" />
-    <Compile Include="UnitTestProvider\Elements\FixieTestMethodTask.cs" />
+    <Compile Include="TestRunner\FixieTaskRunner.cs" />
+    <Compile Include="TestRunner\FixieTestAssemblyTask.cs" />
+    <Compile Include="TestRunner\FixieTestClassTask.cs" />
+    <Compile Include="TestRunner\FixieTestMethodTask.cs" />
     <Compile Include="UnitTestProvider\FixieConventionDomainLoader.cs" />
     <Compile Include="UnitTestProvider\FixieConventionLoader.cs" />
     <Compile Include="UnitTestProvider\FixieConventionCheck.cs" />
@@ -67,7 +67,9 @@
     <Compile Include="UnitTestProvider\FixieConventionTestClass.cs" />
     <Compile Include="UnitTestProvider\FixieConventionTestClassComparer.cs" />
     <Compile Include="UnitTestProvider\FixieConventionTestMethod.cs" />
+    <Compile Include="UnitTestProvider\FixieTestElementSerializer.cs" />
     <Compile Include="UnitTestProvider\FixieTestMetadataExplorer.cs" />
+    <Compile Include="UnitTestProvider\Elements\ISerializableUnitTestElement.cs" />
     <Compile Include="UnitTestProvider\PsiUnitTestIdentifier.cs" />
     <Compile Include="UnitTestProvider\DeclaredElementProvider.cs" />
     <Compile Include="UnitTestProvider\Elements\FixieBaseElement.cs" />

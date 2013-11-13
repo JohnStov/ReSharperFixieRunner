@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.Util;
 
+using ReSharperFixieRunner.TestRunner;
+
 namespace ReSharperFixieRunner.UnitTestProvider.Elements
 {
-    public class FixieTestClassElement : FixieBaseElement
+    public class FixieTestClassElement : FixieBaseElement, ISerializableUnitTestElement
     {
         private readonly DeclaredElementProvider declaredElementProvider;
         private readonly string assemblyLocation;
@@ -96,6 +100,25 @@ namespace ReSharperFixieRunner.UnitTestProvider.Elements
         private static string FormatTypeName(TypeNameAndTypeParameterNumber typeName)
         {
             return typeName.TypeName + (typeName.TypeParametersNumber > 0 ? string.Format("`{0}", typeName.TypeParametersNumber) : string.Empty);
+        }
+
+        public void WriteToXml(XmlElement element)
+        {
+            element.SetAttribute("projectId", GetProject().GetPersistentID());
+            element.SetAttribute("typeName", TypeName.FullName);
+        }
+
+        internal static IUnitTestElement ReadFromXml(XmlElement parent, IUnitTestElement parentElement, ISolution solution, UnitTestElementFactory unitTestElementFactory)
+        {
+            var projectId = parent.GetAttribute("projectId");
+            var typeName = parent.GetAttribute("typeName");
+
+            var project = (IProject)ProjectUtil.FindProjectElementByPersistentID(solution, projectId);
+            if (project == null)
+                return null;
+            var assemblyLocation = project.GetOutputFilePath().FullPath;
+
+            return unitTestElementFactory.GetOrCreateTestClass(project, new ClrTypeName(typeName), assemblyLocation);
         }
     }
 }

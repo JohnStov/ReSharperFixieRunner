@@ -6,7 +6,6 @@ using System.Reflection;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Psi.ExtensionsAPI.Caches2;
 
 namespace ReSharperFixieRunner.UnitTestProvider
 {
@@ -14,7 +13,6 @@ namespace ReSharperFixieRunner.UnitTestProvider
     public class FixieConventionCheck
     {
         private readonly Dictionary<string, FixieConventionInfo> conventionCache = new Dictionary<string, FixieConventionInfo>();
-
         public readonly Dictionary<string, FileSystemWatcher> Watchers = new Dictionary<string, FileSystemWatcher>();
 
         public bool IsValidTestClass(IProject project, IMetadataTypeInfo typeInfo)

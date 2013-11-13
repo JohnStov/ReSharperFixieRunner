@@ -79,5 +79,10 @@ namespace ReSharperFixieRunner.UnitTestProvider
 
             return element;
         }
+
+        public IUnitTestElement GetOrCreateTestMethod(IProject project, FixieTestClassElement testClass, string methodName, string assemblyLocation)
+        {
+            return GetOrCreateTestMethod(project, testClass.TypeName, methodName, assemblyLocation);
+        }
     }
 }
