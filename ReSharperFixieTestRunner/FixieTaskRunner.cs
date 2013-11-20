@@ -1,4 +1,5 @@
-﻿using JetBrains.ReSharper.TaskRunnerFramework;
+﻿using JetBrains.ReSharper.Psi.BuildScripts.Icons;
+using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace ReSharperFixieTestRunner
 {
@@ -6,7 +7,7 @@ namespace ReSharperFixieTestRunner
     {
         public const string RunnerId = "Fixie";
 
-        private IRemoteTaskServer taskServer;
+        private readonly IRemoteTaskServer taskServer;
 
         public FixieTaskRunner(IRemoteTaskServer server)
             : base(server)
@@ -16,6 +17,9 @@ namespace ReSharperFixieTestRunner
 
         public override void ExecuteRecursive(TaskExecutionNode node)
         {
+            taskServer.TaskStarting(node.RemoteTask);
+            
+            taskServer.TaskFinished(node.RemoteTask, "Task Finished", TaskResult.Success);
         }
     }
 }

@@ -61,7 +61,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReSharperFixieRunner\ReSharperFixieTestProvider.csproj">
+    <ProjectReference Include="..\ReSharperFixieTestProvider\ReSharperFixieTestProvider.csproj">
       <Project>{cd40b14d-a440-47d3-b48d-a6b31df6d680}</Project>
       <Name>ReSharperFixieTestProvider</Name>
     </ProjectReference>
