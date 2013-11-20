@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.UnitTestFramework;
 
-using ReSharperFixieRunner.UnitTestProvider.Elements;
+using ReSharperFixieTestProvider.UnitTestProvider.Elements;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
-    using ReadFromXmlFunc = Func<XmlElement, IUnitTestElement, ISolution, UnitTestElementFactory, IUnitTestElement>;
-
     [SolutionComponent]
     public class FixieTestElementSerializer : IUnitTestElementSerializer
     {
-        private static readonly IDictionary<string, ReadFromXmlFunc> DeserialiseMap = new Dictionary<string, ReadFromXmlFunc>
+        private static readonly IDictionary<string, Func<XmlElement, IUnitTestElement, ISolution, UnitTestElementFactory, IUnitTestElement>> DeserialiseMap = new Dictionary<string, Func<XmlElement, IUnitTestElement, ISolution, UnitTestElementFactory, IUnitTestElement>>
                                                                                           {
                                                                                               {typeof (FixieTestClassElement).Name, FixieTestClassElement.ReadFromXml},
                                                                                               {typeof (FixieTestMethodElement).Name, FixieTestMethodElement.ReadFromXml},
@@ -50,7 +45,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
             if (!parent.HasAttribute("type"))
                 throw new ArgumentException("Element is not Fixie");
 
-            ReadFromXmlFunc func;
+            Func<XmlElement, IUnitTestElement, ISolution, UnitTestElementFactory, IUnitTestElement> func;
             if (DeserialiseMap.TryGetValue(parent.GetAttribute("type"), out func))
                 return func(parent, parentElement, solution, unitTestElementFactory);
 

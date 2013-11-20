@@ -70,9 +70,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReSharperFixieRunner\ReSharperFixieRunner.csproj">
+    <ProjectReference Include="..\ReSharperFixieRunner\ReSharperFixieTestProvider.csproj">
       <Project>{cd40b14d-a440-47d3-b48d-a6b31df6d680}</Project>
-      <Name>ReSharperFixieRunner</Name>
+      <Name>ReSharperFixieTestProvider</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

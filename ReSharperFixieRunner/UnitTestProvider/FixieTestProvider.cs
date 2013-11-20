@@ -3,9 +3,9 @@ using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;
 
-using ReSharperFixieRunner.UnitTestProvider.Elements;
+using ReSharperFixieTestProvider.UnitTestProvider.Elements;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     [UnitTestProvider, UsedImplicitly]
     public class FixieTestProvider : IUnitTestProvider

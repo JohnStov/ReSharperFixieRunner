@@ -1,7 +1,7 @@
 ﻿using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     [SolutionComponent]
     public class DeclaredElementProvider

@@ -5,7 +5,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.UnitTestFramework;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     [FileUnitTestExplorer]
     public class FixieTestFileExplorer : IUnitTestFileExplorer

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     public class FixieConventionInfo
     {

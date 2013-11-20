@@ -8,9 +8,9 @@ using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.Util;
 
-using ReSharperFixieRunner.TestRunner;
+using ReSharperFixieTestProvider.TestRunner;
 
-namespace ReSharperFixieRunner.UnitTestProvider.Elements
+namespace ReSharperFixieTestProvider.UnitTestProvider.Elements
 {
     public class FixieTestClassElement : FixieBaseElement, ISerializableUnitTestElement
     {

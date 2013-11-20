@@ -4,7 +4,7 @@ using System.Xml;
 
 using JetBrains.ReSharper.TaskRunnerFramework;
 
-namespace ReSharperFixieRunner.TestRunner
+namespace ReSharperFixieTestProvider.TestRunner
 {
     public class FixieTestMethodTask : RemoteTask, IEquatable<FixieTestMethodTask>
     {

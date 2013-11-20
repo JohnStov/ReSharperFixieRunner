@@ -9,8 +9,8 @@
     <ProjectGuid>{CD40B14D-A440-47D3-B48D-A6B31DF6D680}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReSharperFixieRunner</RootNamespace>
-    <AssemblyName>ReSharperFixieRunner</AssemblyName>
+    <RootNamespace>ReSharperFixieTestProvider</RootNamespace>
+    <AssemblyName>ReSharperFixieTestProvider</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

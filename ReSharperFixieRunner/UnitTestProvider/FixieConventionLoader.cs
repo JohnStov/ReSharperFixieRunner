@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     public static class FixieConventionLoader
     {

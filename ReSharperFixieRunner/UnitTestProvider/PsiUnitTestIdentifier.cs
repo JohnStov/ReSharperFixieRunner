@@ -1,6 +1,6 @@
 ﻿using JetBrains.ReSharper.Psi;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     public static class PsiUnitTestIdentifier
     {

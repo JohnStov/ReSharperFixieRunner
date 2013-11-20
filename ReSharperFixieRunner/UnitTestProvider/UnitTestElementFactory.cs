@@ -2,9 +2,10 @@
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.ReSharper.UnitTestFramework.Elements;
-using ReSharperFixieRunner.UnitTestProvider.Elements;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+using ReSharperFixieTestProvider.UnitTestProvider.Elements;
+
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     [SolutionComponent]
     public class UnitTestElementFactory

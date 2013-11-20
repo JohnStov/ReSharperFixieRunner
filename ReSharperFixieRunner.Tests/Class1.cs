@@ -7,7 +7,9 @@ using System.Reflection;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.Util;
 using NSubstitute;
-using ReSharperFixieRunner.UnitTestProvider;
+
+using ReSharperFixieTestProvider.UnitTestProvider;
+
 using Xunit;
 
 namespace ReSharperFixieRunner.Tests

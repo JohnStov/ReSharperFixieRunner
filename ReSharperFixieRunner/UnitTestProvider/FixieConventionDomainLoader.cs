@@ -4,11 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Fixie.Conventions;
-
-using NuGet;
-
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     [Serializable]
     public class FixieConventionDomainLoader
@@ -63,7 +59,7 @@ namespace ReSharperFixieRunner.UnitTestProvider
                 }
 
                 // remove duplicates
-                appDomain.SetData("TestClasses", testClasses.Distinct(new FixieConventionTestClassComparer()).ToArray());
+                appDomain.SetData("TestClasses", testClasses.Distinct().ToArray());
 
                 appDomain.AssemblyResolve -= AssemblyResolve;
             }

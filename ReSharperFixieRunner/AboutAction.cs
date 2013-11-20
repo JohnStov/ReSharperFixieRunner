@@ -1,8 +1,9 @@
 using System.Windows.Forms;
+
 using JetBrains.ActionManagement;
 using JetBrains.Application.DataContext;
 
-namespace ReSharperFixieRunner
+namespace ReSharperFixieTestProvider
 {
   [ActionHandler("ReSharperFixieRunner.About")]
   public class AboutAction : IActionHandler

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     [Serializable]
-    public class FixieConventionTestClass
+    public class FixieConventionTestClass : IEqualityComparer<FixieConventionTestClass>
     {
         private readonly List<FixieConventionTestMethod> testMethods = new List<FixieConventionTestMethod>();
 
@@ -25,6 +25,16 @@ namespace ReSharperFixieRunner.UnitTestProvider
         public bool IsTestMethod(string methodName)
         {
             return testMethods.Any(m => m.MethodName == methodName);
+        }
+
+        public bool Equals(FixieConventionTestClass x, FixieConventionTestClass y)
+        {
+            return x.TypeName == y.TypeName;
+        }
+
+        public int GetHashCode(FixieConventionTestClass obj)
+        {
+            return obj.GetHashCode();
         }
     }
 }

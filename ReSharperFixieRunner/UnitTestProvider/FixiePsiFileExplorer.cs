@@ -1,12 +1,11 @@
 ﻿using JetBrains.Application;
 using JetBrains.Application.Progress;
-using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.UnitTestFramework;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     public class FixiePsiFileExplorer : IRecursiveElementProcessor
     {

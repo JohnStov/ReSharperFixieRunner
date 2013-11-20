@@ -1,6 +1,6 @@
 ﻿using JetBrains.ReSharper.TaskRunnerFramework;
 
-namespace ReSharperFixieRunner.TestRunner
+namespace ReSharperFixieTestProvider.TestRunner
 {
     class FixieTaskRunner : RecursiveRemoteTaskRunner
     {

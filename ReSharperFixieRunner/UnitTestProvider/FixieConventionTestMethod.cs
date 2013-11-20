@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace ReSharperFixieRunner.UnitTestProvider
+namespace ReSharperFixieTestProvider.UnitTestProvider
 {
     [Serializable]
     public class FixieConventionTestMethod
