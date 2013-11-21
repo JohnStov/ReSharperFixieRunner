@@ -12,6 +12,13 @@ namespace ReSharperFixieTestRunner
         private readonly string typeName;
         private readonly bool explicitly;
 
+        public FixieTestClassTask(XmlElement element) : base(element)
+        {
+            assemblyLocation = GetXmlAttribute(element, "AssemblyLocation");
+            typeName = GetXmlAttribute(element, "TypeName");
+            explicitly = bool.Parse(GetXmlAttribute(element, "Explicitly"));
+        }
+
         public FixieTestClassTask(string assemblyLocation, string typeName, bool explicitly)
             : base(FixieTaskRunner.RunnerId)
         {

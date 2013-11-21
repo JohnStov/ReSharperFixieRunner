@@ -9,6 +9,12 @@ namespace ReSharperFixieTestRunner
     {
         private readonly string assemblyLocation;
 
+        public FixieTestAssemblyTask(XmlElement element)
+            : base(element)
+        {
+            assemblyLocation = GetXmlAttribute(element, "AssemblyLocation");
+        }
+
         public FixieTestAssemblyTask(string assemblyLocation)
             :base(FixieTaskRunner.RunnerId)
         {

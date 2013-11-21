@@ -13,6 +13,16 @@ namespace ReSharperFixieTestRunner
         private readonly string methodName;
         private readonly bool explicitly;
         private readonly bool isDynamic;
+
+        public FixieTestMethodTask(XmlElement element)
+            : base(element)
+        {
+            assemblyLocation = GetXmlAttribute(element, "AssemblyLocation");
+            typeName = GetXmlAttribute(element, "TypeName");
+            methodName = GetXmlAttribute(element, "MethodName");
+            explicitly = bool.Parse(GetXmlAttribute(element, "Explicitly"));
+            isDynamic = bool.Parse(GetXmlAttribute(element, "Dynamic"));
+        }
         
         public FixieTestMethodTask(string assemblyLocation, string classTypeName, string methodName, bool explicitly, bool isDynamic)
             : base(FixieTaskRunner.RunnerId)
