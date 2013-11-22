@@ -15,7 +15,7 @@ namespace ResharperFixieTestRunner.Tests
         {
             var remoteTaskServer = Substitute.For<IRemoteTaskServer>();
 
-            var taskRunner = new FixieTaskRunner(remoteTaskServer);
+            var taskRunner = new TaskRunner(remoteTaskServer);
             var remoteTask = Substitute.For<RemoteTask>("RemoteTask");
             var node = new TaskExecutionNode(null, remoteTask);
             taskRunner.ExecuteRecursive(node);

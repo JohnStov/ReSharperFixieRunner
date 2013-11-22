@@ -17,15 +17,15 @@ namespace ReSharperFixieTestRunner
         public FixieTestMethodTask(XmlElement element)
             : base(element)
         {
-            assemblyLocation = GetXmlAttribute(element, "AssemblyLocation");
-            typeName = GetXmlAttribute(element, "TypeName");
-            methodName = GetXmlAttribute(element, "MethodName");
-            explicitly = bool.Parse(GetXmlAttribute(element, "Explicitly"));
-            isDynamic = bool.Parse(GetXmlAttribute(element, "Dynamic"));
+            assemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
+            typeName = GetXmlAttribute(element, AttributeNames.TypeName);
+            methodName = GetXmlAttribute(element, AttributeNames.MethodName);
+            explicitly = bool.Parse(GetXmlAttribute(element, AttributeNames.Explicitly));
+            isDynamic = bool.Parse(GetXmlAttribute(element, AttributeNames.Dynamic));
         }
         
         public FixieTestMethodTask(string assemblyLocation, string classTypeName, string methodName, bool explicitly, bool isDynamic)
-            : base(FixieTaskRunner.RunnerId)
+            : base(TaskRunner.RunnerId)
         {
             this.assemblyLocation = assemblyLocation;
             this.typeName = classTypeName;
@@ -37,16 +37,11 @@ namespace ReSharperFixieTestRunner
         public override void SaveXml(XmlElement element)
         {
             base.SaveXml(element);
-            SetXmlAttribute(element, "AssemblyLocation", assemblyLocation);
-            SetXmlAttribute(element, "TypeName", typeName);
-            SetXmlAttribute(element, "MethodName", methodName);
-            SetXmlAttribute(element, "Explicitly", explicitly.ToString(CultureInfo.InvariantCulture));
-            SetXmlAttribute(element, "Dynamic", isDynamic.ToString(CultureInfo.InvariantCulture));
-        }
-
-        public override RuntimeEnvironment EnsureRuntimeEnvironment(RuntimeEnvironment runtimeEnvironment)
-        {
-            return base.EnsureRuntimeEnvironment(runtimeEnvironment);
+            SetXmlAttribute(element, AttributeNames.AssemblyLocation, assemblyLocation);
+            SetXmlAttribute(element, AttributeNames.TypeName, typeName);
+            SetXmlAttribute(element, AttributeNames.MethodName, methodName);
+            SetXmlAttribute(element, AttributeNames.Explicitly, explicitly.ToString(CultureInfo.InvariantCulture));
+            SetXmlAttribute(element, AttributeNames.Dynamic, isDynamic.ToString(CultureInfo.InvariantCulture));
         }
 
         public override bool Equals(RemoteTask remoteTask)

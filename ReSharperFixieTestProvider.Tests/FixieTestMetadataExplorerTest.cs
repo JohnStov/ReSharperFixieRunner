@@ -25,7 +25,6 @@ namespace ReSharperFixieTestProvider.Tests
             assembly.Location.Returns(FileSystemPath.Parse(@"C:\Users\John\Documents\GitHub\ReSharperFixieRunner\FixieTestExample\FixieTestExample\bin\Debug\FixieTestExample.dll"));
 
             explorer.ExploreAssembly(null, assembly, null, null);
-
         }
 
         [Fact]

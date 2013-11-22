@@ -61,7 +61,7 @@ namespace ReSharperFixieTestProvider.Elements
 
         public abstract string Kind { get; }
 
-        private static readonly IUnitTestRunStrategy RunStrategy = new OutOfProcessUnitTestRunStrategy(new RemoteTaskRunnerInfo(FixieTaskRunner.RunnerId, typeof(FixieTaskRunner)));
+        private static readonly IUnitTestRunStrategy RunStrategy = new OutOfProcessUnitTestRunStrategy(new RemoteTaskRunnerInfo(TaskRunner.RunnerId, typeof(TaskRunner)));
         public IUnitTestRunStrategy GetRunStrategy(IHostProvider hostProvider)
         {
             return RunStrategy;

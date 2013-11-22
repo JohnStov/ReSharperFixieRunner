@@ -14,13 +14,13 @@ namespace ReSharperFixieTestRunner
 
         public FixieTestClassTask(XmlElement element) : base(element)
         {
-            assemblyLocation = GetXmlAttribute(element, "AssemblyLocation");
-            typeName = GetXmlAttribute(element, "TypeName");
-            explicitly = bool.Parse(GetXmlAttribute(element, "Explicitly"));
+            assemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
+            typeName = GetXmlAttribute(element, AttributeNames.TypeName);
+            explicitly = bool.Parse(GetXmlAttribute(element, AttributeNames.Explicitly));
         }
 
         public FixieTestClassTask(string assemblyLocation, string typeName, bool explicitly)
-            : base(FixieTaskRunner.RunnerId)
+            : base(TaskRunner.RunnerId)
         {
             this.assemblyLocation = assemblyLocation;
             this.typeName = typeName;
@@ -30,14 +30,9 @@ namespace ReSharperFixieTestRunner
         public override void SaveXml(XmlElement element)
         {
             base.SaveXml(element);
-            SetXmlAttribute(element, "AssemblyLocation", assemblyLocation);
-            SetXmlAttribute(element, "TypeName", typeName);
-            SetXmlAttribute(element, "Explicitly", explicitly.ToString(CultureInfo.InvariantCulture));
-        }
-
-        public override RuntimeEnvironment EnsureRuntimeEnvironment(RuntimeEnvironment runtimeEnvironment)
-        {
-            return base.EnsureRuntimeEnvironment(runtimeEnvironment);
+            SetXmlAttribute(element, AttributeNames.AssemblyLocation, assemblyLocation);
+            SetXmlAttribute(element, AttributeNames.TypeName, typeName);
+            SetXmlAttribute(element, AttributeNames.Explicitly, explicitly.ToString(CultureInfo.InvariantCulture));
         }
 
         public override bool Equals(RemoteTask remoteTask)

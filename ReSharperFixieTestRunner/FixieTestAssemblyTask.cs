@@ -7,29 +7,24 @@ namespace ReSharperFixieTestRunner
 {
     public class FixieTestAssemblyTask : RemoteTask, IEquatable<FixieTestAssemblyTask>
     {
-        private readonly string assemblyLocation;
+        public string AssemblyLocation { get; private set; }
 
         public FixieTestAssemblyTask(XmlElement element)
             : base(element)
         {
-            assemblyLocation = GetXmlAttribute(element, "AssemblyLocation");
+            AssemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
         }
 
         public FixieTestAssemblyTask(string assemblyLocation)
-            :base(FixieTaskRunner.RunnerId)
+            :base(TaskRunner.RunnerId)
         {
-            this.assemblyLocation = assemblyLocation;
+            AssemblyLocation = assemblyLocation;
         }
 
         public override void SaveXml(XmlElement element)
         {
             base.SaveXml(element);
-            SetXmlAttribute(element, "AssemblyLocation", assemblyLocation);
-        }
-
-        public override RuntimeEnvironment EnsureRuntimeEnvironment(RuntimeEnvironment runtimeEnvironment)
-        {
-            return base.EnsureRuntimeEnvironment(runtimeEnvironment);
+            SetXmlAttribute(element, AttributeNames.AssemblyLocation, AssemblyLocation);
         }
 
         public override bool Equals(RemoteTask remoteTask)
@@ -51,7 +46,7 @@ namespace ReSharperFixieTestRunner
             // Using RemoteTask.Id in the Equals means collapsing the return values of
             // IUnitTestElement.GetTaskSequence into a tree will fail (as no assembly,
             // or class tasks will return true from Equals)
-            return Equals(assemblyLocation, other.assemblyLocation);
+            return Equals(AssemblyLocation, other.AssemblyLocation);
         }
 
         public override int GetHashCode()
@@ -62,7 +57,7 @@ namespace ReSharperFixieTestRunner
                 // in the calculation, and this is a new guid generated for each new instance.
                 // This would mean two instances that return true from Equals (i.e. value objects)
                 // would have different hash codes
-                return assemblyLocation != null ? assemblyLocation.GetHashCode() : 0;
+                return AssemblyLocation != null ? AssemblyLocation.GetHashCode() : 0;
             }
         }
 
