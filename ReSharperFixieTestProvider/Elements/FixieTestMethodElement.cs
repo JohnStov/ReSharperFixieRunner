@@ -121,7 +121,7 @@ namespace ReSharperFixieTestProvider.Elements
         public override IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch)
         {
             var sequence = TestClass.GetTaskSequence(explicitElements, launch);
-            sequence.Add(new UnitTestTask(this, new FixieTestMethodTask(TestClass.AssemblyLocation, TestClass.TypeName.FullName, ShortName, explicitElements.Contains(this), IsDynamic)));
+            sequence.Add(new UnitTestTask(this, new FixieTestMethodTask(TestClass.AssemblyLocation, TestClass.TypeName.FullName, ShortName)));
             return sequence;
         }
 

@@ -8,40 +8,32 @@ namespace ReSharperFixieTestRunner
 {
     public class FixieTestMethodTask : RemoteTask, IEquatable<FixieTestMethodTask>
     {
-        private readonly string assemblyLocation;
-        private readonly string typeName;
-        private readonly string methodName;
-        private readonly bool explicitly;
-        private readonly bool isDynamic;
-
         public FixieTestMethodTask(XmlElement element)
             : base(element)
         {
-            assemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
-            typeName = GetXmlAttribute(element, AttributeNames.TypeName);
-            methodName = GetXmlAttribute(element, AttributeNames.MethodName);
-            explicitly = bool.Parse(GetXmlAttribute(element, AttributeNames.Explicitly));
-            isDynamic = bool.Parse(GetXmlAttribute(element, AttributeNames.Dynamic));
+            AssemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
+            TypeName = GetXmlAttribute(element, AttributeNames.TypeName);
+            MethodName = GetXmlAttribute(element, AttributeNames.MethodName);
         }
         
-        public FixieTestMethodTask(string assemblyLocation, string classTypeName, string methodName, bool explicitly, bool isDynamic)
+        public FixieTestMethodTask(string assemblyLocation, string classTypeName, string methodName)
             : base(TaskRunner.RunnerId)
         {
-            this.assemblyLocation = assemblyLocation;
-            this.typeName = classTypeName;
-            this.methodName = methodName;
-            this.explicitly = explicitly;
-            this.isDynamic = isDynamic;
+            AssemblyLocation = assemblyLocation;
+            TypeName = classTypeName;
+            MethodName = methodName;
         }
+
+        public string AssemblyLocation { get; private set; }
+        public string TypeName { get; private set; }
+        public string MethodName { get; private set; }
 
         public override void SaveXml(XmlElement element)
         {
             base.SaveXml(element);
-            SetXmlAttribute(element, AttributeNames.AssemblyLocation, assemblyLocation);
-            SetXmlAttribute(element, AttributeNames.TypeName, typeName);
-            SetXmlAttribute(element, AttributeNames.MethodName, methodName);
-            SetXmlAttribute(element, AttributeNames.Explicitly, explicitly.ToString(CultureInfo.InvariantCulture));
-            SetXmlAttribute(element, AttributeNames.Dynamic, isDynamic.ToString(CultureInfo.InvariantCulture));
+            SetXmlAttribute(element, AttributeNames.AssemblyLocation, AssemblyLocation);
+            SetXmlAttribute(element, AttributeNames.TypeName, TypeName);
+            SetXmlAttribute(element, AttributeNames.MethodName, MethodName);
         }
 
         public override bool Equals(RemoteTask remoteTask)
@@ -64,9 +56,8 @@ namespace ReSharperFixieTestRunner
             // Using RemoteTask.Id in the Equals means collapsing the return values of
             // IUnitTestElement.GetTaskSequence into a tree will fail (as no assembly,
             // or class tasks will return true from Equals)
-            return Equals(assemblyLocation, other.assemblyLocation) &&
-                   Equals(methodName, other.methodName) &&
-                   explicitly == other.explicitly;
+            return Equals(AssemblyLocation, other.AssemblyLocation) &&
+                   Equals(MethodName, other.MethodName);
         }
 
         public override int GetHashCode()
@@ -77,10 +68,9 @@ namespace ReSharperFixieTestRunner
                 // in the calculation, and this is a new guid generated for each new instance.
                 // This would mean two instances that return true from Equals (i.e. value objects)
                 // would have different hash codes
-                int result = explicitly.GetHashCode();
-                result = (result * 397) ^ (typeName != null ? typeName.GetHashCode() : 0);
-                result = (result * 397) ^ (methodName != null ? methodName.GetHashCode() : 0);
-                result = (result * 397) ^ (assemblyLocation != null ? assemblyLocation.GetHashCode() : 0);
+                int result = (TypeName != null ? TypeName.GetHashCode() : 0);
+                result = (result * 397) ^ (MethodName != null ? MethodName.GetHashCode() : 0);
+                result = (result * 397) ^ (AssemblyLocation != null ? AssemblyLocation.GetHashCode() : 0);
                 return result;
             }
         }
@@ -92,7 +82,7 @@ namespace ReSharperFixieTestRunner
 
         public override string ToString()
         {
-            return string.Format("FixieTestMethodTask<{0}>({1}.{2})", Id, typeName, methodName);
+            return string.Format("FixieTestMethodTask<{0}>({1}.{2})", Id, TypeName, MethodName);
         }
     }
 }

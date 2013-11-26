@@ -10,21 +10,18 @@ namespace ReSharperFixieTestRunner
     {
         private readonly string assemblyLocation;
         private readonly string typeName;
-        private readonly bool explicitly;
 
         public FixieTestClassTask(XmlElement element) : base(element)
         {
             assemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
             typeName = GetXmlAttribute(element, AttributeNames.TypeName);
-            explicitly = bool.Parse(GetXmlAttribute(element, AttributeNames.Explicitly));
         }
 
-        public FixieTestClassTask(string assemblyLocation, string typeName, bool explicitly)
+        public FixieTestClassTask(string assemblyLocation, string typeName)
             : base(TaskRunner.RunnerId)
         {
             this.assemblyLocation = assemblyLocation;
             this.typeName = typeName;
-            this.explicitly = explicitly;
         }
 
         public override void SaveXml(XmlElement element)
@@ -32,7 +29,6 @@ namespace ReSharperFixieTestRunner
             base.SaveXml(element);
             SetXmlAttribute(element, AttributeNames.AssemblyLocation, assemblyLocation);
             SetXmlAttribute(element, AttributeNames.TypeName, typeName);
-            SetXmlAttribute(element, AttributeNames.Explicitly, explicitly.ToString(CultureInfo.InvariantCulture));
         }
 
         public override bool Equals(RemoteTask remoteTask)
@@ -56,8 +52,7 @@ namespace ReSharperFixieTestRunner
             // IUnitTestElement.GetTaskSequence into a tree will fail (as no assembly,
             // or class tasks will return true from Equals)
             return Equals(assemblyLocation, other.assemblyLocation) &&
-                   Equals(typeName, other.typeName) &&
-                   explicitly == other.explicitly;
+                   Equals(typeName, other.typeName);
         }
 
         public override int GetHashCode()
@@ -70,7 +65,6 @@ namespace ReSharperFixieTestRunner
                 // would have different hash codes
                 int result = (assemblyLocation != null ? assemblyLocation.GetHashCode() : 0);
                 result = (result * 397) ^ (typeName != null ? typeName.GetHashCode() : 0);
-                result = (result * 397) ^ explicitly.GetHashCode();
                 return result;
             }
         }

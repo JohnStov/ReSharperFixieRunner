@@ -86,7 +86,7 @@ namespace ReSharperFixieTestProvider.Elements
             return new List<UnitTestTask>
                        {
                            new UnitTestTask(null, new FixieTestAssemblyTask(AssemblyLocation)),
-                           new UnitTestTask(this, new FixieTestClassTask(AssemblyLocation, TypeName.FullName, explicitElements.Contains(this)))
+                           new UnitTestTask(this, new FixieTestClassTask(AssemblyLocation, TypeName.FullName))
                        };
         }
 

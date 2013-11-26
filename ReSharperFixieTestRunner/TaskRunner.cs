@@ -13,9 +13,9 @@ namespace ReSharperFixieTestRunner
 
         public override void ExecuteRecursive(TaskExecutionNode node)
         {
-            var testRunnerHost = new TestRunnerHost(node, Server);
+            var testRunner = new TestRunner(Server);
 
-            testRunnerHost.Run();
+             testRunner.Run(node);
         }
     }
 }
