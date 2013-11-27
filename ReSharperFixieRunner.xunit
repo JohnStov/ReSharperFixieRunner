@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xunit>
   <assemblies>
-    <assembly filename="bin\Debug\ReSharperFixieTestProvider.Tests.dll" shadow-copy="true" />
-    <assembly filename="bin\Debug\ResharperFixieTestRunner.Tests.dll" shadow-copy="true" />
+    <assembly filename="bin\Release\ReSharperFixieTestProvider.Tests.dll" shadow-copy="true" />
+    <assembly filename="bin\Release\ResharperFixieTestRunner.Tests.dll" shadow-copy="true" />
   </assemblies>
 </xunit>
