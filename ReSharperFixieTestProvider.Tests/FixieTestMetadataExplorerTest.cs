@@ -55,6 +55,7 @@ namespace ReSharperFixieTestProvider.Tests
         }
     }
 
+    [Serializable]
     public class Thingy
     {
         private readonly string assemblyPath;
