@@ -72,7 +72,9 @@
   <Import Project="..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Targets')" />
   <PropertyGroup>
     <PostBuildEvent>copy $(SolutionDir)packages\JetBrains.ReSharper.SDK.8.0.1243\bin\JetBrains.ReSharper.UnitTestFramework.dll $(TargetDir)
-copy $(SolutionDir)packages\JetBrains.ReSharper.SDK.8.0.1243\bin\JetBrains.Platform.ReSharper.ProjectModel.dll $(TargetDir)</PostBuildEvent>
+copy $(SolutionDir)packages\JetBrains.ReSharper.SDK.8.0.1243\bin\JetBrains.Platform.ReSharper.ProjectModel.dll $(TargetDir)
+copy $(SolutionDir)packages\JetBrains.ReSharper.SDK.8.0.1243\bin\JetBrains.Platform.ReSharper.Metadata.dll $(TargetDir)
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
