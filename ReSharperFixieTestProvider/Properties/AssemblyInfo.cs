@@ -8,14 +8,9 @@ using JetBrains.Application.PluginSupport;
 [assembly: AssemblyTitle("ReSharperFixieRunner")]
 [assembly: AssemblyDescription("A Unit Test plugin for the Fixie test framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("John Stovin")]
 [assembly: AssemblyProduct("ReSharperFixieRunner")]
-[assembly: AssemblyCopyright("Copyright © John Stovin, 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: ActionsXml("ReSharperFixieRunner.Actions.xml")]
 
