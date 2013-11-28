@@ -1,20 +1,16 @@
 ﻿using System.Reflection;
-using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ReSharperFixieTestRunner")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A Unit Test plugin for the Fixie test framework")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("John Stovin")]
 [assembly: AssemblyProduct("ReSharperFixieTestRunner")]
+[assembly: AssemblyCopyright("Copyright © John Stovin 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5d611e0c-b6f0-4774-8f28-b743d385761b")]
+[assembly: AssemblyVersion("0.0.0.0")]
+[assembly: AssemblyFileVersion("0.0.0.0")]
