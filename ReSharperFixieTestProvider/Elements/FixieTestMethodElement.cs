@@ -18,18 +18,16 @@ namespace ReSharperFixieTestProvider.Elements
     {
         private readonly DeclaredElementProvider declaredElementProvider;
         private readonly string methodName;
-        private readonly string assemblyLocation;
         private readonly string presentation;
         private readonly IUnitTestElement testClass;
 
         public FixieTestMethodElement(FixieTestProvider provider, IUnitTestElement parent, ProjectModelElementEnvoy projectModelElementEnvoy,
             DeclaredElementProvider declaredElementProvider, string id, IClrTypeName typeName, string methodName, string assemblyLocation)
-            : base(provider, typeName, parent, id, projectModelElementEnvoy)
+            : base(provider, typeName, assemblyLocation, parent, id, projectModelElementEnvoy)
         {
             this.testClass = parent;
             this.declaredElementProvider = declaredElementProvider;
             this.methodName = methodName;
-            this.assemblyLocation = assemblyLocation;
 
             ShortName = methodName;
             presentation = string.Format("{0}.{1}", typeName.ShortName, methodName);
@@ -44,13 +42,44 @@ namespace ReSharperFixieTestProvider.Elements
 
         private bool Equals(FixieTestMethodElement other)
         {
-            if (other == null)
-                return false;
+            bool result;
 
-            return Equals(Id, other.Id) &&
-                   Equals(TypeName, other.TypeName) &&
-                   Equals(methodName, other.methodName) &&
-                   Equals(assemblyLocation, other.assemblyLocation);
+            if (other == null)
+                result = false;
+            else 
+                result = Equals(Id, other.Id) &&
+                         Equals(TypeName, other.TypeName) &&
+                         Equals(methodName, other.methodName) &&
+                         Equals(AssemblyLocation, other.AssemblyLocation);
+
+            return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool result;
+
+            if (ReferenceEquals(null, obj))
+                result = false;
+            else if (ReferenceEquals(this, obj)) 
+                result = true;
+            else if (obj.GetType() != typeof(FixieTestMethodElement)) 
+                result = false;
+            else 
+                result =  Equals((FixieTestMethodElement)obj);
+
+            return result;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = (TypeName.FullName != null ? TypeName.FullName.GetHashCode() : 0);
+                result = (result * 457) ^ (Id != null ? Id.GetHashCode() : 0);
+                result = (result * 457) ^ (methodName != null ? methodName.GetHashCode() : 0);
+                return result;
+            }
         }
 
         public override string GetPresentation(IUnitTestElement parent)

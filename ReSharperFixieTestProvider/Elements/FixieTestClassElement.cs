@@ -15,13 +15,11 @@ namespace ReSharperFixieTestProvider.Elements
     public class FixieTestClassElement : FixieBaseElement, ISerializableUnitTestElement
     {
         private readonly DeclaredElementProvider declaredElementProvider;
-        private readonly string assemblyLocation;
-        
+
         public FixieTestClassElement(FixieTestProvider provider, ProjectModelElementEnvoy projectModelElementEnvoy, DeclaredElementProvider declaredElementProvider, string id, IClrTypeName typeName, string assemblyLocation)
-            : base(provider, typeName, null, id, projectModelElementEnvoy)
+            : base(provider, typeName, assemblyLocation, null, id, projectModelElementEnvoy)
         {
             this.declaredElementProvider = declaredElementProvider;
-            this.assemblyLocation = assemblyLocation;
 
             ShortName = string.Join("+", typeName.TypeNames.Select(FormatTypeName).ToArray());
         }
@@ -33,12 +31,43 @@ namespace ReSharperFixieTestProvider.Elements
 
         private bool Equals(FixieTestClassElement other)
         {
+            bool result;
+            
             if (other == null)
-                return false;
+                result = false;
+            else
+                result = Equals(Id, other.Id) &&
+                         Equals(TypeName, other.TypeName) &&
+                         Equals(AssemblyLocation, other.AssemblyLocation);
 
-            return Equals(Id, other.Id) &&
-                   Equals(TypeName, other.TypeName) &&
-                   Equals(AssemblyLocation, other.AssemblyLocation);
+            return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool result;
+            
+            if (ReferenceEquals(null, obj))
+                result = false;
+            else if (ReferenceEquals(this, obj)) 
+                result = true;
+            else if (obj.GetType() != typeof(FixieTestClassElement)) 
+                result =  false;
+            else
+                result = Equals((FixieTestClassElement)obj);
+
+            return result;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = (TypeName != null ? TypeName.GetHashCode() : 0);
+                result = (result * 457) ^ (AssemblyLocation != null ? AssemblyLocation.GetHashCode() : 0);
+                result = (result * 457) ^ (Id != null ? Id.GetHashCode() : 0);
+                return result;
+            }
         }
 
         public override string GetPresentation(IUnitTestElement parent = null)
@@ -95,8 +124,6 @@ namespace ReSharperFixieTestProvider.Elements
             get { return "Fixie Test Class"; }
         }
  
-        public string AssemblyLocation { get { return assemblyLocation; } }
-
         private static string FormatTypeName(TypeNameAndTypeParameterNumber typeName)
         {
             return typeName.TypeName + (typeName.TypeParametersNumber > 0 ? string.Format("`{0}", typeName.TypeParametersNumber) : string.Empty);
