@@ -14,7 +14,7 @@ namespace ReSharperFixieTestProvider.Tests
 {
     public class FixieTestMetadataExplorerTests
     {
-        public void CreateExplorer()
+        private void CreateExplorer()
         {
             var explorer = new FixieTestMetadataExplorer(null, null, null, null);
 
@@ -24,7 +24,7 @@ namespace ReSharperFixieTestProvider.Tests
             explorer.ExploreAssembly(null, assembly, null, null);
         }
 
-        public void CanCreateAppDomain()
+        private void CanCreateAppDomain()
         {
             var assemblyPath = @"C:\Users\John\Documents\GitHub\ReSharperFixieRunner\FixieTestExample\FixieTestExample\bin\Debug\FixieTestExample.dll";
             var assemblyLoadPath = Path.GetDirectoryName(assemblyPath);
