@@ -5,7 +5,7 @@ using JetBrains.Application.DataContext;
 
 namespace ReSharperFixieTestProvider.Actions
 {
-  [ActionHandler("ReSharperFixieRunner.About")]
+  [ActionHandler("ReSharperFixieTestProvider.Actions.About")]
   public class AboutAction : IActionHandler
   {
     public bool Update(IDataContext context, ActionPresentation presentation, DelegateUpdate nextUpdate)
@@ -17,8 +17,8 @@ namespace ReSharperFixieTestProvider.Actions
     public void Execute(IDataContext context, DelegateExecute nextExecute)
     {
       MessageBox.Show(
-        "ReSharperFixieRunner\nJohn Stovin\n\nA Unit Test plugin for the Fixie test framework",
-        "About ReSharperFixieRunner",
+        "ReSharperFixieTestProvider\n(c) John Stovin 2013\n\nA Unit Test plugin for the Fixie test framework",
+        "About ReSharperFixieTestProvider",
         MessageBoxButtons.OK,
         MessageBoxIcon.Information);
     }

@@ -4,13 +4,10 @@ using NSubstitute;
 
 using ReSharperFixieTestRunner;
 
-using Xunit;
-
 namespace ResharperFixieTestRunner.Tests
 {
-    public class FixieTaskRunnerTest
+    public class FixieTaskRunnerTests
     {
-        [Fact]
         public void CanExecuteRecursive()
         {
             var remoteTaskServer = Substitute.For<IRemoteTaskServer>();

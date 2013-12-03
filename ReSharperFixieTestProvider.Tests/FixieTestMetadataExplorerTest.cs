@@ -10,13 +10,10 @@ using JetBrains.Util;
 
 using NSubstitute;
 
-using Xunit;
-
 namespace ReSharperFixieTestProvider.Tests
 {
-    public class FixieTestMetadataExplorerTest
+    public class FixieTestMetadataExplorerTests
     {
-//        [Fact]
         public void CreateExplorer()
         {
             var explorer = new FixieTestMetadataExplorer(null, null, null, null);
@@ -27,7 +24,6 @@ namespace ReSharperFixieTestProvider.Tests
             explorer.ExploreAssembly(null, assembly, null, null);
         }
 
-//        [Fact]
         public void CanCreateAppDomain()
         {
             var assemblyPath = @"C:\Users\John\Documents\GitHub\ReSharperFixieRunner\FixieTestExample\FixieTestExample\bin\Debug\FixieTestExample.dll";

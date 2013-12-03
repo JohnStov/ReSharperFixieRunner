@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using Fixie;
-using JetBrains.ProjectModel.Resources;
-using JetBrains.ReSharper.Psi.Css;
+
 using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace ReSharperFixieTestRunner

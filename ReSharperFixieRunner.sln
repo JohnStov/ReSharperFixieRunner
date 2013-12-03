@@ -7,7 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		resharperfixierunner.nuspec = resharperfixierunner.nuspec
-		ReSharperFixieRunner.xunit = ReSharperFixieRunner.xunit
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperFixieTestProvider.Tests", "ReSharperFixieTestProvider.Tests\ReSharperFixieTestProvider.Tests.csproj", "{86999EF5-25BE-4F82-855D-742CC597CECC}"
