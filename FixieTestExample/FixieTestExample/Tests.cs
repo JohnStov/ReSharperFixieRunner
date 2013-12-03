@@ -17,7 +17,7 @@ namespace FixieTestExample
         public void Test3Frob()
         {
             Console.WriteLine("Test3Frob");
-            throw new Exception("Test3Frob");
+            //throw new Exception("Test3Frob");
         }
     }
 

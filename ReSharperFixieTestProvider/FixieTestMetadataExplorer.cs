@@ -8,6 +8,7 @@ using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;
+using ReSharperFixieTestRunner;
 
 namespace ReSharperFixieTestProvider
 {
@@ -27,6 +28,10 @@ namespace ReSharperFixieTestProvider
             this.provider = provider;
             this.conventionCheck = conventionCheck;
             this.unitTestElementFactory = unitTestElementFactory;
+
+            // Hmm. Not sure I like this here - needs to be here so that ReSharper will load
+            // the runner assembly from the external process, so that assumes this was done
+            assemblyLoader.RegisterAssembly(typeof(TaskRunner).Assembly);
         }
 
 
