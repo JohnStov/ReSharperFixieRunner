@@ -55,10 +55,10 @@ namespace ReSharperFixieTestProvider
             switch (elementKind)
             {
                 case UnitTestElementKind.Unknown:
-                    return !(element is FixieTestClassElement);
+                    return !(element is FixieBaseElement);
 
                 case UnitTestElementKind.Test:
-                    return false;
+                    return element is FixieTestMethodElement;
 
                 case UnitTestElementKind.TestContainer:
                     return element is FixieTestClassElement;
