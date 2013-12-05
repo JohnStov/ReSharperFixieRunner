@@ -36,5 +36,10 @@ namespace ReSharperFixieTestProvider
         {
             return obj.GetHashCode();
         }
+
+        public bool HasTestMethods()
+        {
+            return testMethods.Any();
+        }
     }
 }

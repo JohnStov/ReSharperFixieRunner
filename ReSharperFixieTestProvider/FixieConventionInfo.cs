@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ReSharperFixieTestProvider
 {
+    [Serializable]
     public class FixieConventionInfo
     {
         private readonly List<FixieConventionTestClass> classes;
