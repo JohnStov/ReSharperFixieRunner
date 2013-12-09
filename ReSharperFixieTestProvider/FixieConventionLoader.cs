@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using ReSharperFixieTestRunner;
 
 namespace ReSharperFixieTestProvider
 {
@@ -8,31 +9,33 @@ namespace ReSharperFixieTestProvider
     {
         public static FixieConventionInfo GetConventionInfo(string testAssemblyPath)
         {
-            var executingAssembly = Assembly.GetExecutingAssembly();
-            var executingAssemblyDirectory = Path.GetDirectoryName(executingAssembly.Location);
-            var testAssemblyDirectory = Path.GetDirectoryName(testAssemblyPath);
-
-            var appDomainSetup = new AppDomainSetup
+            try
             {
-                ApplicationBase = executingAssemblyDirectory,
-                PrivateBinPath = testAssemblyDirectory,
-                ShadowCopyFiles = "true",
-            };
+                var executingAssembly = Assembly.GetExecutingAssembly();
+                var executingAssemblyDirectory = Path.GetDirectoryName(executingAssembly.Location);
 
+                var previousDirectory = Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(executingAssemblyDirectory);
 
-            var conventionLoader = new FixieConventionDomainLoader();
+                FixieConventionInfo info;
 
-            var appDomain = AppDomain.CreateDomain("FixieConventionLoader", null, appDomainSetup);
-            appDomain.SetData("TestAssemblyPath", testAssemblyPath);
-            appDomain.DoCallBack(conventionLoader.LoadTestClasses);
-            var ex = (Exception)appDomain.GetData("Exception");
-            if (ex != null)
-                throw ex;
+                using (var appDomain = new AppDomainWrapper(executingAssemblyDirectory, "FixieConventionLoader"))
+                {
+                    var assemblyName = AssemblyName.GetAssemblyName("RemoteTestFinder.dll").FullName;
+                    var remoteFinder = appDomain.CreateObject<ITestFinder>(
+                        assemblyName,
+                        "RemoteTestFinder.TestFinder");
 
-            var testClasses = (FixieConventionTestClass[])appDomain.GetData("TestClasses");
-            AppDomain.Unload(appDomain);
+                    info = remoteFinder.FindTests(testAssemblyPath);
+                }
 
-            return new FixieConventionInfo(testClasses);
+                Directory.SetCurrentDirectory(previousDirectory);
+                return info;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

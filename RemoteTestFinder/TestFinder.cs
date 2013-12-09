@@ -8,8 +8,7 @@ using ReSharperFixieTestProvider;
 
 namespace RemoteTestFinder
 {
-    [Serializable]
-    public class TestFinder
+    public class TestFinder : MarshalByRefObject, ITestFinder
     {
         public FixieConventionInfo FindTests(string testAssemblyPath)
         {
@@ -20,7 +19,7 @@ namespace RemoteTestFinder
             var conventionTypes = testAssembly.GetExportedTypes().Where(IsConvention).ToArray();
             if (!conventionTypes.Any())
             {
-                var fixieAssemblyPath = Path.Combine(Directory.GetCurrentDirectory(), "Fixie.dll");
+                var fixieAssemblyPath = Path.Combine(Path.GetDirectoryName(testAssemblyPath), "Fixie.dll");
                 conventionAssembly = Assembly.LoadFrom(fixieAssemblyPath);
                 conventionTypes = conventionAssembly.GetExportedTypes().Where(t => t.FullName == "Fixie.Conventions.DefaultConvention").ToArray();
             }
@@ -28,7 +27,8 @@ namespace RemoteTestFinder
             var testClasses = new List<FixieConventionTestClass>();
             foreach (var conventionType in conventionTypes)
             {
-                var convention = (dynamic)appDomain.CreateInstanceAndUnwrap(conventionAssembly.FullName, conventionType.FullName);
+                var convention = (dynamic)Activator.CreateInstance(conventionType);
+
                 var classes = convention.Classes;
                 if (classes != null)
                 {
