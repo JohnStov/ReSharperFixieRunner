@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDomainWrapper.cs" />
+    <Compile Include="AssemblyRegistration.cs" />
     <Compile Include="FixieConventionDomainLoader.cs" />
     <Compile Include="FixieConventionLoader.cs" />
     <Compile Include="FixieConventionCheck.cs" />
