@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D29744
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteTestFinder", "RemoteTestFinder\RemoteTestFinder.csproj", "{F9C05DC8-E533-41AE-B382-BE3542222E30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixieRemoteRunner", "RemoteRunner\FixieRemoteRunner.csproj", "{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

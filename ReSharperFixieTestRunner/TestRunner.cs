@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Xml;
+
 using Fixie;
 
+using JetBrains.IDE.Resources;
 using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace ReSharperFixieTestRunner
@@ -12,54 +15,46 @@ namespace ReSharperFixieTestRunner
     {
         private readonly IRemoteTaskServer server;
 
-        private readonly Stack<TaskState> states;
-
         public TestRunner(IRemoteTaskServer server)
         {
             this.server = server;
-            states = new Stack<TaskState>();
         }
 
         public void Run(TaskExecutionNode node)
         {
-            var task = node.RemoteTask;
-            server.TaskStarting(task);
-            var state = new TaskState(task);
-            states.Push(state);
+                var task = node.RemoteTask;
+                server.TaskStarting(task);
+                var state = new TaskState(task);
 
-            
-            if (task is FixieTestAssemblyTask)
-                RunAssembly(state);
-            else if (task is FixieTestClassTask)
-                RunClass(state);
-            else if (task is FixieTestMethodTask)
-                RunMethod(state);
-     
-            foreach(var child in node.Children)
-                Run(child);
+                var xmlDoc = new XmlDocument();
+                task.SaveXml(xmlDoc.DocumentElement);
+                var xml = xmlDoc.ToDisplayString();
 
-            while (states.Any())
-            {
-                var popped = states.Pop();
-                if (popped.Duration > TimeSpan.Zero)
-                    server.TaskDuration(popped.Task, popped.Duration);
-                server.TaskFinished(popped.Task, popped.Message, popped.Result);
-            }
+                if (task is FixieTestAssemblyTask)
+                    RunAssembly(state, xml);
+                else if (task is FixieTestClassTask)
+                    RunClass(state, xml);
+                else if (task is FixieTestMethodTask)
+                    RunMethod(state, xml);
+
+                foreach(var child in node.Children)
+                    Run(child);
         }
+            
 
-        private void RunAssembly(TaskState state)
+        private void RunAssembly(TaskState state, string xml)
         {
             state.Message = "Assembly";
             state.Result = TaskResult.Success;
         }
 
-        private void RunClass(TaskState state)
+        private void RunClass(TaskState state, string xml)
         {
             state.Message = "Class";
             state.Result = TaskResult.Success;
         }
 
-        private void RunMethod(TaskState state)
+        private void RunMethod(TaskState state, string xml)
         {
             var methodTask = state.Task as FixieTestMethodTask;
             if (methodTask != null)

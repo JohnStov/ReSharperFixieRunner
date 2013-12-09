@@ -25,7 +25,7 @@ namespace FixieTestExample
     {
         public MyConvention()
         {
-            Classes.NameEndsWith("Weeb");
+            Classes.NameEndsWith("Weeb");   
             Methods.Where(m => m.Name.EndsWith("Frob"));
         }
     }
