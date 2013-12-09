@@ -12,16 +12,13 @@ namespace RemoteTestFinder
     {
         public FixieConventionInfo FindTests(string testAssemblyPath)
         {
-            var appDomain = AppDomain.CurrentDomain;
-
             var testAssembly = Assembly.LoadFrom(testAssemblyPath);
-            var conventionAssembly = testAssembly;
             var conventionTypes = testAssembly.GetExportedTypes().Where(IsConvention).ToArray();
             if (!conventionTypes.Any())
             {
                 var fixieAssemblyPath = Path.Combine(Path.GetDirectoryName(testAssemblyPath), "Fixie.dll");
-                conventionAssembly = Assembly.LoadFrom(fixieAssemblyPath);
-                conventionTypes = conventionAssembly.GetExportedTypes().Where(t => t.FullName == "Fixie.Conventions.DefaultConvention").ToArray();
+                var fixieAssembly = Assembly.LoadFrom(fixieAssemblyPath);
+                conventionTypes = fixieAssembly.GetExportedTypes().Where(t => t.FullName == "Fixie.Conventions.DefaultConvention").ToArray();
             }
 
             var testClasses = new List<FixieConventionTestClass>();
