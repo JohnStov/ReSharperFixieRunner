@@ -9,33 +9,26 @@ namespace ReSharperFixieTestProvider
     {
         public static FixieConventionInfo GetConventionInfo(string testAssemblyPath)
         {
-            try
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var executingAssemblyDirectory = Path.GetDirectoryName(executingAssembly.Location);
+
+            var previousDirectory = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(executingAssemblyDirectory);
+
+            FixieConventionInfo info;
+
+            using (var appDomain = new AppDomainWrapper(executingAssemblyDirectory, "FixieConventionLoader"))
             {
-                var executingAssembly = Assembly.GetExecutingAssembly();
-                var executingAssemblyDirectory = Path.GetDirectoryName(executingAssembly.Location);
+                var assemblyName = AssemblyName.GetAssemblyName("RemoteTestFinder.dll").FullName;
+                var remoteFinder = appDomain.CreateObject<ITestFinder>(
+                    assemblyName,
+                    "RemoteTestFinder.TestFinder");
 
-                var previousDirectory = Directory.GetCurrentDirectory();
-                Directory.SetCurrentDirectory(executingAssemblyDirectory);
-
-                FixieConventionInfo info;
-
-                using (var appDomain = new AppDomainWrapper(executingAssemblyDirectory, "FixieConventionLoader"))
-                {
-                    var assemblyName = AssemblyName.GetAssemblyName("RemoteTestFinder.dll").FullName;
-                    var remoteFinder = appDomain.CreateObject<ITestFinder>(
-                        assemblyName,
-                        "RemoteTestFinder.TestFinder");
-
-                    info = remoteFinder.FindTests(testAssemblyPath);
-                }
-
-                Directory.SetCurrentDirectory(previousDirectory);
-                return info;
+                info = remoteFinder.FindTests(testAssemblyPath);
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+
+            Directory.SetCurrentDirectory(previousDirectory);
+            return info;
         }
     }
 }
