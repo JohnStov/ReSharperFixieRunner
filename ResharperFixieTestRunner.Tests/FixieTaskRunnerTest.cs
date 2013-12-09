@@ -8,7 +8,7 @@ namespace ResharperFixieTestRunner.Tests
 {
     public class FixieTaskRunnerTests
     {
-        public void CanExecuteRecursive()
+        private void CanExecuteRecursive()
         {
             var remoteTaskServer = Substitute.For<IRemoteTaskServer>();
 
