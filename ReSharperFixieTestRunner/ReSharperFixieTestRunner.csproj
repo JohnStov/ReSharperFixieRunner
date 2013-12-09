@@ -50,12 +50,16 @@
   <ItemGroup>
     <Compile Include="AppDomainWrapper.cs" />
     <Compile Include="AttributeNames.cs" />
+    <Compile Include="IRemoteRunner.cs" />
+    <Compile Include="ITestResult.cs" />
+    <Compile Include="NodeRunner.cs" />
     <Compile Include="TaskRunner.cs" />
     <Compile Include="FixieTestAssemblyTask.cs" />
     <Compile Include="FixieTestClassTask.cs" />
     <Compile Include="FixieTestMethodTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestRunner.cs" />
+    <Compile Include="TestResult.cs" />
+    <Compile Include="TestSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
