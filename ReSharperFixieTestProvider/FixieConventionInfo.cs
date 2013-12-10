@@ -21,7 +21,7 @@ namespace ReSharperFixieTestProvider
 
         public bool IsTestMethod(string className, string methodName)
         {
-            var @class = classes.FirstOrDefault(c => IsTestClass(className));
+            var @class = classes.FirstOrDefault(c => c.TypeName == className);
 
             if (@class == null)
                 return false;

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Xml;
-using System.Xml.Linq;
-
 using Fixie;
 
 using ReSharperFixieTestRunner;

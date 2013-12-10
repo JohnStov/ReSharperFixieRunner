@@ -14,6 +14,7 @@ namespace RemoteTestFinder
         {
             var testAssembly = Assembly.LoadFrom(testAssemblyPath);
             var conventionTypes = testAssembly.GetExportedTypes().Where(IsConvention).ToArray();
+
             if (!conventionTypes.Any())
             {
                 var fixieAssemblyPath = Path.Combine(Path.GetDirectoryName(testAssemblyPath), "Fixie.dll");
@@ -53,7 +54,7 @@ namespace RemoteTestFinder
 
         private static bool IsConvention(Type type)
         {
-            if (type.FullName == "System.Object")
+            if (type == null || type.FullName == "System.Object")
                 return false;
 
             if (type.FullName == "Fixie.Conventions.Convention")
