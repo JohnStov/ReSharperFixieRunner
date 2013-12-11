@@ -8,8 +8,8 @@
     <ProjectGuid>{86999EF5-25BE-4F82-855D-742CC597CECC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReSharperFixieTestProvider.Tests</RootNamespace>
-    <AssemblyName>ReSharperFixieTestProvider.Tests</AssemblyName>
+    <RootNamespace>FixiePlugin.Tests</RootNamespace>
+    <AssemblyName>FixiePlugin.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

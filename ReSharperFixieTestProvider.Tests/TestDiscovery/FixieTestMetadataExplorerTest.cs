@@ -4,12 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using FixiePlugin;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.Util;
 using NSubstitute;
 
-namespace ReSharperFixieTestProvider.Tests.TestDiscovery
+namespace FixiePlugin.Tests.TestDiscovery
 {
     public class FixieTestMetadataExplorerTests
     {

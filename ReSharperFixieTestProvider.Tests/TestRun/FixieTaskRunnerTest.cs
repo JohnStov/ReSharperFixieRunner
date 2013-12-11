@@ -1,9 +1,8 @@
 ﻿using FixiePlugin.TestRun;
 using JetBrains.ReSharper.TaskRunnerFramework;
-
 using NSubstitute;
 
-namespace ResharperFixieTestRunner.Tests
+namespace FixiePlugin.Tests.TestRun
 {
     public class FixieTaskRunnerTests
     {
