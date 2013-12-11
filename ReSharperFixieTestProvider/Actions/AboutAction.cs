@@ -1,9 +1,8 @@
 using System.Windows.Forms;
-
 using JetBrains.ActionManagement;
 using JetBrains.Application.DataContext;
 
-namespace ReSharperFixieTestProvider.Actions
+namespace FixiePlugin.Actions
 {
   [ActionHandler("ReSharperFixieTestProvider.Actions.About")]
   public class AboutAction : IActionHandler

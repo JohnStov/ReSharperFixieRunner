@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperFixieTestProvider", "ReSharperFixieTestProvider\ReSharperFixieTestProvider.csproj", "{CD40B14D-A440-47D3-B48D-A6B31DF6D680}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixiePlugin", "ReSharperFixieTestProvider\FixiePlugin.csproj", "{CD40B14D-A440-47D3-B48D-A6B31DF6D680}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E6895FF-58CF-4757-AF7D-1926A200ECE0}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,11 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		resharperfixierunner.nuspec = resharperfixierunner.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperFixieTestProvider.Tests", "ReSharperFixieTestProvider.Tests\ReSharperFixieTestProvider.Tests.csproj", "{86999EF5-25BE-4F82-855D-742CC597CECC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperFixieTestRunner", "ReSharperFixieTestRunner\ReSharperFixieTestRunner.csproj", "{1B9E9E83-3C32-403B-B5F4-E7924E406EC5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResharperFixieTestRunner.Tests", "ResharperFixieTestRunner.Tests\ResharperFixieTestRunner.Tests.csproj", "{B048C556-EF14-4739-9D3E-07528EFC4E51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixiePlugin.Tests", "ReSharperFixieTestProvider.Tests\FixiePlugin.Tests.csproj", "{86999EF5-25BE-4F82-855D-742CC597CECC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D29744D2-7DAF-4BF6-BD5B-D8A5F28E1620}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D29744
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteTestFinder", "RemoteTestFinder\RemoteTestFinder.csproj", "{F9C05DC8-E533-41AE-B382-BE3542222E30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixieRemoteRunner", "RemoteRunner\FixieRemoteRunner.csproj", "{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteTestRunner", "RemoteRunner\RemoteTestRunner.csproj", "{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,14 +35,6 @@ Global
 		{86999EF5-25BE-4F82-855D-742CC597CECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86999EF5-25BE-4F82-855D-742CC597CECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86999EF5-25BE-4F82-855D-742CC597CECC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B9E9E83-3C32-403B-B5F4-E7924E406EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B9E9E83-3C32-403B-B5F4-E7924E406EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B9E9E83-3C32-403B-B5F4-E7924E406EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B9E9E83-3C32-403B-B5F4-E7924E406EC5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B048C556-EF14-4739-9D3E-07528EFC4E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B048C556-EF14-4739-9D3E-07528EFC4E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B048C556-EF14-4739-9D3E-07528EFC4E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B048C556-EF14-4739-9D3E-07528EFC4E51}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Release|Any CPU.ActiveCfg = Release|Any CPU

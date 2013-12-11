@@ -1,8 +1,7 @@
 ﻿using System;
+using FixiePlugin.TestRun;
 
-using ReSharperFixieTestRunner;
-
-namespace FixieRemoteRunner
+namespace RemoteTestRunner
 {
     public class ExceptionInfo : MarshalByRefObject, IException
     {

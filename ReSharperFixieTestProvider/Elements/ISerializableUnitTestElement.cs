@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace ReSharperFixieTestProvider.Elements
+namespace FixiePlugin.Elements
 {
     public interface ISerializableUnitTestElement
     {

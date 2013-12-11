@@ -1,9 +1,8 @@
-﻿using JetBrains.ProjectModel;
+﻿using FixiePlugin.TestRun;
+using JetBrains.ProjectModel;
 using JetBrains.ReSharper.UnitTestFramework;
 
-using ReSharperFixieTestRunner;
-
-namespace ReSharperFixieTestProvider
+namespace FixiePlugin
 {
     [SolutionComponent]
     public class AssemblyRegistration
