@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using JetBrains.ReSharper.TaskRunnerFramework;
+using JetBrains.Util;
 
 namespace ReSharperFixieTestRunner
 {
@@ -79,13 +82,17 @@ namespace ReSharperFixieTestRunner
 
             server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
             server.TaskDuration(task, result.Duration);
-            if (!string.IsNullOrWhiteSpace(result.StackTrace))
+            if (result.Exceptions != null && !result.Exceptions.IsEmpty())
             {
-                server.TaskOutput(task, "\r\n==================== Stack Trace ====================\r\n", TaskOutputType.STDERR);
-                server.TaskOutput(task, result.StackTrace, TaskOutputType.STDERR);
+                server.TaskException(task, ConvertExceptions(result.Exceptions));
             }
             
             return result.Pass;
+        }
+
+        private TaskException[] ConvertExceptions(IEnumerable<IException> exceptions)
+        {
+            return exceptions.Select(x => new TaskException(x.Type, x.Message, x.StackTrace)).ToArray();
         }
     }
 }

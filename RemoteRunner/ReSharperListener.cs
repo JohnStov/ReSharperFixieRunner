@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Text;
+
 using Fixie;
 using ReSharperFixieTestRunner;
 
@@ -10,9 +12,16 @@ namespace FixieRemoteRunner
     public class ReSharperListener : Listener
     {
         private DateTimeOffset start;
-        private TestResult testResult = new TestResult();
 
-        public ITestResult TestResult { get { return testResult; } }
+        private readonly TestResult testResult = new TestResult();
+
+        public ITestResult TestResult
+        {
+            get
+            {
+                return testResult;
+            }
+        }
 
         public void AssemblyStarted(Assembly assembly)
         {
@@ -29,7 +38,7 @@ namespace FixieRemoteRunner
         {
             testResult.Pass = false;
             testResult.Output = result.Output;
-            testResult.StackTrace = WriteStackTrace(result.Exceptions);
+            testResult.Exceptions = result.Exceptions.Select(x => new ExceptionInfo(x)).Cast<IException>().ToArray();
         }
 
         public void AssemblyCompleted(Assembly assembly, AssemblyResult result)
@@ -40,40 +49,15 @@ namespace FixieRemoteRunner
 
         private static string WriteStackTrace(IEnumerable<Exception> exceptions)
         {
-            var builder = new StringBuilder();
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.WriteCompoundStackTrace(exceptions);
+            writer.Flush();
 
-            bool flag = true;
-            foreach (var exception in exceptions)
-            {
-                if (flag)
-                {
-                    builder.AppendLine(exception.Message);
-                    builder.AppendLine(exception.StackTrace);
-                }
-                else
-                {
-                    builder.AppendLine();
-                    builder.AppendLine();
-                    builder.AppendFormat("===== Secondary Exception: {0} =====", exception.GetType().FullName);
-                    builder.AppendLine();
-                    builder.AppendLine(exception.Message);
-                    builder.Append(exception.StackTrace);
-                }
-                Exception innerException = exception;
-                while (innerException.InnerException != null)
-                {
-                    innerException = innerException.InnerException;
-                    builder.AppendLine();
-                    builder.AppendLine();
-                    builder.AppendFormat("------- Inner Exception: {0} -------", innerException.GetType().FullName);
-                    builder.AppendLine();
-                    builder.AppendLine(innerException.Message);
-                    builder.Append(innerException.StackTrace);
-                }
-                flag = false;
-            }
+            stream.Seek(0, SeekOrigin.Begin);
 
-            return builder.ToString();
+            var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
     }
 }
