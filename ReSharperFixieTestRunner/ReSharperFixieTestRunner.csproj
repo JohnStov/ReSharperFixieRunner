@@ -58,7 +58,6 @@
     <Compile Include="FixieTestClassTask.cs" />
     <Compile Include="FixieTestMethodTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestResult.cs" />
     <Compile Include="TestSetup.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -51,6 +51,7 @@
     <Compile Include="RemoteRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReSharperListener.cs" />
+    <Compile Include="TestResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReSharperFixieTestRunner\ReSharperFixieTestRunner.csproj">

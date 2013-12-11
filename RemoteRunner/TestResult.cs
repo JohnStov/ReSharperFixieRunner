@@ -1,6 +1,8 @@
 ﻿using System;
 
-namespace ReSharperFixieTestRunner
+using ReSharperFixieTestRunner;
+
+namespace FixieRemoteRunner
 {
     public class TestResult : MarshalByRefObject, ITestResult
     {
