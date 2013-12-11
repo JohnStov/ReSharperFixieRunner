@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AppDomainWrapper.cs" />
     <Compile Include="AttributeNames.cs" />
+    <Compile Include="IException.cs" />
     <Compile Include="IRemoteRunner.cs" />
     <Compile Include="ITestResult.cs" />
     <Compile Include="NodeRunner.cs" />

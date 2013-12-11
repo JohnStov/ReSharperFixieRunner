@@ -9,11 +9,4 @@ namespace ReSharperFixieTestRunner
         string Output { get; }
         IException[] Exceptions { get; }
     }
-
-    public interface IException
-    {
-        string Type { get; }
-        string Message { get; }
-        string StackTrace { get; }
-    }
 }
