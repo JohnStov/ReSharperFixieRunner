@@ -10,7 +10,7 @@ using NSubstitute;
 
 namespace FixiePlugin.Tests.TestDiscovery
 {
-    public class FixieTestMetadataExplorerTests
+    public class TestMetadataExplorerTests
     {
         private void CreateExplorer()
         {

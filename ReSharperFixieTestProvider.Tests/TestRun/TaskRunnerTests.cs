@@ -4,7 +4,7 @@ using NSubstitute;
 
 namespace FixiePlugin.Tests.TestRun
 {
-    public class FixieTaskRunnerTests
+    public class TaskRunnerTests
     {
         private void CanExecuteRecursive()
         {
