@@ -44,7 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReSharperFixieTestProvider\FixiePlugin.csproj">
+    <ProjectReference Include="..\FixiePlugin\FixiePlugin.csproj">
       <Project>{cd40b14d-a440-47d3-b48d-a6b31df6d680}</Project>
       <Name>FixiePlugin</Name>
     </ProjectReference>

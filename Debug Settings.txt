@@ -1,0 +1,12 @@
+Visual Studio rekons that debug settings are user specific, and I always forget how I need to set this up, so this for anyone trying to debug the Fixie plugin and not knowing where to start.
+
+In the FixiePlugin project, choose 'Properties' and got to the 'Debug' section
+Under 'Start Action', choose 'Start external program', and enter the path to Visual Studio. For me this is C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\devenv.exe
+
+Under 'Start Options', add the following in the 'Command line arguments' box:
+	/RootSuffix <suffix> - this tells VS to use the experimental hive rather than the default hive for settings. Save you trashing your working VS environment. I generally use 'Exp' as my suffix.
+	/ReSharper.Internal - load the ReSharper internal development menu. Gives you access to useful ReSharper Internals
+	/ReSharper.Plugin <assembly> - tells ReSharper to load the specified assembly as an additional plugin. if you don't provide a full path, it looks in the project's ouput folder.
+
+So the full command line is 
+	/RootSuffix Exp /ReSharper.Internal /ReSharper.Plugin FixiePlugin.dll
