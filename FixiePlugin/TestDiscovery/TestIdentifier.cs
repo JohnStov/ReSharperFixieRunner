@@ -65,6 +65,23 @@ namespace FixiePlugin.TestDiscovery
             return conventionInfo.IsTestMethod(className, methodName);
         }
 
+        public bool IsDynamicMethod(IProject project, IClass testClass, IMethod testMethod)
+        {
+            if (project == null || testClass == null || testMethod == null)
+                return false;
+
+            return IsDynamicMethod(project, testClass.GetClrName().FullName, testMethod.ShortName);
+        }
+
+        private bool IsDynamicMethod(IProject project, string className, string methodName)
+        {
+            var conventionInfo = GetConventionInfo(project.GetOutputFilePath().FullPath);
+            if (conventionInfo == null)
+                return false;
+
+            return conventionInfo.IsDynamicTestMethod(className, methodName);
+        }
+
         private ConventionInfo GetConventionInfo(string assemblyPath)
         {
             if (!conventionCache.ContainsKey(assemblyPath))

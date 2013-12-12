@@ -10,6 +10,7 @@ using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.Util;
+using JetBrains.Util.Special;
 
 namespace FixiePlugin.Elements
 {
@@ -18,13 +19,15 @@ namespace FixiePlugin.Elements
         private readonly DeclaredElementProvider declaredElementProvider;
         private readonly string methodName;
         private readonly string presentation;
+        private readonly bool isDynamic;
 
         public TestMethodElement(TestProvider provider, IUnitTestElement parent, ProjectModelElementEnvoy projectModelElementEnvoy,
-            DeclaredElementProvider declaredElementProvider, string id, IClrTypeName typeName, string methodName, string assemblyLocation)
+            DeclaredElementProvider declaredElementProvider, string id, IClrTypeName typeName, string methodName, string assemblyLocation, bool isDynamic)
             : base(provider, typeName, assemblyLocation, parent, id, projectModelElementEnvoy)
         {
             this.declaredElementProvider = declaredElementProvider;
             this.methodName = methodName;
+            this.isDynamic = isDynamic;
 
             ShortName = methodName;
             presentation = string.Format("{0}.{1}", typeName.ShortName, methodName);
@@ -145,7 +148,7 @@ namespace FixiePlugin.Elements
         public override IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch)
         {
             var sequence = TestClass.GetTaskSequence(explicitElements, launch);
-            sequence.Add(new UnitTestTask(this, new TestMethodTask(TestClass.AssemblyLocation, TestClass.TypeName.FullName, ShortName)));
+            sequence.Add(new UnitTestTask(this, new TestMethodTask(TestClass.AssemblyLocation, TestClass.TypeName.FullName, ShortName, isDynamic)));
             return sequence;
         }
 
@@ -164,6 +167,7 @@ namespace FixiePlugin.Elements
             element.SetAttribute("projectId", GetProject().GetPersistentID());
             element.SetAttribute("typeName", TypeName.FullName);
             element.SetAttribute("methodName", methodName);
+            element.SetAttribute("isDynamic", isDynamic.ToString());
         }
 
         internal static IUnitTestElement ReadFromXml(XmlElement parent, IUnitTestElement parentElement, ISolution solution, UnitTestElementFactory unitTestElementFactory)
@@ -175,13 +179,14 @@ namespace FixiePlugin.Elements
             var typeName = parent.GetAttribute("typeName");
             var methodName = parent.GetAttribute("methodName");
             var projectId = parent.GetAttribute("projectId");
+            var isDynamic = bool.Parse(parent.GetAttribute("isDynamic"));
 
             var project = (IProject)ProjectUtil.FindProjectElementByPersistentID(solution, projectId);
             if (project == null)
                 return null;
 
             return unitTestElementFactory.GetOrCreateTestMethod(project, testClass,
-                typeName, methodName);
+                typeName, methodName, isDynamic);
         }
     }
 }

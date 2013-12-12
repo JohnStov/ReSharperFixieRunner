@@ -50,7 +50,7 @@ namespace FixiePlugin
             return id;
         }
 
-        public IUnitTestElement GetOrCreateTestMethod(IProject project, IClrTypeName typeName, string methodName, string assemblyLocation)
+        public IUnitTestElement GetOrCreateTestMethod(IProject project, IClrTypeName typeName, string methodName, string assemblyLocation, bool isDynamic)
         {
             var classElementId = GetClassElementId(project, typeName);
             var classElement = unitTestManager.GetElementById(project, classElementId) as  TestClassElement;
@@ -72,7 +72,8 @@ namespace FixiePlugin
                     id,
                     typeName.GetPersistent(),
                     methodName,
-                    assemblyLocation);
+                    assemblyLocation,
+                    isDynamic);
             }
 
             if (!classElement.Children.Contains(element))
@@ -81,9 +82,9 @@ namespace FixiePlugin
             return element;
         }
 
-        public IUnitTestElement GetOrCreateTestMethod(IProject project, TestClassElement testClass, string methodName, string assemblyLocation)
+        public IUnitTestElement GetOrCreateTestMethod(IProject project, TestClassElement testClass, string methodName, string assemblyLocation, bool isDynamic)
         {
-            return GetOrCreateTestMethod(project, testClass.TypeName, methodName, assemblyLocation);
+            return GetOrCreateTestMethod(project, testClass.TypeName, methodName, assemblyLocation, isDynamic);
         }
     }
 }

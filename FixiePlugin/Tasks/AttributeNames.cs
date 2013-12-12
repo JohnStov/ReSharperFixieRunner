@@ -5,6 +5,6 @@
         public const string AssemblyLocation = "AssemblyLocation";
         public const string TypeName = "TypeName";
         public const string MethodName = "MethodName";
-        public const string Dynamic = "Dynamic";
+        public const string IsDynamic = "IsDynamic";
     }
 }

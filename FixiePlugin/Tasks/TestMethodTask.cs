@@ -13,19 +13,22 @@ namespace FixiePlugin.Tasks
             AssemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
             TypeName = GetXmlAttribute(element, AttributeNames.TypeName);
             MethodName = GetXmlAttribute(element, AttributeNames.MethodName);
+            IsDynamic = bool.Parse(GetXmlAttribute(element, AttributeNames.IsDynamic));
         }
         
-        public TestMethodTask(string assemblyLocation, string classTypeName, string methodName)
+        public TestMethodTask(string assemblyLocation, string classTypeName, string methodName, bool isDynamic)
             : base((string) TaskRunner.RunnerId)
         {
             AssemblyLocation = assemblyLocation;
             TypeName = classTypeName;
             MethodName = methodName;
+            IsDynamic = isDynamic;
         }
 
         public string AssemblyLocation { get; private set; }
         public string TypeName { get; private set; }
         public string MethodName { get; private set; }
+        public bool IsDynamic { get; private set; }
 
         public override void SaveXml(XmlElement element)
         {
@@ -33,6 +36,7 @@ namespace FixiePlugin.Tasks
             SetXmlAttribute(element, AttributeNames.AssemblyLocation, AssemblyLocation);
             SetXmlAttribute(element, AttributeNames.TypeName, TypeName);
             SetXmlAttribute(element, AttributeNames.MethodName, MethodName);
+            SetXmlAttribute(element, AttributeNames.IsDynamic, IsDynamic.ToString());
         }
 
         public override bool Equals(RemoteTask remoteTask)
