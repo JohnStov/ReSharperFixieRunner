@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using FixiePlugin;
-using FixiePlugin.Convention;
-using FixiePlugin.TestDiscovery;
 
-namespace RemoteTestFinder
+using FixiePlugin.Convention;
+
+namespace FixiePlugin.TestDiscovery
 {
-    public class TestFinder : MarshalByRefObject, ITestFinder
+    public class RemoteTestFinder : MarshalByRefObject
     {
-        public ConventionInfo FindTests(string testAssemblyPath)
+        public TestInfo FindTests(string testAssemblyPath)
         {
             var testAssembly = Assembly.LoadFrom(testAssemblyPath);
             var conventionTypes = testAssembly.GetExportedTypes().Where(IsConvention).ToArray();
@@ -50,7 +49,7 @@ namespace RemoteTestFinder
                 }
             }
             // remove duplicates
-            return new ConventionInfo(testClasses.Distinct());
+            return new TestInfo(testClasses.Distinct());
         }
 
         private static bool IsConvention(Type type)

@@ -42,7 +42,7 @@ namespace FixiePlugin.Convention
             return testMethods.Any();
         }
 
-        public bool IsDynamicTestMethod(string methodName)
+        public bool IsParameterizedTestMethod(string methodName)
         {
             var method = testMethods.FirstOrDefault(m => m.MethodName == methodName);
             if (method == null)

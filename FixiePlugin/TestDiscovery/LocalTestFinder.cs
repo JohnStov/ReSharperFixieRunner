@@ -3,9 +3,9 @@ using System.Reflection;
 
 namespace FixiePlugin.TestDiscovery
 {
-    public static class ConventionFinder
+    public static class LocalTestFinder
     {
-        public static ConventionInfo GetConventionInfo(string testAssemblyPath)
+        public static TestInfo GetConventionInfo(string testAssemblyPath)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
             var executingAssemblyDirectory = Path.GetDirectoryName(executingAssembly.Location);
@@ -13,14 +13,15 @@ namespace FixiePlugin.TestDiscovery
             var previousDirectory = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(executingAssemblyDirectory);
 
-            ConventionInfo info;
+            TestInfo info;
 
             using (var appDomain = new AppDomainWrapper(executingAssemblyDirectory, "FixieTestFinder"))
             {
-                var assemblyName = AssemblyName.GetAssemblyName("RemoteTestFinder.dll").FullName;
-                var remoteFinder = appDomain.CreateObject<ITestFinder>(
+                var assemblyName = Assembly.GetExecutingAssembly().FullName;
+                var className = typeof(RemoteTestFinder).FullName;
+                var remoteFinder = appDomain.CreateObject<RemoteTestFinder>(
                     assemblyName,
-                    "RemoteTestFinder.TestFinder");
+                    className);
 
                 info = remoteFinder.FindTests(testAssemblyPath);
             }

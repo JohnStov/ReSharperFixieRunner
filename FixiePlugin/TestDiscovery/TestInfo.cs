@@ -6,11 +6,11 @@ using FixiePlugin.Convention;
 namespace FixiePlugin.TestDiscovery
 {
     [Serializable]
-    public class ConventionInfo
+    public class TestInfo
     {
         private readonly List<ConventionTestClass> classes;
         
-        public ConventionInfo(IEnumerable<ConventionTestClass> classes)
+        public TestInfo(IEnumerable<ConventionTestClass> classes)
         {
             this.classes = new List<ConventionTestClass>(classes);
         }
@@ -30,14 +30,14 @@ namespace FixiePlugin.TestDiscovery
             return @class.IsTestMethod(methodName);
         }
 
-        public bool IsDynamicTestMethod(string className, string methodName)
+        public bool IsParameterizedTestMethod(string className, string methodName)
         {
             var @class = classes.FirstOrDefault(c => c.TypeName == className);
 
             if (@class == null)
                 return false;
 
-            return @class.IsDynamicTestMethod(methodName);
+            return @class.IsParameterizedTestMethod(methodName);
         }
     }
 }

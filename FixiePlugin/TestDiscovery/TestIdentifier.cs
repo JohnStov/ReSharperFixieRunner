@@ -11,7 +11,7 @@ namespace FixiePlugin.TestDiscovery
     [SolutionComponent]
     public class TestIdentifier
     {
-        private readonly Dictionary<string, ConventionInfo> conventionCache = new Dictionary<string, ConventionInfo>();
+        private readonly Dictionary<string, TestInfo> conventionCache = new Dictionary<string, TestInfo>();
         public readonly Dictionary<string, FileSystemWatcher> Watchers = new Dictionary<string, FileSystemWatcher>();
 
         public bool IsValidTestClass(IProject project, IMetadataTypeInfo typeInfo)
@@ -79,14 +79,14 @@ namespace FixiePlugin.TestDiscovery
             if (conventionInfo == null)
                 return false;
 
-            return conventionInfo.IsDynamicTestMethod(className, methodName);
+            return conventionInfo.IsParameterizedTestMethod(className, methodName);
         }
 
-        private ConventionInfo GetConventionInfo(string assemblyPath)
+        private TestInfo GetConventionInfo(string assemblyPath)
         {
             if (!conventionCache.ContainsKey(assemblyPath))
             {
-                var result = ConventionFinder.GetConventionInfo(assemblyPath);
+                var result = LocalTestFinder.GetConventionInfo(assemblyPath);
                 if (result == null)
                     return null;
 

@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D29744
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteTestFinder", "RemoteTestFinder\RemoteTestFinder.csproj", "{F9C05DC8-E533-41AE-B382-BE3542222E30}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteTestRunner", "RemoteTestRunner\RemoteTestRunner.csproj", "{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}"
 EndProject
 Global
@@ -36,10 +34,6 @@ Global
 		{86999EF5-25BE-4F82-855D-742CC597CECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86999EF5-25BE-4F82-855D-742CC597CECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86999EF5-25BE-4F82-855D-742CC597CECC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9C05DC8-E533-41AE-B382-BE3542222E30}.Release|Any CPU.Build.0 = Release|Any CPU
 		{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{628059E0-6DA0-4BF1-AB8B-1A5D34D4DF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
