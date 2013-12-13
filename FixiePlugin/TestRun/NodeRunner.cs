@@ -1,99 +1,104 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+
+using Fixie;
+
 using FixiePlugin.Tasks;
+
+using JetBrains.ProjectModel.Resources;
 using JetBrains.ReSharper.TaskRunnerFramework;
-using JetBrains.Util;
 
 namespace FixiePlugin.TestRun
 {
     public class NodeRunner
     {
         private readonly IRemoteTaskServer server;
-        private IRemoteRunner remoteRunner;
+        private readonly Stack<FixieRemoteTask> taskStack = new Stack<FixieRemoteTask>();
 
         public NodeRunner(IRemoteTaskServer server)
         {
             this.server = server;
         }
 
+        public FixieRemoteTask CurrentTask { get { return taskStack.Peek();} }
+
+        public void AddTask(FixieRemoteTask task)
+        {
+            taskStack.Push(task);
+            server.TaskStarting(task);
+        }
+
+        public void FinishCurrentTask(FixieRemoteTask expectedTask)
+        {
+            while (taskStack.Any())
+            {
+                var task = taskStack.Pop();
+                server.TaskFinished(task, task.Message, task.TaskResult);
+                if (task.Equals(expectedTask))
+                    break;
+            }
+        }
+
+
         public void RunNode(TaskExecutionNode node)
         {
-            var originalDirectory = Directory.GetCurrentDirectory();
-            var pluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            Directory.SetCurrentDirectory(pluginDirectory);
-
-            using (var appDomain = new AppDomainWrapper(pluginDirectory))
-            {
-                RunNode(appDomain, node);
-            }
-
-            Directory.SetCurrentDirectory(originalDirectory);
-            server.TaskStarting(node.RemoteTask);
-        }
-
-        private void RunNode(AppDomainWrapper appDomain, TaskExecutionNode node)
-        {
-            var success = RunTask(appDomain, node.RemoteTask);
+            RunTask((FixieRemoteTask)node.RemoteTask);
 
             foreach (var child in node.Children)
-                RunNode(appDomain, child);
-
-            server.TaskFinished(node.RemoteTask, string.Empty, success ? TaskResult.Success : TaskResult.Error);
+                RunNode(child);
         }
 
-        private bool RunTask(AppDomainWrapper appDomain, RemoteTask remoteTask)
+        private void RunTask(FixieRemoteTask task)
         {
+            AddTask(task);
 
-            if (remoteTask is TestAssemblyTask)
-                return RunAssemblyTask(appDomain, remoteTask as TestAssemblyTask);
-            if (remoteTask is TestClassTask)
-                return RunClassTask(appDomain, remoteTask as TestClassTask);
-            if (remoteTask is TestMethodTask)
-                return RunMethodTask(appDomain, remoteTask as TestMethodTask);
-
-            server.TaskOutput(remoteTask, "Unknown task type.", TaskOutputType.STDERR);
-            return false;
-        }
-
-        private bool RunAssemblyTask(AppDomainWrapper appDomain, TestAssemblyTask task)
-        {
-            remoteRunner = appDomain.CreateObject<IRemoteRunner>(
-                AssemblyName.GetAssemblyName("RemoteTestRunner.dll").FullName,
-                "RemoteTestRunner.TestRunner");
-            return true;
-        }
-
-        private bool RunClassTask(AppDomainWrapper appDomain, TestClassTask task)
-        {
-            return true;
-        }
-
-        private bool RunMethodTask(AppDomainWrapper appDomain, TestMethodTask task)
-        {
-            if (remoteRunner == null)
+            if (task is TestAssemblyTask)
+                RunAssemblyTask(task as TestAssemblyTask);
+            else if (task is TestClassTask)
+                RunClassTask(task as TestClassTask);
+            else if (task is TestMethodTask)
+                RunMethodTask(task as TestMethodTask);
+            else if (task is ParameterizedTestMethodTask)
+                RunParameterizedMethodTask(task as ParameterizedTestMethodTask);
+            else
             {
-                server.TaskOutput(task, "FixieRemoteRunner not instantiated.", TaskOutputType.STDERR);
-                return false;
+                server.TaskOutput(task, "Unknown task type.", TaskOutputType.STDERR);
+                task.CloseTask(TaskResult.Error, "Unknown Task Type");
             }
 
-            var setup = new TestSetup(task.AssemblyLocation, task.TypeName, task.MethodName);
-            var result = remoteRunner.RunTest(setup);
+            FinishCurrentTask(task);
 
-            server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
-            server.TaskDuration(task, result.Duration);
-            if (result.Exceptions != null && !result.Exceptions.IsEmpty())
-            {
-                server.TaskException(task, ConvertExceptions(result.Exceptions));
-            }
-            
-            return result.Pass;
         }
 
-        private TaskException[] ConvertExceptions(IEnumerable<IException> exceptions)
+        private void RunAssemblyTask(TestAssemblyTask task)
         {
-            return exceptions.Select(x => new TaskException(x.Type, x.Message, x.StackTrace)).ToArray();
+            task.CloseTask(TaskResult.Success, string.Empty);
         }
+
+        private void RunClassTask(TestClassTask task)
+        {
+            task.CloseTask(TaskResult.Success, string.Empty);
+        }
+
+        private void RunMethodTask(TestMethodTask task)
+        {
+            var listener = new FixieListener(server, this, task.IsParameterized);
+            var runner = new Runner(listener);
+
+            var testAssembly = Assembly.LoadFile(task.AssemblyLocation);
+            var testClass = testAssembly.GetType(task.TypeName);
+            var testMethod = testClass.GetMethod(task.MethodName);
+
+            runner.RunMethod(testAssembly, testMethod);
+        }
+
+        private void RunParameterizedMethodTask(ParameterizedTestMethodTask task)
+        {
+            server.TaskOutput(task, "Should never run a ParameterizedTestMethodTask directly.", TaskOutputType.STDERR);
+            task.CloseTask(TaskResult.Error, "Should never run a ParameterizedTestMethodTask directly");
+        }
+
+
     }
 }

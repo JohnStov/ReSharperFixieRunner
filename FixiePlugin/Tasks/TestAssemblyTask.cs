@@ -5,7 +5,7 @@ using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace FixiePlugin.Tasks
 {
-    public class TestAssemblyTask : RemoteTask, IEquatable<TestAssemblyTask>
+    public class TestAssemblyTask : FixieRemoteTask, IEquatable<TestAssemblyTask>
     {
         public string AssemblyLocation { get; private set; }
 

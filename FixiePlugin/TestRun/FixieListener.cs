@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+using Fixie;
+
+using FixiePlugin.Tasks;
+
+using JetBrains.ReSharper.TaskRunnerFramework;
+
+namespace FixiePlugin.TestRun
+{
+    public class FixieListener : Listener
+    {
+        private readonly IRemoteTaskServer server;
+        private readonly NodeRunner nodeRunner;
+        private readonly bool isParameterized;
+
+        public FixieListener(IRemoteTaskServer server, NodeRunner nodeRunner, bool isParameterized)
+        {
+            this.server = server;
+            this.nodeRunner = nodeRunner;
+            this.isParameterized = isParameterized;
+        }
+
+        public void AssemblyStarted(Assembly assembly)
+        {
+        }
+
+        public void CasePassed(PassResult result)
+        {
+            if (isParameterized)
+            {
+                var newTask = new ParameterizedTestMethodTask();
+                nodeRunner.AddTask(newTask);
+                server.CreateDynamicElement(newTask);
+            }
+
+            var task = nodeRunner.CurrentTask;
+            server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
+            task.CloseTask(TaskResult.Success, result.Case.Name);
+
+            if (isParameterized)
+                nodeRunner.FinishCurrentTask(task);
+        }
+
+        public void CaseFailed(FailResult result)
+        {
+            if (isParameterized)
+            {
+                var newTask = new ParameterizedTestMethodTask();
+                nodeRunner.AddTask(newTask);
+            }
+
+            var task = nodeRunner.CurrentTask;
+            server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
+            if (result.Exceptions != null && result.Exceptions.Any())
+                server.TaskException(task, result.Exceptions.Select(ex => new TaskException(ex)).ToArray());
+
+            task.CloseTask(TaskResult.Success, result.Case.Name);
+        }
+
+        public void AssemblyCompleted(Assembly assembly, AssemblyResult result)
+        {
+        }
+    }
+}
