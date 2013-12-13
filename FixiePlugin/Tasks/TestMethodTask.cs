@@ -5,7 +5,7 @@ using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace FixiePlugin.Tasks
 {
-    public class TestMethodTask : RemoteTask, IEquatable<TestMethodTask>
+    public class TestMethodTask : FixieRemoteTask, IEquatable<TestMethodTask>
     {
         public TestMethodTask(XmlElement element)
             : base(element)
@@ -13,22 +13,22 @@ namespace FixiePlugin.Tasks
             AssemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
             TypeName = GetXmlAttribute(element, AttributeNames.TypeName);
             MethodName = GetXmlAttribute(element, AttributeNames.MethodName);
-            IsDynamic = bool.Parse(GetXmlAttribute(element, AttributeNames.IsDynamic));
+            IsParameterized = bool.Parse(GetXmlAttribute(element, AttributeNames.IsParameterized));
         }
         
-        public TestMethodTask(string assemblyLocation, string classTypeName, string methodName, bool isDynamic)
+        public TestMethodTask(string assemblyLocation, string classTypeName, string methodName, bool isParameterized)
             : base((string) TaskRunner.RunnerId)
         {
             AssemblyLocation = assemblyLocation;
             TypeName = classTypeName;
             MethodName = methodName;
-            IsDynamic = isDynamic;
+            IsParameterized = isParameterized;
         }
 
         public string AssemblyLocation { get; private set; }
         public string TypeName { get; private set; }
         public string MethodName { get; private set; }
-        public bool IsDynamic { get; private set; }
+        public bool IsParameterized { get; private set; }
 
         public override void SaveXml(XmlElement element)
         {
@@ -36,7 +36,7 @@ namespace FixiePlugin.Tasks
             SetXmlAttribute(element, AttributeNames.AssemblyLocation, AssemblyLocation);
             SetXmlAttribute(element, AttributeNames.TypeName, TypeName);
             SetXmlAttribute(element, AttributeNames.MethodName, MethodName);
-            SetXmlAttribute(element, AttributeNames.IsDynamic, IsDynamic.ToString());
+            SetXmlAttribute(element, AttributeNames.IsParameterized, IsParameterized.ToString());
         }
 
         public override bool Equals(RemoteTask remoteTask)

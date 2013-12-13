@@ -41,6 +41,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Fixie, Version=0.0.1.106, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Fixie.0.0.1.106\lib\net45\Fixie.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.ComponentModel, Version=8.0.14.856, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL" />
     <Reference Include="JetBrains.Platform.ReSharper.DocumentModel, Version=8.0.14.856, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL" />
     <Reference Include="JetBrains.Platform.ReSharper.Metadata, Version=8.0.14.856, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -83,6 +87,8 @@
   <ItemGroup>
     <Compile Include="AppDomainWrapper.cs" />
     <Compile Include="AssemblyRegistration.cs" />
+    <Compile Include="Tasks\FixieRemoteTask.cs" />
+    <Compile Include="Tasks\ParameterizedTestMethodTask .cs" />
     <Compile Include="Tasks\TestAssemblyTask.cs" />
     <Compile Include="Tasks\TestClassTask.cs" />
     <Compile Include="Tasks\TestMethodTask.cs" />
@@ -106,6 +112,7 @@
     <Compile Include="TestFileExplorer.cs" />
     <Compile Include="TestProvider.cs" />
     <Compile Include="Tasks\AttributeNames.cs" />
+    <Compile Include="TestRun\FixieListener.cs" />
     <Compile Include="TestRun\IException.cs" />
     <Compile Include="TestRun\IRemoteRunner.cs" />
     <Compile Include="TestRun\ITestResult.cs" />
