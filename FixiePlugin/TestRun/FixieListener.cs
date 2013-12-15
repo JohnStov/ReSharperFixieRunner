@@ -11,7 +11,7 @@ using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace FixiePlugin.TestRun
 {
-    public class FixieListener : Listener
+    public class FixieListener : MarshalByRefObject, Listener
     {
         private readonly IRemoteTaskServer server;
         private readonly NodeRunner nodeRunner;
@@ -32,13 +32,14 @@ namespace FixiePlugin.TestRun
         {
             if (isParameterized)
             {
-                var newTask = new ParameterizedTestMethodTask();
+                var newTask = new ParameterizedTestMethodTask(result.Case.Name);
                 nodeRunner.AddTask(newTask);
                 server.CreateDynamicElement(newTask);
             }
 
             var task = nodeRunner.CurrentTask;
-            server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
+            if (!string.IsNullOrWhiteSpace(result.Output))
+                server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
             task.CloseTask(TaskResult.Success, result.Case.Name);
 
             if (isParameterized)
@@ -49,16 +50,26 @@ namespace FixiePlugin.TestRun
         {
             if (isParameterized)
             {
-                var newTask = new ParameterizedTestMethodTask();
+                var newTask = new ParameterizedTestMethodTask(result.Case.Name);
                 nodeRunner.AddTask(newTask);
             }
 
             var task = nodeRunner.CurrentTask;
-            server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
+            if (!string.IsNullOrWhiteSpace(result.Output))
+                server.TaskOutput(task, result.Output, TaskOutputType.STDOUT);
             if (result.Exceptions != null && result.Exceptions.Any())
+            {
                 server.TaskException(task, result.Exceptions.Select(ex => new TaskException(ex)).ToArray());
+                task.CloseTask(TaskResult.Exception, result.Case.Name);
+            }
+            else
+            {
+                task.CloseTask(TaskResult.Error, result.Case.Name);
+            }
 
-            task.CloseTask(TaskResult.Success, result.Case.Name);
+
+            if (isParameterized)
+                nodeRunner.FinishCurrentTask(task);
         }
 
         public void AssemblyCompleted(Assembly assembly, AssemblyResult result)

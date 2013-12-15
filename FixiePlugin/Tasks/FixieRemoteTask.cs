@@ -1,5 +1,4 @@
 ﻿using System.Xml;
-
 using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace FixiePlugin.Tasks
@@ -9,11 +8,19 @@ namespace FixiePlugin.Tasks
         protected FixieRemoteTask(XmlElement element)
             : base(element)
         {
+            Initialize();
         }
 
         protected FixieRemoteTask(string runnerId)
             : base(runnerId)
         {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            TaskResult = TaskResult.Inconclusive;
+            Message = string.Empty;
         }
 
         public void CloseTask(TaskResult result, string message)

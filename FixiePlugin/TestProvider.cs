@@ -1,13 +1,16 @@
-﻿using FixiePlugin.Elements;
+﻿using System.Collections.Generic;
+using FixiePlugin.Elements;
+using FixiePlugin.Tasks;
 using JetBrains.Annotations;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.TaskRunnerFramework;
 using JetBrains.ReSharper.UnitTestFramework;
 
 namespace FixiePlugin
 {
     [UnitTestProvider, UsedImplicitly]
-    public class TestProvider : IUnitTestProvider
+    public class TestProvider : IUnitTestProvider, IDynamicUnitTestProvider
     {
         private static readonly UnitTestElementComparer Comparer = new UnitTestElementComparer(new[]
                                                                                                    {
@@ -81,5 +84,12 @@ namespace FixiePlugin
 
         public string ID { get { return "Fixie"; } }
         public string Name { get { return "Fixie"; } }
+
+        public IUnitTestElement GetDynamicElement(RemoteTask remoteTask, Dictionary<RemoteTask, IUnitTestElement> tasks)
+        {
+            var dynamicTask = (ParameterizedTestMethodTask) remoteTask;
+
+            return null;
+        }
     }
 }

@@ -7,14 +7,24 @@ namespace FixiePlugin.Tasks
 {
     public class ParameterizedTestMethodTask : FixieRemoteTask, IEquatable<ParameterizedTestMethodTask>
     {
-        public ParameterizedTestMethodTask (XmlElement element)
+        public ParameterizedTestMethodTask(XmlElement element)
             : base(element)
         {
+            Name = element.GetAttribute(AttributeNames.MethodName);
         }
 
-        public ParameterizedTestMethodTask()
+        public ParameterizedTestMethodTask(string name)
             : base(TaskRunner.RunnerId)
         {
+            Name = name;
+        }
+
+        public string Name { get; private set; }
+
+        public override void SaveXml(XmlElement element)
+        {
+            base.SaveXml(element);
+            SetXmlAttribute(element, AttributeNames.MethodName, Name);
         }
 
         public override bool Equals(RemoteTask remoteTask)
@@ -29,13 +39,15 @@ namespace FixiePlugin.Tasks
 
         public override int GetHashCode()
         {
-            return 0;
+            return Name != null ? Name.GetHashCode() : 0;
         }
 
         public bool Equals(ParameterizedTestMethodTask other)
         {
             if (ReferenceEquals(null, other)) return false;
-            return ReferenceEquals(this, other);
+            if (ReferenceEquals(this, other)) return true;
+
+            return Equals(Name, other.Name);
         }
 
         public override bool IsMeaningfulTask
@@ -45,7 +57,7 @@ namespace FixiePlugin.Tasks
 
         public override string ToString()
         {
-            return string.Format("ParameterizedTestMethodTask <{0}>)", Id);
+            return string.Format("ParameterizedTestMethodTask <{0}>.{1})", Id, Name);
         }
     }
 }

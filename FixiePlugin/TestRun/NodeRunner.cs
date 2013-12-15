@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
 using Fixie;
 
 using FixiePlugin.Tasks;
-
-using JetBrains.ProjectModel.Resources;
 using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace FixiePlugin.TestRun
@@ -43,16 +43,18 @@ namespace FixiePlugin.TestRun
 
         public void RunNode(TaskExecutionNode node)
         {
-            RunTask((FixieRemoteTask)node.RemoteTask);
+            var task = (FixieRemoteTask) node.RemoteTask;
+            AddTask(task);
+            RunTask(task);
 
             foreach (var child in node.Children)
                 RunNode(child);
+
+            FinishCurrentTask(task);
         }
 
         private void RunTask(FixieRemoteTask task)
         {
-            AddTask(task);
-
             if (task is TestAssemblyTask)
                 RunAssemblyTask(task as TestAssemblyTask);
             else if (task is TestClassTask)
@@ -66,9 +68,6 @@ namespace FixiePlugin.TestRun
                 server.TaskOutput(task, "Unknown task type.", TaskOutputType.STDERR);
                 task.CloseTask(TaskResult.Error, "Unknown Task Type");
             }
-
-            FinishCurrentTask(task);
-
         }
 
         private void RunAssemblyTask(TestAssemblyTask task)
@@ -83,14 +82,30 @@ namespace FixiePlugin.TestRun
 
         private void RunMethodTask(TestMethodTask task)
         {
-            var listener = new FixieListener(server, this, task.IsParameterized);
-            var runner = new Runner(listener);
+            try
+            {
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(task.AssemblyLocation));
+            
+                var listener = new FixieListener(server, this, task.IsParameterized);
+                var runner = new Runner(listener);
 
-            var testAssembly = Assembly.LoadFile(task.AssemblyLocation);
-            var testClass = testAssembly.GetType(task.TypeName);
-            var testMethod = testClass.GetMethod(task.MethodName);
+                var testAssembly = Assembly.LoadFile(task.AssemblyLocation);
+                var testClass = testAssembly.GetType(task.TypeName);
+                var testMethod = testClass.GetMethod(task.MethodName);
 
-            runner.RunMethod(testAssembly, testMethod);
+                server.CreateDynamicElement(task);
+                var outcome = runner.RunMethod(testAssembly, testMethod);
+                if (task.IsParameterized)
+                {
+                    TaskResult result = outcome.Failed == 0 ? TaskResult.Success : TaskResult.Error;
+                    task.CloseTask(result, task.MethodName);
+                }
+            }
+            catch (Exception ex)
+            {
+                task.CloseTask(TaskResult.Exception, ex.Message);
+                FinishCurrentTask(task);
+            }
         }
 
         private void RunParameterizedMethodTask(ParameterizedTestMethodTask task)
