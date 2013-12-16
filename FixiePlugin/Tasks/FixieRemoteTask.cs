@@ -9,18 +9,26 @@ namespace FixiePlugin.Tasks
             : base(element)
         {
             Initialize();
+            AssemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
         }
 
-        protected FixieRemoteTask(string runnerId)
+        protected FixieRemoteTask(string runnerId, string assemblyLocation)
             : base(runnerId)
         {
             Initialize();
+            AssemblyLocation = assemblyLocation;
         }
 
         private void Initialize()
         {
             TaskResult = TaskResult.Inconclusive;
             Message = string.Empty;
+        }
+
+        public override void SaveXml(XmlElement element)
+        {
+            base.SaveXml(element);
+            SetXmlAttribute(element, AttributeNames.AssemblyLocation, AssemblyLocation);
         }
 
         public void CloseTask(TaskResult result, string message)
@@ -32,5 +40,8 @@ namespace FixiePlugin.Tasks
         public TaskResult TaskResult { get; private set; }
 
         public string Message { get; private set; }
+
+        public string AssemblyLocation { get; private set; }
+
     }
 }

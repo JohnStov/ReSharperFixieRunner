@@ -50,7 +50,7 @@ namespace FixiePlugin
             return id;
         }
 
-        public IUnitTestElement GetOrCreateTestMethod(IProject project, IClrTypeName typeName, string methodName, string assemblyLocation, bool isDynamic)
+        public IUnitTestElement GetOrCreateTestMethod(IProject project, IClrTypeName typeName, string methodName, string assemblyLocation, bool isParameterized)
         {
             var classElementId = GetClassElementId(project, typeName);
             var classElement = unitTestManager.GetElementById(project, classElementId) as  TestClassElement;
@@ -73,7 +73,7 @@ namespace FixiePlugin
                     typeName.GetPersistent(),
                     methodName,
                     assemblyLocation,
-                    isDynamic);
+                    isParameterized);
             }
 
             if (!classElement.Children.Contains(element))
@@ -82,9 +82,44 @@ namespace FixiePlugin
             return element;
         }
 
-        public IUnitTestElement GetOrCreateTestMethod(IProject project, TestClassElement testClass, string methodName, string assemblyLocation, bool isDynamic)
+        public IUnitTestElement GetOrCreateTestMethod(IProject project, TestClassElement testClass, string methodName, string assemblyLocation, bool isParameterized)
         {
-            return GetOrCreateTestMethod(project, testClass.TypeName, methodName, assemblyLocation, isDynamic);
+            return GetOrCreateTestMethod(project, testClass.TypeName, methodName, assemblyLocation, isParameterized);
         }
+
+        public IUnitTestElement GetOrCreateTestCase(
+            IProject project,
+            TestMethodElement testMethod,
+            string name)
+        {
+            var element = GetTestCase(project, testMethod, name);
+            return element ?? CreateTestCase(provider, project, testMethod, name);
+        }
+
+        public static IUnitTestElement CreateTestCase(TestProvider provider, IProject project, TestMethodElement testMethod, string name)
+        {
+            var shortName = GetTestCaseShortName(name, testMethod);
+            var id = GetTestCaseId(testMethod, shortName);
+            return new TestCaseElement(provider, testMethod, new ProjectModelElementEnvoy(project), id, shortName);
+        }
+
+        public static IUnitTestElement GetTestCase(IProject project, TestMethodElement testMethod, string name)
+        {
+            var id = GetTestCaseId(testMethod, GetTestCaseShortName(name, testMethod));
+            var unitTestElementManager = project.GetSolution().GetComponent<IUnitTestElementManager>();
+            return unitTestElementManager.GetElementById(project, id) as TestCaseElement;
+        }
+
+        private static string GetTestCaseShortName(string caseName, TestMethodElement testMethod)
+        {
+            var prefix = testMethod.TypeName.FullName + ".";
+            return caseName.StartsWith(prefix) ? caseName.Substring(prefix.Length) : caseName;
+        }
+
+        private static string GetTestCaseId(TestMethodElement methodElement, string shortName)
+        {
+            return string.Format("{0}.{1}", methodElement.Id, shortName);
+        }
+
     }
 }

@@ -87,8 +87,9 @@
   <ItemGroup>
     <Compile Include="AppDomainWrapper.cs" />
     <Compile Include="AssemblyRegistration.cs" />
+    <Compile Include="Elements\TestCaseElement.cs" />
+    <Compile Include="Tasks\TestCaseTask.cs" />
     <Compile Include="Tasks\FixieRemoteTask.cs" />
-    <Compile Include="Tasks\ParameterizedTestMethodTask .cs" />
     <Compile Include="Tasks\TestAssemblyTask.cs" />
     <Compile Include="Tasks\TestClassTask.cs" />
     <Compile Include="Tasks\TestMethodTask.cs" />
@@ -125,6 +126,7 @@
     <EmbeddedResource Include="Actions\Actions.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

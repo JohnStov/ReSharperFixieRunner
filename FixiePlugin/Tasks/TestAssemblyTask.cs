@@ -7,24 +7,14 @@ namespace FixiePlugin.Tasks
 {
     public class TestAssemblyTask : FixieRemoteTask, IEquatable<TestAssemblyTask>
     {
-        public string AssemblyLocation { get; private set; }
-
         public TestAssemblyTask(XmlElement element)
             : base(element)
         {
-            AssemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
         }
 
         public TestAssemblyTask(string assemblyLocation)
-            :base((string) TaskRunner.RunnerId)
+            :base(TaskRunner.RunnerId, assemblyLocation)
         {
-            AssemblyLocation = assemblyLocation;
-        }
-
-        public override void SaveXml(XmlElement element)
-        {
-            base.SaveXml(element);
-            SetXmlAttribute(element, AttributeNames.AssemblyLocation, AssemblyLocation);
         }
 
         public override bool Equals(RemoteTask remoteTask)

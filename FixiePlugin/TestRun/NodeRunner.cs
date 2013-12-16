@@ -61,8 +61,8 @@ namespace FixiePlugin.TestRun
                 RunClassTask(task as TestClassTask);
             else if (task is TestMethodTask)
                 RunMethodTask(task as TestMethodTask);
-            else if (task is ParameterizedTestMethodTask)
-                RunParameterizedMethodTask(task as ParameterizedTestMethodTask);
+            else if (task is TestCaseTask)
+                RunParameterizedMethodTask(task as TestCaseTask);
             else
             {
                 server.TaskOutput(task, "Unknown task type.", TaskOutputType.STDERR);
@@ -93,7 +93,6 @@ namespace FixiePlugin.TestRun
                 var testClass = testAssembly.GetType(task.TypeName);
                 var testMethod = testClass.GetMethod(task.MethodName);
 
-                server.CreateDynamicElement(task);
                 var outcome = runner.RunMethod(testAssembly, testMethod);
                 if (task.IsParameterized)
                 {
@@ -108,10 +107,8 @@ namespace FixiePlugin.TestRun
             }
         }
 
-        private void RunParameterizedMethodTask(ParameterizedTestMethodTask task)
+        private void RunParameterizedMethodTask(TestCaseTask task)
         {
-            server.TaskOutput(task, "Should never run a ParameterizedTestMethodTask directly.", TaskOutputType.STDERR);
-            task.CloseTask(TaskResult.Error, "Should never run a ParameterizedTestMethodTask directly");
         }
 
 

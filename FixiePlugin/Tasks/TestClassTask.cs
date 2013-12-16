@@ -7,26 +7,22 @@ namespace FixiePlugin.Tasks
 {
     public class TestClassTask : FixieRemoteTask, IEquatable<TestClassTask>
     {
-        private readonly string assemblyLocation;
         private readonly string typeName;
 
         public TestClassTask(XmlElement element) : base(element)
         {
-            assemblyLocation = GetXmlAttribute(element, AttributeNames.AssemblyLocation);
             typeName = GetXmlAttribute(element, AttributeNames.TypeName);
         }
 
         public TestClassTask(string assemblyLocation, string typeName)
-            : base((string) TaskRunner.RunnerId)
+            : base(TaskRunner.RunnerId, assemblyLocation)
         {
-            this.assemblyLocation = assemblyLocation;
             this.typeName = typeName;
         }
 
         public override void SaveXml(XmlElement element)
         {
             base.SaveXml(element);
-            SetXmlAttribute(element, AttributeNames.AssemblyLocation, assemblyLocation);
             SetXmlAttribute(element, AttributeNames.TypeName, typeName);
         }
 
@@ -50,7 +46,7 @@ namespace FixiePlugin.Tasks
             // Using RemoteTask.Id in the Equals means collapsing the return values of
             // IUnitTestElement.GetTaskSequence into a tree will fail (as no assembly,
             // or class tasks will return true from Equals)
-            return Equals(assemblyLocation, other.assemblyLocation) &&
+            return Equals(AssemblyLocation, other.AssemblyLocation) &&
                    Equals(typeName, other.typeName);
         }
 
@@ -62,7 +58,7 @@ namespace FixiePlugin.Tasks
                 // in the calculation, and this is a new guid generated for each new instance.
                 // This would mean two instances that return true from Equals (i.e. value objects)
                 // would have different hash codes
-                int result = (assemblyLocation != null ? assemblyLocation.GetHashCode() : 0);
+                int result = (AssemblyLocation != null ? AssemblyLocation.GetHashCode() : 0);
                 result = (result * 397) ^ (typeName != null ? typeName.GetHashCode() : 0);
                 return result;
             }
