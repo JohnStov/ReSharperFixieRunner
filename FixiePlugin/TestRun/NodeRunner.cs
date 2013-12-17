@@ -44,8 +44,11 @@ namespace FixiePlugin.TestRun
         public void RunNode(TaskExecutionNode node)
         {
             var task = (FixieRemoteTask) node.RemoteTask;
-            AddTask(task);
-            RunTask(task);
+            if (!(task is TestCaseTask))
+            {
+                AddTask(task);
+                RunTask(task);
+            }
 
             foreach (var child in node.Children)
                 RunNode(child);
@@ -62,7 +65,7 @@ namespace FixiePlugin.TestRun
             else if (task is TestMethodTask)
                 RunMethodTask(task as TestMethodTask);
             else if (task is TestCaseTask)
-                RunParameterizedMethodTask(task as TestCaseTask);
+                RunCaseTask(task as TestCaseTask);
             else
             {
                 server.TaskOutput(task, "Unknown task type.", TaskOutputType.STDERR);
@@ -107,7 +110,7 @@ namespace FixiePlugin.TestRun
             }
         }
 
-        private void RunParameterizedMethodTask(TestCaseTask task)
+        private void RunCaseTask(TestCaseTask task)
         {
         }
 

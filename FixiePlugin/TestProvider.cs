@@ -16,16 +16,9 @@ namespace FixiePlugin
     [UsedImplicitly]
     public class TestProvider : IUnitTestProvider, IDynamicUnitTestProvider
     {
-        private UnitTestElementFactory elementFactory;
-
         private static readonly UnitTestElementComparer Comparer =
             new UnitTestElementComparer(
                 new[] { typeof(TestClassElement), typeof(TestMethodElement), typeof(TestCaseElement) });
-
-        public TestProvider(UnitTestElementFactory elementFactory)
-        {
-            this.elementFactory = elementFactory;
-        }
 
         public void ExploreExternal(UnitTestElementConsumer consumer)
         {
@@ -117,9 +110,9 @@ namespace FixiePlugin
             Dictionary<RemoteTask, IUnitTestElement> tasks,
             TestCaseTask caseTask)
         {
-            var methodElement = (from kvp in tasks
-                where kvp.Key is TestMethodTask && IsParentMethodTask((TestMethodTask)kvp.Key, caseTask)
-                select kvp.Value).FirstOrDefault() as TestMethodElement;
+            var methodElement = 
+                tasks.Where(kvp => kvp.Key is TestMethodTask && IsParentMethodTask(kvp.Key as TestMethodTask, caseTask))
+                     .Select(kvp => kvp.Value).FirstOrDefault() as TestMethodElement;
             if (methodElement == null)
                 return null;
 

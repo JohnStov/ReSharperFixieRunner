@@ -18,7 +18,7 @@ namespace FixiePlugin.Tasks
             Parameters = GetXmlAttribute(element, AttributeNames.Parameters);
         }
 
-        public TestCaseTask(string assemblyLocation, string name)
+        public TestCaseTask(string name, string assemblyLocation)
             : base(TaskRunner.RunnerId, assemblyLocation)
         {
             var matches = MethodRegex.Match(name);

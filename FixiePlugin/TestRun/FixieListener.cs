@@ -33,8 +33,8 @@ namespace FixiePlugin.TestRun
             if (isParameterized)
             {
                 var newTask = new TestCaseTask(result.Case.Name, nodeRunner.CurrentTask.AssemblyLocation);
-                nodeRunner.AddTask(newTask);
                 server.CreateDynamicElement(newTask);
+                nodeRunner.AddTask(newTask);
             }
 
             var task = nodeRunner.CurrentTask;
@@ -51,8 +51,8 @@ namespace FixiePlugin.TestRun
             if (isParameterized)
             {
                 var newTask = new TestCaseTask(result.Case.Name, nodeRunner.CurrentTask.AssemblyLocation);
-                nodeRunner.AddTask(newTask);
                 server.CreateDynamicElement(newTask);
+                nodeRunner.AddTask(newTask);
             }
 
             var task = nodeRunner.CurrentTask;

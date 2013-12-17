@@ -19,12 +19,11 @@ namespace FixieTestExample
             throw new ArgumentException("Noodle");
         }
 
-        [Input(2, 3)]
         [Input(2, 2)]
+        [Input(2, 3)]
         public void ParameterisedFrob(int a, int b)
         {
             Console.WriteLine("a = {0}, b = {1}", a, b);
-            
         }
     }
 
