@@ -14,7 +14,7 @@ namespace FixiePlugin.Tests.TestDiscovery
     {
         private void CreateExplorer()
         {
-            var explorer = new TestMetadataExplorer(null, null, null, null);
+            var explorer = new TestMetadataExplorer(null, null, null);
 
             var assembly = Substitute.For<IMetadataAssembly>();
             assembly.Location.Returns(FileSystemPath.Parse(@"C:\Users\John\Documents\GitHub\ReSharperFixieRunner\FixieTestExample\FixieTestExample\bin\Debug\FixieTestExample.dll"));

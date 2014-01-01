@@ -21,8 +21,7 @@ namespace FixiePlugin
         public TestMetadataExplorer(
             TestProvider provider,
             TestIdentifier conventionCheck,
-            UnitTestElementFactory unitTestElementFactory,
-            UnitTestingAssemblyLoader assemblyLoader)
+            UnitTestElementFactory unitTestElementFactory)
         {
             this.provider = provider;
             this.conventionCheck = conventionCheck;
@@ -36,11 +35,11 @@ namespace FixiePlugin
             UnitTestElementConsumer consumer,
             ManualResetEvent exitEvent)
         {
-            if (project.GetModuleReferences().All(module => module.Name != "Fixie"))
-                return;
-
             using (ReadLockCookie.Create())
             {
+                if (project.GetModuleReferences().All(module => module.Name != "Fixie"))
+                    return;
+
                 foreach (var metadataTypeInfo in GetExportedTypes(metadataAssembly.GetTypes()))
                     ExploreType(project, metadataAssembly, consumer, metadataTypeInfo);
             }

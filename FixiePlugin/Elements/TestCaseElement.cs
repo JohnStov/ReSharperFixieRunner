@@ -11,14 +11,11 @@ namespace FixiePlugin.Elements
 {
     public class TestCaseElement : BaseElement, ISerializableUnitTestElement
     {
-        private readonly string presentation;
-
         public TestCaseElement(TestProvider provider, BaseElement parent, ProjectModelElementEnvoy projectModelElementEnvoy,
             string id, string name)
             : base(provider, parent.TypeName, parent.AssemblyLocation, parent, id, projectModelElementEnvoy)
         {
             ShortName = name;
-            presentation = ShortName;
 
             SetState(UnitTestElementState.Dynamic);
         }
@@ -72,7 +69,7 @@ namespace FixiePlugin.Elements
 
         public override string GetPresentation(IUnitTestElement parent)
         {
-            return presentation;
+            return ShortName;
         }
 
         public override UnitTestNamespace GetNamespace()
@@ -105,11 +102,6 @@ namespace FixiePlugin.Elements
         public override string Kind
         {
             get { return "Fixie Test"; }
-        }
-
-        private TestClassElement TestClass
-        {
-            get { return Parent as TestClassElement; }
         }
 
         public void WriteToXml(XmlElement element)

@@ -65,15 +65,15 @@ namespace FixiePlugin.TestDiscovery
             return conventionInfo.IsTestMethod(className, methodName);
         }
 
-        public bool IsDynamicMethod(IProject project, IClass testClass, IMethod testMethod)
+        public bool IsParameterizedMethod(IProject project, IClass testClass, IMethod testMethod)
         {
             if (project == null || testClass == null || testMethod == null)
                 return false;
 
-            return IsDynamicMethod(project, testClass.GetClrName().FullName, testMethod.ShortName);
+            return IsParameterizedMethod(project, testClass.GetClrName().FullName, testMethod.ShortName);
         }
 
-        private bool IsDynamicMethod(IProject project, string className, string methodName)
+        private bool IsParameterizedMethod(IProject project, string className, string methodName)
         {
             var conventionInfo = GetConventionInfo(project.GetOutputFilePath().FullPath);
             if (conventionInfo == null)

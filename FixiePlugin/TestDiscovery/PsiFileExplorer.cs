@@ -98,7 +98,7 @@ namespace FixiePlugin.TestDiscovery
             if (!conventionCheck.IsValidTestMethod(project, testClass, testMethod))
                 return null;
 
-            var isDynamic = conventionCheck.IsDynamicMethod(project, testClass, testMethod);
+            var isDynamic = conventionCheck.IsParameterizedMethod(project, testClass, testMethod);
 
             var clrTypeName = testClass.GetClrName();
             var assemblyPath = project.GetOutputFilePath().FullPath;

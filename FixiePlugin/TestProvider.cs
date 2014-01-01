@@ -59,10 +59,10 @@ namespace FixiePlugin
                     return !(element is BaseElement);
 
                 case UnitTestElementKind.Test:
-                    return element is TestMethodElement || element is TestCaseElement;
+                    return (element is TestMethodElement  && !((TestMethodElement)element).IsParameterized) || element is TestCaseElement;
 
                 case UnitTestElementKind.TestContainer:
-                    return element is TestClassElement;
+                    return element is TestClassElement|| (element is TestMethodElement && ((TestMethodElement)element).IsParameterized);
 
                 case UnitTestElementKind.TestStuff:
                     return element is TestClassElement;
