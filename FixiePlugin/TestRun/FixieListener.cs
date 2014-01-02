@@ -28,6 +28,10 @@ namespace FixiePlugin.TestRun
         {
         }
 
+        public void CaseSkipped(Case @case)
+        {
+        }
+
         public void CasePassed(PassResult result)
         {
             if (isParameterized)
