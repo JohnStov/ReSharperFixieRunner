@@ -38,18 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fixie.0.0.1.106\lib\net45\Fixie.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.Metadata, Version=8.0.14.856, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\JetBrains.ReSharper.SDK.8.0.1243\bin\JetBrains.Platform.ReSharper.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.ProjectModel, Version=8.0.14.856, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.ReSharper.SDK.8.0.1243\bin\JetBrains.Platform.ReSharper.ProjectModel.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.Util, Version=8.0.14.856, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\JetBrains.ReSharper.SDK.8.0.1243\bin\JetBrains.Platform.ReSharper.Util.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.ReSharper.UnitTestFramework, Version=8.0.14.856, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL" />
     <Reference Include="NSubstitute">
       <HintPath>..\packages\NSubstitute.1.6.1.0\lib\NET40\NSubstitute.dll</HintPath>
     </Reference>
