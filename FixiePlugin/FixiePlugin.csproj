@@ -67,7 +67,6 @@
     <Compile Include="TestDiscovery\RemoteTestFinder.cs" />
     <Compile Include="TestDiscovery\TestIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Actions\AboutAction.cs" />
     <Compile Include="Elements\TestMethodElement.cs" />
     <Compile Include="TestDiscovery\TestInfo.cs" />
     <Compile Include="Convention\ConventionTestClass.cs" />
@@ -91,9 +90,6 @@
     <Compile Include="TestRun\TaskRunner.cs" />
     <Compile Include="TestRun\TestSetup.cs" />
     <Compile Include="UnitTestElementFactory.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Actions\Actions.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
