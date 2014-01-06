@@ -5,6 +5,8 @@ using System.Reflection;
 
 using Fixie.Conventions;
 
+using Should.Fluent;
+
 namespace FixieTestExample
 {
     public class TestsWeeb
@@ -24,6 +26,7 @@ namespace FixieTestExample
         public void ParameterisedFrob(int a, int b)
         {
             Console.WriteLine("a = {0}, b = {1}", a, b);
+            a.Should().Equal(b);
         }
     }
 

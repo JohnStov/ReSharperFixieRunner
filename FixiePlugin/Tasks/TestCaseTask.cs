@@ -62,7 +62,7 @@ namespace FixiePlugin.Tasks
             // or class tasks will return true from Equals)
             return Equals(Parameters, other.Parameters) &&
                    Equals(MethodName, other.MethodName) &&
-                   Equals(TypeName, other.MethodName) &&
+                   Equals(TypeName, other.TypeName) &&
                    Equals(AssemblyLocation, other.AssemblyLocation);
         }
 

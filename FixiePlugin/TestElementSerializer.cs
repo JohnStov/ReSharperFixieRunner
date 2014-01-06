@@ -14,6 +14,7 @@ namespace FixiePlugin
                                                                                           {
                                                                                               {typeof (TestClassElement).Name, TestClassElement.ReadFromXml},
                                                                                               {typeof (TestMethodElement).Name, TestMethodElement.ReadFromXml},
+                                                                                              {typeof (TestCaseElement).Name, TestCaseElement.ReadFromXml},
                                                                                           };
 
         private readonly TestProvider provider;
