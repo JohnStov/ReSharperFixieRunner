@@ -88,7 +88,14 @@ namespace FixiePlugin.TestRun
             try
             {
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(task.AssemblyLocation));
-            
+
+                var fixieAssemblyPath = Path.Combine(Path.GetDirectoryName(task.AssemblyLocation), "Fixie.dll");
+                if (!IsRequiredFixieVersion(fixieAssemblyPath, RequiredFixieVersion.RequiredVersion))
+                {
+                    task.CloseTask(TaskResult.Inconclusive, string.Format("Test runner required Fixie version {0}", RequiredFixieVersion.RequiredVersion));
+                    return;
+                }
+                    
                 var listener = new FixieListener(server, this, task.IsParameterized);
                 var runner = new Runner(listener);
 
@@ -114,6 +121,11 @@ namespace FixiePlugin.TestRun
         {
         }
 
-
+        private bool IsRequiredFixieVersion(string fixieAssemblyPath, Version requiredVersion)
+        {
+            var assemblyName = AssemblyName.GetAssemblyName(fixieAssemblyPath);
+            var version = assemblyName.Version;
+            return version.CompareTo(requiredVersion) >= 0;
+        }
     }
 }
