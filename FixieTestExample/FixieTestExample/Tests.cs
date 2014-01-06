@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
+using Fixie;
 using Fixie.Conventions;
 
 using Should.Fluent;
@@ -18,7 +18,7 @@ namespace FixieTestExample
         public void Test3Frob()
         {
             Console.Write("Test3Frob");
-            throw new ArgumentException("Noodle");
+            //throw new ArgumentException("Noodle");
         }
 
         [Input(2, 2)]
@@ -26,8 +26,12 @@ namespace FixieTestExample
         public void ParameterisedFrob(int a, int b)
         {
             Console.WriteLine("a = {0}, b = {1}", a, b);
-            a.Should().Equal(b);
+            //a.Should().Equal(b);
         }
+
+        [Skip]
+        public void SkipFrob()
+        {}
     }
 
     public class MyConvention : Convention
@@ -37,6 +41,7 @@ namespace FixieTestExample
             Classes.NameEndsWith("Weeb");   
             Methods.Where(m => m.Name.EndsWith("Frob"));
             Parameters(FromInputAttributes);
+            CaseExecution.Skip(@case => @case.Method.HasOrInherits<SkipAttribute>());
         }
 
         static IEnumerable<object[]> FromInputAttributes(MethodInfo method)
@@ -55,4 +60,7 @@ namespace FixieTestExample
 
         public object[] Parameters { get; private set; }
     }
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+    public class SkipAttribute : Attribute { }
 }

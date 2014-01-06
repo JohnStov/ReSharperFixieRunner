@@ -30,6 +30,18 @@ namespace FixiePlugin.TestRun
 
         public void CaseSkipped(Case @case)
         {
+            if (isParameterized)
+            {
+                var newTask = new TestCaseTask(@case.Name, nodeRunner.CurrentTask.AssemblyLocation);
+                server.CreateDynamicElement(newTask);
+                nodeRunner.AddTask(newTask);
+            }
+
+            var task = nodeRunner.CurrentTask;
+            task.CloseTask(TaskResult.Skipped, @case.Name);
+
+            if (isParameterized)
+                nodeRunner.FinishCurrentTask(task);
         }
 
         public void CasePassed(PassResult result)
