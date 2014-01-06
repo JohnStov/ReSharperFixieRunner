@@ -130,14 +130,14 @@ namespace FixiePlugin.Elements
 
         public void WriteToXml(XmlElement element)
         {
-            element.SetAttribute("projectId", GetProject().GetPersistentID());
-            element.SetAttribute("typeName", TypeName.FullName);
+            element.SetAttribute(AttributeNames.ProjectId, GetProject().GetPersistentID());
+            element.SetAttribute(AttributeNames.TypeName, TypeName.FullName);
         }
 
         internal static IUnitTestElement ReadFromXml(XmlElement parent, IUnitTestElement parentElement, ISolution solution, UnitTestElementFactory unitTestElementFactory)
         {
-            var projectId = parent.GetAttribute("projectId");
-            var typeName = parent.GetAttribute("typeName");
+            var projectId = parent.GetAttribute(AttributeNames.ProjectId);
+            var typeName = parent.GetAttribute(AttributeNames.TypeName);
 
             var project = (IProject)ProjectUtil.FindProjectElementByPersistentID(solution, projectId);
             if (project == null)

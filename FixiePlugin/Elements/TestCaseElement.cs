@@ -106,7 +106,7 @@ namespace FixiePlugin.Elements
 
         public void WriteToXml(XmlElement element)
         {
-            element.SetAttribute("shortName", ShortName);
+            element.SetAttribute(AttributeNames.ShortName, ShortName);
         }
 
         internal static IUnitTestElement ReadFromXml(XmlElement parent, IUnitTestElement parentElement, ISolution solution, UnitTestElementFactory unitTestElementFactory)
@@ -115,7 +115,7 @@ namespace FixiePlugin.Elements
             if (testMethod == null)
                 throw new InvalidOperationException("parentElement should be Fixie test method");
 
-            var name = parent.GetAttribute("shortName");
+            var name = parent.GetAttribute(AttributeNames.ShortName);
 
             var project = testMethod.GetProject();
             if (project == null)

@@ -164,10 +164,10 @@ namespace FixiePlugin.Elements
 
         public void WriteToXml(XmlElement element)
         {
-            element.SetAttribute("projectId", GetProject().GetPersistentID());
-            element.SetAttribute("typeName", TypeName.FullName);
-            element.SetAttribute("methodName", methodName);
-            element.SetAttribute("isParameterized", IsParameterized.ToString());
+            element.SetAttribute(AttributeNames.ProjectId, GetProject().GetPersistentID());
+            element.SetAttribute(AttributeNames.TypeName, TypeName.FullName);
+            element.SetAttribute(AttributeNames.MethodName, methodName);
+            element.SetAttribute(AttributeNames.IsParameterized, IsParameterized.ToString());
         }
 
         internal static IUnitTestElement ReadFromXml(XmlElement parent, IUnitTestElement parentElement, ISolution solution, UnitTestElementFactory unitTestElementFactory)
@@ -176,10 +176,10 @@ namespace FixiePlugin.Elements
             if (testClass == null)
                 throw new InvalidOperationException("parentElement should be Fixie test class");
 
-            var typeName = parent.GetAttribute("typeName");
-            var methodName = parent.GetAttribute("methodName");
-            var projectId = parent.GetAttribute("projectId");
-            var isParameterized = bool.Parse(parent.GetAttribute("isParameterized"));
+            var typeName = parent.GetAttribute(AttributeNames.TypeName);
+            var methodName = parent.GetAttribute(AttributeNames.MethodName);
+            var projectId = parent.GetAttribute(AttributeNames.ProjectId);
+            var isParameterized = bool.Parse(parent.GetAttribute(AttributeNames.IsParameterized));
 
             var project = (IProject)ProjectUtil.FindProjectElementByPersistentID(solution, projectId);
             if (project == null)

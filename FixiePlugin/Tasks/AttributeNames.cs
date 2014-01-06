@@ -7,5 +7,7 @@
         public const string MethodName = "MethodName";
         public const string IsParameterized = "IsParameterized";
         public const string Parameters = "Parameters";
+        public const string ShortName = "ShortName";
+        public const string ProjectId = "ProjectId";
     }
 }
