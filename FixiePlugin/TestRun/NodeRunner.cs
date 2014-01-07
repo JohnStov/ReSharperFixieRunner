@@ -74,7 +74,7 @@ namespace FixiePlugin.TestRun
             }
         }
 
-        private readonly Dictionary<string, Assembly> assemblies = new Dictionary<string, Assembly>();
+        private readonly Dictionary<string, Tuple<string, Assembly>> assemblies = new Dictionary<string, Tuple<string, Assembly>>();
         
         private void RunAssemblyTask(TestAssemblyTask task)
         {
@@ -85,8 +85,8 @@ namespace FixiePlugin.TestRun
                 foreach (var file in Directory.EnumerateFiles(assemblyDir, "*.dll"))
                 {
                     var assemblyPath = Path.Combine(assemblyDir, file);
-                    var assembly = Assembly.LoadFile(assemblyPath);
-                    assemblies.Add(assembly.FullName, assembly);
+                    var assemblyName = AssemblyName.GetAssemblyName(assemblyPath);
+                    assemblies.Add(assemblyName.FullName, new Tuple<string, Assembly>(assemblyPath, null));
                 }
             }
             
@@ -143,9 +143,20 @@ namespace FixiePlugin.TestRun
 
         private Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            Assembly resolved;
-            assemblies.TryGetValue(args.Name, out resolved);
-            
+            Tuple<string, Assembly> assemblyInfo;
+            assemblies.TryGetValue(args.Name, out assemblyInfo);
+
+            if (assemblyInfo == null)
+                return null;
+
+            var resolved = assemblyInfo.Item2;
+            if (assemblyInfo.Item2 == null)
+            {
+                resolved = Assembly.LoadFile(assemblyInfo.Item1);
+                assemblyInfo = new Tuple<string, Assembly>(assemblyInfo.Item1, resolved);
+                assemblies[args.Name] = assemblyInfo;
+            }
+
             return resolved;
         }
 
