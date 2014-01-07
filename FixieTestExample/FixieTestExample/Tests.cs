@@ -15,7 +15,7 @@ namespace FixieTestExample
         {
         }
 
-        public void Test3Frob()
+        public void Test2Frob()
         {
             Console.Write("Test3Frob");
             1.Should().Equal(1);

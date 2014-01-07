@@ -147,6 +147,9 @@ namespace FixiePlugin.Elements
 
         public override IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch)
         {
+            if (TestClass == null)
+                return new List<UnitTestTask>();
+            
             var sequence = TestClass.GetTaskSequence(explicitElements, launch);
             sequence.Add(new UnitTestTask(this, new TestMethodTask(TestClass.AssemblyLocation, TestClass.TypeName.FullName, ShortName, IsParameterized)));
             return sequence;
