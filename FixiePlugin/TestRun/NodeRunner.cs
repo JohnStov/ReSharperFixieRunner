@@ -16,6 +16,7 @@ namespace FixiePlugin.TestRun
         private readonly IRemoteTaskServer server;
         private readonly Stack<FixieRemoteTask> taskStack = new Stack<FixieRemoteTask>();
 
+
         public NodeRunner(IRemoteTaskServer server)
         {
             this.server = server;
@@ -73,8 +74,22 @@ namespace FixiePlugin.TestRun
             }
         }
 
+        private readonly Dictionary<string, Assembly> assemblies = new Dictionary<string, Assembly>();
+        
         private void RunAssemblyTask(TestAssemblyTask task)
         {
+            var assemblyDir = Path.GetDirectoryName(task.AssemblyLocation);
+
+            if (assemblyDir != null)
+            {
+                foreach (var file in Directory.EnumerateFiles(assemblyDir, "*.dll"))
+                {
+                    var assemblyPath = Path.Combine(assemblyDir, file);
+                    var assembly = Assembly.LoadFile(assemblyPath);
+                    assemblies.Add(assembly.FullName, assembly);
+                }
+            }
+            
             task.CloseTask(TaskResult.Success, string.Empty);
         }
 
@@ -85,6 +100,9 @@ namespace FixiePlugin.TestRun
 
         private void RunMethodTask(TestMethodTask task)
         {
+            var appDomain = AppDomain.CurrentDomain;
+            appDomain.AssemblyResolve += OnAssemblyResolve;
+
             try
             {
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(task.AssemblyLocation));
@@ -92,10 +110,12 @@ namespace FixiePlugin.TestRun
                 var fixieAssemblyPath = Path.Combine(Path.GetDirectoryName(task.AssemblyLocation), "Fixie.dll");
                 if (!IsRequiredFixieVersion(fixieAssemblyPath, RequiredFixieVersion.RequiredVersion))
                 {
-                    task.CloseTask(TaskResult.Inconclusive, string.Format("Test runner required Fixie version {0}", RequiredFixieVersion.RequiredVersion));
+                    task.CloseTask(
+                        TaskResult.Inconclusive,
+                        string.Format("Test runner required Fixie version {0}", RequiredFixieVersion.RequiredVersion));
                     return;
                 }
-                    
+
                 var listener = new FixieListener(server, this, task.IsParameterized);
                 var runner = new Runner(listener);
 
@@ -115,6 +135,18 @@ namespace FixiePlugin.TestRun
                 task.CloseTask(TaskResult.Exception, ex.Message);
                 FinishCurrentTask(task);
             }
+            finally
+            {
+                appDomain.AssemblyResolve -= OnAssemblyResolve;
+            }
+        }
+
+        private Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Assembly resolved;
+            assemblies.TryGetValue(args.Name, out resolved);
+            
+            return resolved;
         }
 
         private void RunCaseTask(TestCaseTask task)

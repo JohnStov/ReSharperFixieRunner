@@ -15,10 +15,10 @@ namespace FixieTestExample
         {
         }
 
-        public void Test3Frob()
+        public void Test2Frob()
         {
             Console.Write("Test3Frob");
-            //throw new ArgumentException("Noodle");
+            1.Should().Equal(1);
         }
 
         [Input(2, 2)]
@@ -26,7 +26,7 @@ namespace FixieTestExample
         public void ParameterisedFrob(int a, int b)
         {
             Console.WriteLine("a = {0}, b = {1}", a, b);
-            //a.Should().Equal(b);
+            a.Should().Equal(b);
         }
 
         [Skip]
