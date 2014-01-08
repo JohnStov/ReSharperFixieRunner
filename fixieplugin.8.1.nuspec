@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>FixiePlugin</id>
+        <version>0.1.0</version>
+        <title>Fixie Unit Test Framework Support</title>
+        <authors>John Stovin</authors>
+        <owners>John Stovin</owners>
+        <licenseUrl>https://github.com/JohnStov/ReSharperFixieRunner/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/JohnStov/ReSharperFixieRunner</projectUrl>
+        <iconUrl>https://raw.github.com/plioi/fixie/master/img/fixie_256.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A ReSharper unit test provider for the Fixie framework</description>
+        <releaseNotes>Initial public beta</releaseNotes>
+        <copyright>Copyright 2013 John Stovin</copyright>
+        <tags>resharper unittest fixie</tags>
+        <dependencies>
+            <dependency id="ReSharper" version="8.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Release\Fixie.dll" target="ReSharper\v8.0\plugins\Fixie.dll" />
+        <file src="bin\Release\FixiePlugin.dll" target="ReSharper\v8.0\plugins\FixiePlugin.dll" />
+    </files>
+</package>

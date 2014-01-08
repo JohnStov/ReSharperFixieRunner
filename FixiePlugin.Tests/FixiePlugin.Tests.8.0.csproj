@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\testBin\Debug\</OutputPath>
+    <OutputPath>..\testBin\v8.0\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\testBin\Release\</OutputPath>
+    <OutputPath>..\testBin\v8.0\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -60,7 +60,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FixiePlugin\FixiePlugin.csproj">
+    <ProjectReference Include="..\FixiePlugin\FixiePlugin.8.0.csproj">
       <Project>{cd40b14d-a440-47d3-b48d-a6b31df6d680}</Project>
       <Name>FixiePlugin</Name>
     </ProjectReference>

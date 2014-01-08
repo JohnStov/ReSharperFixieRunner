@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Props" Condition="Exists('..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CD40B14D-A440-47D3-B48D-A6B31DF6D680}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FixiePlugin</RootNamespace>
+    <AssemblyName>FixiePlugin</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\v8.0\Debug\</OutputPath>
+    <DefineConstants>JET_MODE_ASSERT;DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\v8.0\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fixie, Version=0.0.1.120, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Fixie.0.0.1.120\lib\net45\Fixie.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppDomainWrapper.cs" />
+    <Compile Include="AssemblyRegistration.cs" />
+    <Compile Include="Elements\TestCaseElement.cs" />
+    <Compile Include="RequiredFixieVersion.cs" />
+    <Compile Include="Tasks\TestCaseTask.cs" />
+    <Compile Include="Tasks\FixieRemoteTask.cs" />
+    <Compile Include="Tasks\TestAssemblyTask.cs" />
+    <Compile Include="Tasks\TestClassTask.cs" />
+    <Compile Include="Tasks\TestMethodTask.cs" />
+    <Compile Include="TestClassPresenter.cs" />
+    <Compile Include="TestDiscovery\LocalTestFinder.cs" />
+    <Compile Include="TestDiscovery\RemoteTestFinder.cs" />
+    <Compile Include="TestDiscovery\TestIdentifier.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Elements\TestMethodElement.cs" />
+    <Compile Include="TestDiscovery\TestInfo.cs" />
+    <Compile Include="Convention\ConventionTestClass.cs" />
+    <Compile Include="Convention\ConventionTestMethod.cs" />
+    <Compile Include="TestElementSerializer.cs" />
+    <Compile Include="TestMetadataExplorer.cs" />
+    <Compile Include="Elements\ISerializableUnitTestElement.cs" />
+    <Compile Include="PsiUnitTestIdentifier.cs" />
+    <Compile Include="TestDiscovery\DeclaredElementProvider.cs" />
+    <Compile Include="Elements\BaseElement.cs" />
+    <Compile Include="TestDiscovery\PsiFileExplorer.cs" />
+    <Compile Include="Elements\TestClassElement.cs" />
+    <Compile Include="TestFileExplorer.cs" />
+    <Compile Include="TestProvider.cs" />
+    <Compile Include="Tasks\AttributeNames.cs" />
+    <Compile Include="TestRun\FixieListener.cs" />
+    <Compile Include="TestRun\IException.cs" />
+    <Compile Include="TestRun\IRemoteRunner.cs" />
+    <Compile Include="TestRun\ITestResult.cs" />
+    <Compile Include="TestRun\NodeRunner.cs" />
+    <Compile Include="TestRun\TaskRunner.cs" />
+    <Compile Include="TestRun\TestSetup.cs" />
+    <Compile Include="UnitTestElementFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\packages\JetBrains.ReSharper.SDK.8.0.1243\build\JetBrains.ReSharper.SDK.Targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+</Project>

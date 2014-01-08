@@ -1,5 +1,6 @@
 ﻿using FixiePlugin.Elements;
 using JetBrains.CommonControls;
+using JetBrains.ReSharper.Feature.Services.Tree;
 using JetBrains.ReSharper.Features.Shared.TreePsiBrowser;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;
@@ -56,4 +57,12 @@ namespace FixiePlugin
             }
         }
     }
+}
+
+namespace JetBrains.ReSharper.Features.Shared.TreePsiBrowser
+{
+}
+
+namespace JetBrains.ReSharper.Feature.Services.Tree
+{
 }
