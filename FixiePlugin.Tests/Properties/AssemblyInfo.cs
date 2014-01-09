@@ -8,7 +8,7 @@
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("John Stovin")]
 [assembly: AssemblyProduct("ReSharperFixieTestProvider.Tests")]
-[assembly: AssemblyCopyright("Copyright © John Stovin 2013")]
+[assembly: AssemblyCopyright("Copyright © 2013-2014 John Stovin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

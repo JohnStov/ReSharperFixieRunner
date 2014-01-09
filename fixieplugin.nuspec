@@ -10,9 +10,9 @@
         <projectUrl>https://github.com/JohnStov/ReSharperFixieRunner</projectUrl>
         <iconUrl>https://raw.github.com/plioi/fixie/master/img/fixie_256.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>A ReSharper unit test provider for the Fixie framework</description>
+        <description>A Unit Test plugin for the Fixie test framework</description>
         <releaseNotes>Initial public beta</releaseNotes>
-        <copyright>Copyright 2013-2014 John Stovin</copyright>
+        <copyright>Copyright © 2013-2014 John Stovin</copyright>
         <tags>resharper unittest fixie</tags>
         <dependencies>
             <dependency id="ReSharper" version="[8.0, 8.2)" />

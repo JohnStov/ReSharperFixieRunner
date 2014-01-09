@@ -10,7 +10,7 @@ using JetBrains.Application.PluginSupport;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("John Stovin")]
 [assembly: AssemblyProduct("FixiePlugin")]
-[assembly: AssemblyCopyright("Copyright © John Stovin, 2013")]
+[assembly: AssemblyCopyright("Copyright © 2013-2014 John Stovin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
