@@ -19,7 +19,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="bin\Release\Fixie.dll" target="ReSharper\v8.0\plugins\Fixie.dll" />
-        <file src="bin\Release\FixiePlugin.dll" target="ReSharper\v8.0\plugins\FixiePlugin.dll" />
+        <file src="bin\v8.0\Release\Fixie.dll" target="ReSharper\v8.0\plugins\Fixie.dll" />
+        <file src="bin\v8.0\Release\FixiePlugin.dll" target="ReSharper\v8.0\plugins\FixiePlugin.dll" />
     </files>
 </package>
