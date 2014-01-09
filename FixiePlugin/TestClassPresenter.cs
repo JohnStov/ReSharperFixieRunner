@@ -59,10 +59,12 @@ namespace FixiePlugin
     }
 }
 
+// Namespace not present in ReSharper >= 8.1
 namespace JetBrains.ReSharper.Features.Shared.TreePsiBrowser
 {
 }
 
+// Namespace not present in ReSharper <= 8.0
 namespace JetBrains.ReSharper.Feature.Services.Tree
 {
 }
