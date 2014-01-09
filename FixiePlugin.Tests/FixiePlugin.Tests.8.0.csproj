@@ -62,7 +62,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FixiePlugin\FixiePlugin.8.0.csproj">
       <Project>{cd40b14d-a440-47d3-b48d-a6b31df6d680}</Project>
-      <Name>FixiePlugin</Name>
+      <Name>FixiePlugin.8.0</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

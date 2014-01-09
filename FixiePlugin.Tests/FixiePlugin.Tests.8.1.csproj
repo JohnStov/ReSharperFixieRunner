@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{86999EF5-25BE-4F82-855D-742CC597CECC}</ProjectGuid>
+    <ProjectGuid>{654D3C8A-B811-4F79-80E1-BD3E31614B8F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FixiePlugin.Tests</RootNamespace>
@@ -73,9 +73,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FixiePlugin\FixiePlugin.8.0.csproj">
-      <Project>{cd40b14d-a440-47d3-b48d-a6b31df6d680}</Project>
-      <Name>FixiePlugin</Name>
+    <ProjectReference Include="..\FixiePlugin\FixiePlugin.8.1.csproj">
+      <Project>{d71ee329-3bbd-4279-a298-c87663627118}</Project>
+      <Name>FixiePlugin.8.1</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
