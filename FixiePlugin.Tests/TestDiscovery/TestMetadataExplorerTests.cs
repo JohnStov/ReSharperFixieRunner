@@ -24,7 +24,7 @@ namespace FixiePlugin.Tests.TestDiscovery
 
         private void CanCreateAppDomain()
         {
-            var assemblyPath = @"C:\Users\John\Documents\GitHub\ReSharperFixieRunner\FixieTestExample\FixieTestExample\bin\Debug\FixieTestExample.dll";
+            const string assemblyPath = @"C:\Users\John\Documents\GitHub\ReSharperFixieRunner\FixieTestExample\FixieTestExample\bin\Debug\FixieTestExample.dll";
             var assemblyLoadPath = Path.GetDirectoryName(assemblyPath);
             var localAssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             
