@@ -40,6 +40,14 @@ namespace FixiePlugin.TestDiscovery
             return conventionInfo.IsTestClass(className);
         }
 
+        public bool IsValidTestMethod(IProject project, IMetadataMethod metadataMethod)
+        {
+            if (project == null || metadataMethod == null)
+                return false;
+
+            return IsValidTestMethod(project, metadataMethod.DeclaringType.FullyQualifiedName, metadataMethod.Name);
+        }
+
         public bool IsValidTestMethod(IProject project, Type type, MethodInfo method)
         {
             if (project == null || type == null || method == null)
@@ -73,7 +81,7 @@ namespace FixiePlugin.TestDiscovery
             return IsParameterizedMethod(project, testClass.GetClrName().FullName, testMethod.ShortName);
         }
 
-        private bool IsParameterizedMethod(IProject project, string className, string methodName)
+        public bool IsParameterizedMethod(IProject project, string className, string methodName)
         {
             var conventionInfo = GetConventionInfo(project.GetOutputFilePath().FullPath);
             if (conventionInfo == null)

@@ -1,5 +1,6 @@
 ﻿using FixiePlugin.Elements;
 using FixiePlugin.TestDiscovery;
+
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;

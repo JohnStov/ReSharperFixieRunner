@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using FixiePlugin.Tasks;
-using FixiePlugin.TestDiscovery;
+
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;

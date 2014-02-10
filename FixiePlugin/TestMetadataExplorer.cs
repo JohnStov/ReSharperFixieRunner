@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FixiePlugin.TestDiscovery;
@@ -41,7 +40,14 @@ namespace FixiePlugin
                     return;
 
                 foreach (var metadataTypeInfo in GetExportedTypes(metadataAssembly.GetTypes()))
-                    ExploreType(project, metadataAssembly, consumer, metadataTypeInfo);
+                {
+                    bool isTestClass = ExploreType(project, metadataAssembly, consumer, metadataTypeInfo);
+                    if (isTestClass)
+                    {
+                        foreach(var metadataMethod in metadataTypeInfo.GetMethods())
+                            ExploreMethod(project, metadataAssembly, consumer, metadataMethod);
+                    }
+                }
             }
         }
 
@@ -71,20 +77,32 @@ namespace FixiePlugin
             return (type.IsNested && type.IsNestedPublic) || type.IsPublic;
         }
 
-        private IMetadataTypeInfo GetMetadataTypeInfo(Type type, IMetadataAssembly metadataAssembly)
-        {
-            return metadataAssembly.GetTypeInfoFromQualifiedName(type.FullName, false);
-        }
-
         public IUnitTestProvider Provider { get { return provider; } }
 
 
-        private void ExploreType(IProject project, IMetadataAssembly metadataAssembly, UnitTestElementConsumer consumer, IMetadataTypeInfo typeInfo)
+        private bool ExploreType(IProject project, IMetadataAssembly metadataAssembly, UnitTestElementConsumer consumer, IMetadataTypeInfo typeInfo)
         {
             if (conventionCheck.IsValidTestClass(project, typeInfo))
             {
                 var classUnitTestElement = unitTestElementFactory.GetOrCreateTestClass(project, new ClrTypeName(typeInfo.FullyQualifiedName), metadataAssembly.Location.FullPath);
                 consumer(classUnitTestElement);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ExploreMethod(IProject project, IMetadataAssembly metadataAssembly, UnitTestElementConsumer consumer, IMetadataMethod metadataMethod)
+        {
+            if (conventionCheck.IsValidTestMethod(project, metadataMethod))
+            {
+                bool isParameterised = conventionCheck.IsParameterizedMethod(
+                    project,
+                    metadataMethod.DeclaringType.FullyQualifiedName,
+                    metadataMethod.Name);
+
+                var methodUnitTestElement = unitTestElementFactory.GetOrCreateTestMethod(project, new ClrTypeName(metadataMethod.DeclaringType.FullyQualifiedName), metadataMethod.Name, metadataAssembly.Location.FullPath, isParameterised);
+                consumer(methodUnitTestElement);
             }
         }
     }
