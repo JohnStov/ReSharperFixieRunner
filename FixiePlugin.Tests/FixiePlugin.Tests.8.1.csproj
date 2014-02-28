@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Fixie, Version=0.0.1.120, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fixie.0.0.1.120\lib\net45\Fixie.dll</HintPath>
+      <HintPath>..\packages\Fixie.0.0.1.133\lib\net45\Fixie.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 
 using Fixie;
-
+using Fixie.Results;
 using FixiePlugin.Tasks;
 
 using JetBrains.ReSharper.TaskRunnerFramework;

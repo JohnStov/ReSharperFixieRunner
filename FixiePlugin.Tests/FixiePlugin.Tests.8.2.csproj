@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Fixie, Version=0.0.1.120, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fixie.0.0.1.120\lib\net45\Fixie.dll</HintPath>
+      <HintPath>..\packages\Fixie.0.0.1.133\lib\net45\Fixie.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -73,9 +73,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FixiePlugin\FixiePlugin.8.1.csproj">
-      <Project>{d71ee329-3bbd-4279-a298-c87663627118}</Project>
-      <Name>FixiePlugin.8.1</Name>
+    <ProjectReference Include="..\FixiePlugin\FixiePlugin.8.2.csproj">
+      <Project>{a9abd1bf-1ccf-4247-8138-5988bf9a6b04}</Project>
+      <Name>FixiePlugin.8.2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
