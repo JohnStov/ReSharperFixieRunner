@@ -27,17 +27,17 @@ namespace FixiePlugin.TestRun
         {
         }
 
-        public void CaseSkipped(Case @case)
+        public void CaseSkipped(SkipResult result)
         {
             if (isParameterized)
             {
-                var newTask = new TestCaseTask(@case.Name, nodeRunner.CurrentTask.AssemblyLocation);
+                var newTask = new TestCaseTask(result.Case.Name, nodeRunner.CurrentTask.AssemblyLocation);
                 server.CreateDynamicElement(newTask);
                 nodeRunner.AddTask(newTask);
             }
 
             var task = nodeRunner.CurrentTask;
-            task.CloseTask(TaskResult.Skipped, @case.Name);
+            task.CloseTask(TaskResult.Skipped, result.Case.Name);
 
             if (isParameterized)
                 nodeRunner.FinishCurrentTask(task);

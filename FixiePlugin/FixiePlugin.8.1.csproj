@@ -40,9 +40,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fixie, Version=0.0.1.120, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fixie.0.0.1.133\lib\net45\Fixie.dll</HintPath>
+    <Reference Include="Fixie">
+      <HintPath>..\packages\Fixie.0.0.1.144\lib\net45\Fixie.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.ComponentModel">
       <HintPath>..\packages\JetBrains.ReSharper.SDK.8.1.555\bin\JetBrains.Platform.ReSharper.ComponentModel.dll</HintPath>
