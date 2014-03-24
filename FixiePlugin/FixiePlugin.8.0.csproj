@@ -57,6 +57,8 @@
     <Compile Include="AppDomainWrapper.cs" />
     <Compile Include="AssemblyRegistration.cs" />
     <Compile Include="Elements\TestCaseElement.cs" />
+    <Compile Include="FixieInfo.cs" />
+    <Compile Include="ReSharperInfo.8.0.cs" />
     <Compile Include="RequiredFixieVersion.cs" />
     <Compile Include="Tasks\TestCaseTask.cs" />
     <Compile Include="Tasks\FixieRemoteTask.cs" />
