@@ -34,10 +34,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fixie, Version=0.0.1.144, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fixie.0.0.1.144\lib\net45\Fixie.dll</HintPath>
-    </Reference>
     <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentAssertions.2.2.0.0\lib\net45\FluentAssertions.dll</HintPath>
@@ -61,6 +57,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\fixie\src\Fixie\Fixie.csproj">
+      <Project>{474ff43b-4580-4032-999b-a717eb7a0cd3}</Project>
+      <Name>Fixie</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FixiePlugin\FixiePlugin.8.0.csproj">
       <Project>{cd40b14d-a440-47d3-b48d-a6b31df6d680}</Project>
       <Name>FixiePlugin.8.0</Name>
